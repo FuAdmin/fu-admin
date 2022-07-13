@@ -86,10 +86,10 @@ Redis(可选，最新版)
 
 ```bash
 # 克隆项目
-git https://gitee.com/fuadmin/fu-admin-web.git
+git https://gitee.com/fuadmin/fu-admin.git
 
 # 进入项目目录
-cd fu-admin-web
+cd web
 
 # 安装依赖
 yarn install --registry=https://registry.npm.taobao.org
@@ -106,9 +106,9 @@ yarn run dev
 
 ```bash
 # 克隆项目
-git https://gitee.com/fuadmin/fu-admin-backend.git
+git https://gitee.com/fuadmin/fu-admin.git
 # 进入项目目录
-cd fu-admin-backend
+cd backend
 # 在 `env.py` 中配置数据库信息
 # 默认是Mysql，如果使用SqlServer，qing在requirements.txt中打开 
    mssql-django==1.1.2 
