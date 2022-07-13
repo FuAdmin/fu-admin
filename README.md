@@ -55,10 +55,10 @@
 
 ## 源码地址
 
-|        | 项目地址                               |
-|--------|------------------------------------|
-| github | https://github.com/FuAdmin/FuAdmin |
-| 码云     | https://gitee.com/fuadmin/fu-admin | 
+|        | 项目地址                                |
+|--------|-------------------------------------|
+| github | https://github.com/FuAdmin/fu-admin |
+| 码云     | https://gitee.com/fuadmin/fu-admin  | 
 
 ## 内置功能
 
