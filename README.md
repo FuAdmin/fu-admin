@@ -1,6 +1,6 @@
-# FuAdmin Backend
+# FuAdmin
 
-[![img](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitee.com/fuadmin/fu-admin-backend/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.7.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2016.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin-backend/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin-backend) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin-Backend.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin-Backend)
+[![img](https://img.shields.io/badge/license-Apache-2.0-blue.svg)](https://gitee.com/fuadmin/fu-admin/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.7.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2016.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin)
 
 ## 为什么使用 Django-Ninja 和 Vue3
 
@@ -16,7 +16,7 @@
 
 - Django 集成：与 Django 自身的功能和 ORM 有很好的集成。
 
-![](utils/picture/benchmark.png)
+![](backend/utils/picture/benchmark.png)
 
 💡 **「Vue3 」**
 
@@ -34,7 +34,7 @@
 - 🧑‍🤝‍🧑 前端采用[VbenAdmin](https://vvbin.cn/doc-next) 、[Vue3](https://cn.vuejs.org/)、[Ant Design Vue](https://www.antdv.com/docs/vue/getting-started-cn)。
 - 👭 后端采用 Python 语言 Django 框架以及强大的 [Django Ninja](https://django-ninja.rest-framework.com/)。
 - 👬 支持加载动态权限菜单，多方式轻松权限控制。
-- 💡 特别鸣谢[Dvadmin](https://gitee.com/liqianglog/django-vue-admin) 参考了一部分 code 和 idea，VUE2 的 Python 项目，非常好，推荐给大家。
+- 💡 Vue2 项目移步[Dvadmin](https://gitee.com/liqianglog/django-vue-admin)
 - 💏 特别鸣谢：[VbenAdmin](https://github.com/vbenjs/vue-vben-admin) 、[Ant Design Vue](https://github.com/vueComponent/ant-design-vue)。
 - 💡 特别感谢[jetbrains](https://www.jetbrains.com/) 为本开源项目提供免费的 IntelliJ IDEA 授权。
 
@@ -51,14 +51,14 @@
 
 - FuAdmin 交流群：726947525
 
-<img src="utils/picture/qq.png" alt="qq 群" style="zoom: 25%;" />
+<img src="backend/utils/picture/qq.png" alt="qq 群" style="zoom: 25%;" />
 
 ## 源码地址
 
-|        | 后端源码                                    | 前端源码                                |
-| ------ | ------------------------------------------- | --------------------------------------- |
-| github | https://github.com/FuAdmin/FuAdmin-Backend | https://github.com/FuAdmin/FuAdmin-Web |
-| 码云   | https://gitee.com/fuadmin/fu-admin-backend  | https://gitee.com/fuadmin/fu-admin-web  |
+|        | 项目地址                               |
+|--------|------------------------------------|
+| github | https://github.com/FuAdmin/FuAdmin |
+| 码云     | https://gitee.com/fuadmin/fu-admin | 
 
 ## 内置功能
 
@@ -134,13 +134,13 @@ cd fu-admin-backend
 - 账号：`superadmin` 密码：`123456`
 
 ## 演示图 ✅
-![](utils/picture/1.png) 
-![](utils/picture/2.png) 
-![](utils/picture/3.png) 
-![](utils/picture/4.png) 
-![](utils/picture/5.png) 
-![](utils/picture/6.png) 
-![](utils/picture/7.png) 
-![](utils/picture/8.png) 
-![](utils/picture/9.png) 
-![](utils/picture/10.png)
+![](backend/utils/picture/1.png) 
+![](backend/utils/picture/2.png) 
+![](backend/utils/picture/3.png) 
+![](backend/utils/picture/4.png) 
+![](backend/utils/picture/5.png) 
+![](backend/utils/picture/6.png) 
+![](backend/utils/picture/7.png) 
+![](backend/utils/picture/8.png) 
+![](backend/utils/picture/9.png) 
+![](backend/utils/picture/10.png)
