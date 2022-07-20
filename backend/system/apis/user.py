@@ -25,6 +25,7 @@ class Filters(FuFilters):
     name: str = Field(None, alias="name")
     mobile: str = Field(None, alias="mobile")
     status: bool = Field(None, alias="status")
+    dept_id__in: list = Field(None, alias="dept_ids[]")
     id: int = Field(None, alias="id")
 
 

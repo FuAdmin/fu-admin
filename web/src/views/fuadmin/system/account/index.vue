@@ -1,7 +1,7 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-    <!--    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />-->
-    <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
+    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />
+    <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
       <template #tableTitle>
         <Space style="height: 40px">
           <a-button
@@ -61,7 +61,7 @@
 
   import { useDrawer } from '/@/components/Drawer';
   import AccountModal from './AccountDrawer.vue';
-
+  import DeptTree from './DeptTree.vue';
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '/@/hooks/web/usePage';
   import { getList, deleteItem } from './account.api';
@@ -69,7 +69,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   export default defineComponent({
     name: 'AccountManagement',
-    components: { BasicTable, PageWrapper, AccountModal, TableAction, Space },
+    components: { BasicTable, PageWrapper, AccountModal, TableAction, Space, DeptTree },
     setup() {
       const go = useGo();
       const [registerDrawer, { openDrawer }] = useDrawer();
@@ -160,8 +160,9 @@
         }
       }
 
-      function handleSelect(deptId = '') {
-        searchInfo.deptId = deptId;
+      function handleSelect(deptIds) {
+        console.log(deptIds);
+        searchInfo.dept_ids = deptIds; JSON.stringify()
         reload();
       }
 

@@ -84,6 +84,14 @@ export const formSchema: FormSchema[] = [
     required: true,
     component: 'Input',
   },
+  // {
+  //   field: 'field',
+  //   component: 'DictSelect',
+  //   label: '字段',
+  //   componentProps: {
+  //     dictCode: 'status',
+  //   },
+  // },
   {
     field: 'status',
     label: '岗位状态',

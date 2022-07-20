@@ -18,6 +18,10 @@ export const getList = (params) => {
   return defHttp.get({ url: DeptApi.prefix, params });
 };
 
+export const getListByCode = (params) => {
+  return defHttp.get({ url: DeptApi.prefix + '/by/code', params });
+};
+
 /**
  * 保存或更新
  */
