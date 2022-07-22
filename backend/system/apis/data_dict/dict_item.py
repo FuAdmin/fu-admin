@@ -19,6 +19,7 @@ class Filters(FuFilters):
     value: str = Field(None, alias="value")
     dict_id: str = Field(None, alias="dict_id")
     code: str = Field(None, alias="code")
+    status: bool = Field(None, alias="status")
 
 
 class SchemaIn(ModelSchema):
@@ -79,5 +80,5 @@ def list_dict_item_by_code(request, filters: Filters = Query(...)):
     if dict_qs is None:
         return []
     else:
-        item_qs = dict_qs.dictItem.all()
+        item_qs = dict_qs.dictItem.filter(status=True)
         return item_qs

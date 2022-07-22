@@ -59,7 +59,6 @@ def list_to_tree(data):
 
     for d in data:
         d["choice"] = 0
-        d["title"] = d["name"]
         if d.get("parent_id") is None:
             root.append(d)
         else:
