@@ -32,7 +32,11 @@ import { StrengthMeter } from '/@/components/StrengthMeter';
 import { IconPicker } from '/@/components/Icon';
 import { CountdownInput } from '/@/components/CountDown';
 
+import DictSelect from './components/DictSelect.vue';
+
 const componentMap = new Map<ComponentType, Component>();
+
+componentMap.set('DictSelect', DictSelect);
 
 componentMap.set('Input', Input);
 componentMap.set('InputGroup', Input.Group);

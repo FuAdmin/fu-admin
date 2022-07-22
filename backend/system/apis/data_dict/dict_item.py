@@ -7,7 +7,7 @@ from typing import List
 from django.shortcuts import get_object_or_404
 from ninja import Router, ModelSchema, Query, Schema, Field
 from ninja.pagination import paginate
-from system.models import DictItem
+from system.models import DictItem, Dict
 from utils.fu_crud import create, delete, update, retrieve
 from utils.fu_ninga import MyPagination, FuFilters
 
@@ -18,6 +18,8 @@ class Filters(FuFilters):
     label: str = Field(None, alias="label")
     value: str = Field(None, alias="value")
     dict_id: str = Field(None, alias="dict_id")
+    code: str = Field(None, alias="code")
+    status: bool = Field(None, alias="status")
 
 
 class SchemaIn(ModelSchema):
@@ -69,3 +71,14 @@ def get_dict_item(request, dict_item_id: int):
 def all_list_role(request):
     qs = retrieve(request, DictItem)
     return qs
+
+
+@router.get("/dict_item/by/code", response=List[SchemaOut])
+def list_dict_item_by_code(request, filters: Filters = Query(...)):
+    filters.status = True
+    dict_qs = retrieve(request, Dict, filters).first()
+    if dict_qs is None:
+        return []
+    else:
+        item_qs = dict_qs.dictItem.filter(status=True)
+        return item_qs

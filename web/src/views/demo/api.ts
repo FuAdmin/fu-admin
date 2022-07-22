@@ -1,25 +1,17 @@
 /**
  * -*- coding: utf-8 -*-
- * time: 2022/4/28 21:11
+ * time: 2022/5/22 23:43
  * author: 臧成龙
  * QQ: 939589097
  */
 import { defHttp } from '/@/utils/http/axios';
 
 enum DeptApi {
-  prefix = '/api/system/dict_item',
+  prefix = '/api/demo/demo',
 }
-
-/**
- * 获取
- */
 
 export const getList = (params) => {
   return defHttp.get({ url: DeptApi.prefix, params });
-};
-
-export const getListByCode = (params) => {
-  return defHttp.get({ url: DeptApi.prefix + '/by/code', params });
 };
 
 /**
@@ -32,6 +24,17 @@ export const createOrUpdate = (params, isUpdate) => {
   } else {
     return defHttp.post({ url: DeptApi.prefix, params });
   }
+};
+
+export const importData = (params) => {
+  return defHttp.post({ url: DeptApi.prefix + '/all/import', params });
+};
+
+export const exportData = () => {
+  return defHttp.get(
+    { url: DeptApi.prefix + '/all/export', responseType: 'blob' },
+    { isReturnNativeResponse: true },
+  );
 };
 
 /**

@@ -1,25 +1,40 @@
 <template>
-  <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />
-    <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
+  <div>
+    <BasicTable @register="registerTable">
       <template #tableTitle>
         <Space style="height: 40px">
           <a-button
             type="primary"
-            v-auth="['post:add']"
+            v-auth="['demo:add']"
             preIcon="ant-design:plus-outlined"
             @click="handleCreate"
           >
             新增
           </a-button>
-
           <a-button
             type="error"
-            v-auth="['post:delete']"
+            v-auth="['demo:delete']"
             preIcon="ant-design:delete-outlined"
             @click="handleBulkDelete"
           >
             删除
+          </a-button>
+          <BasicUpload
+            :maxSize="20"
+            :maxNumber="1"
+            @change="handleChange"
+            class="my-5"
+            type="warning"
+            text="导入"
+            v-auth="['demo:update']"
+          />
+          <a-button
+            type="success"
+            v-auth="['demo:update']"
+            preIcon="carbon:cloud-download"
+            @click="handleExportData"
+          >
+            导出
           </a-button>
         </Space>
       </template>
@@ -30,8 +45,7 @@
               type: 'button',
               icon: 'clarity:note-edit-line',
               color: 'primary',
-              auth: ['user:update'],
-              disabled: record.id === 1,
+              auth: ['demo:update'],
               onClick: handleEdit.bind(null, record),
             },
             {
@@ -39,8 +53,7 @@
               type: 'button',
               color: 'error',
               placement: 'left',
-              auth: ['user:delete'],
-              disabled: record.id === 1,
+              auth: ['demo:delete'],
               popConfirm: {
                 title: '是否确认删除',
                 confirm: handleDelete.bind(null, record.id),
@@ -50,64 +63,51 @@
         />
       </template>
     </BasicTable>
-    <AccountModal @register="registerDrawer" @success="handleSuccess" />
-  </PageWrapper>
+    <DemoDrawer @register="registerDrawer" @success="handleSuccess" />
+  </div>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive } from 'vue';
+  import { defineComponent } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { PageWrapper } from '/@/components/Page';
-
+  import { usePermission } from '/@/hooks/web/usePermission';
   import { useDrawer } from '/@/components/Drawer';
-  import AccountModal from './AccountDrawer.vue';
-  import DeptTree from './DeptTree.vue';
-  import { columns, searchFormSchema } from './account.data';
-  import { useGo } from '/@/hooks/web/usePage';
-  import { getList, deleteItem } from './account.api';
-  import { message, Space } from 'ant-design-vue';
+  import DemoDrawer from './Drawer.vue';
+  import { Space } from 'ant-design-vue';
+  import { BasicUpload } from '/@/components/Upload';
+  import { deleteItem, getList, exportData, importData } from './api';
+  import { columns, searchFormSchema } from './data';
+  import { message } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { downloadByData } from '/@/utils/file/download';
   export default defineComponent({
-    name: 'AccountManagement',
-    components: { BasicTable, PageWrapper, AccountModal, TableAction, Space, DeptTree },
+    name: 'Demo',
+    components: { BasicTable, DemoDrawer, TableAction, BasicUpload, Space },
     setup() {
-      const go = useGo();
       const [registerDrawer, { openDrawer }] = useDrawer();
       const { createConfirm } = useMessage();
-      const searchInfo = reactive<Recordable>({});
-      const [registerTable, { reload, updateTableDataRecord, getSelectRows }] = useTable({
+      const { hasPermission } = usePermission();
+      const [registerTable, { reload, getSelectRows }] = useTable({
         api: getList,
-        rowKey: 'id',
         columns,
         formConfig: {
           labelWidth: 80,
           schemas: searchFormSchema,
-          autoSubmitOnEnter: true,
         },
         useSearchForm: true,
-        tableSetting: { fullScreen: true },
         showTableSetting: true,
+        tableSetting: { fullScreen: true },
         bordered: true,
-        handleSearchInfoFn(info) {
-          console.log('handleSearchInfoFn', info);
-          return info;
-        },
+        showIndexColumn: false,
         rowSelection: {
           type: 'checkbox',
-          getCheckboxProps(record: Recordable) {
-            // Demo: 第一行（id为0）的选择框禁用
-            if (record.id === 1) {
-              return { disabled: true };
-            } else {
-              return { disabled: false };
-            }
-          },
         },
         actionColumn: {
-          width: 120,
+          width: 150,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },
+          fixed: undefined,
         },
       });
 
@@ -118,7 +118,6 @@
       }
 
       function handleEdit(record: Recordable) {
-        console.log(record);
         openDrawer(true, {
           record,
           isUpdate: true,
@@ -127,6 +126,7 @@
 
       async function handleDelete(id: number) {
         await deleteItem(id);
+        message.success('删除成功');
         await reload();
       }
 
@@ -149,25 +149,21 @@
         }
       }
 
-      function handleSuccess({ isUpdate, values }) {
-        if (isUpdate) {
-          // 演示不刷新表格直接更新内部数据。
-          // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-          const result = updateTableDataRecord(values.id, values);
-          console.log(result);
-        } else {
-          reload();
-        }
+      async function handleChange(list: string[]) {
+        console.log(list[0]);
+        await importData({ path: list[0] });
+        message.success(`导入成功`);
+        await reload();
       }
 
-      function handleSelect(deptIds) {
-        console.log(deptIds);
-        searchInfo.dept_ids = deptIds; JSON.stringify()
+      async function handleExportData() {
+        const response = await exportData();
+        await downloadByData(response.data, '项目数据.xlsx');
+      }
+
+      function handleSuccess() {
+        message.success('请求成功');
         reload();
-      }
-
-      function handleView(record: Recordable) {
-        go('/system/account_detail/' + record.id);
       }
 
       return {
@@ -177,10 +173,11 @@
         handleEdit,
         handleDelete,
         handleSuccess,
-        handleSelect,
-        handleView,
-        searchInfo,
+        hasPermission,
         handleBulkDelete,
+        getSelectRows,
+        handleExportData,
+        handleChange,
       };
     },
   });
