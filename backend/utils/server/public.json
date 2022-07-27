@@ -1,0 +1,12 @@
+{
+  "ERROR": "操作失败",
+  "SUCCESS": "操作成功",
+  "START": "启动",
+  "STOP": "停止",
+  "OFF": "停用",
+  "ON": "启用",
+  "OPEN": "打开",
+  "CLOSE": "关闭",
+  "SYS_EXEC_SUCCESS": "执行成功!",
+  "SYS_REBOOT": "命令发送成功!"
+}
