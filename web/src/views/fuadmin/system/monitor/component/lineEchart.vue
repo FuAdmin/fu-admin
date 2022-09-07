@@ -1,17 +1,20 @@
 <template>
   <div class="lymonitor-info">
     <div class="lymonitor-info-item"
-      ><p><span class="ico-up"></span>上行</p><a id="upSpeed">{{ modelValue.up + 'KB' }}</a></div
+      ><p><span class="ico-up"></span>{{ t('common.monitor.upText') }}</p
+      ><a id="upSpeed">{{ modelValue.up + 'KB' }}</a></div
     >
     <div class="lymonitor-info-item"
-      ><p><span class="ico-down"></span>下行</p
+      ><p><span class="ico-down"></span>{{ t('common.monitor.downText') }}</p
       ><a id="downSpeed">{{ modelValue.down + 'KB' }}</a></div
     >
     <div class="lymonitor-info-item"
-      ><p>总发送</p><a id="upAll">{{ formatUnitSize(modelValue.upTotal) }}</a></div
+      ><p>{{ t('common.monitor.sentText') }}</p
+      ><a id="upAll">{{ formatUnitSize(modelValue.upTotal) }}</a></div
     >
     <div class="lymonitor-info-item"
-      ><p>总接收</p><a id="downAll">{{ formatUnitSize(modelValue.downTotal) }}</a></div
+      ><p>{{ t('common.monitor.receivedText') }}</p
+      ><a id="downAll">{{ formatUnitSize(modelValue.downTotal) }}</a></div
     >
     <!--    <el-select v-model="networkValue"  placeholder="Select" size="large" @change="networkSelectChange">-->
     <!--      <el-option-->
@@ -29,6 +32,7 @@
   import { onBeforeUnmount, onMounted, reactive, watch } from 'vue';
   import echarts from '/@/utils/lib/echarts';
   import { formatUnitSize } from "/@/utils";
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default {
     name: 'LyMonitorLineEchart',
     props: {
@@ -36,6 +40,7 @@
       modelValue: {},
     },
     setup(props, { emit }) {
+      const { t } = useI18n();
       const state = reactive({
         contentValue: props.modelValue, // 绑定文本
         timeout: null,
@@ -106,7 +111,7 @@
         };
         obj.list = [];
         obj.list.push({
-          name: '上行',
+          name: t('common.monitor.upText'),
           data: state.echartData.uData,
           circle: 'circle',
           itemStyle: { color: '#4c8ff1' },
@@ -126,7 +131,7 @@
           lineStyle: { width: 1, color: '#aaa' },
         });
         obj.list.push({
-          name: '下行',
+          name: t('common.monitor.downText'),
           data: state.echartData.dData,
           circle: 'circle',
           itemStyle: { color: '#1cd798' },
@@ -269,6 +274,7 @@
         formatUnitSize,
         initEcharts,
         format_option,
+        t,
       };
     },
   };

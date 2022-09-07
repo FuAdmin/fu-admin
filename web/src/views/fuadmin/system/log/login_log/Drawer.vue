@@ -15,6 +15,7 @@
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { createOrUpdate } from './api';
   import { formSchema } from './data';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'ButtonDrawer',
@@ -22,6 +23,7 @@
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
+      const { t } = useI18n();
 
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
         labelWidth: 100,
@@ -42,7 +44,7 @@
         }
       });
 
-      const getTitle = '详情';
+      const getTitle = t('common.detailText');
 
       async function handleSubmit() {
         try {

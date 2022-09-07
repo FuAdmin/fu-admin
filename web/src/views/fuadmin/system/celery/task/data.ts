@@ -9,20 +9,22 @@ import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
 import { getCrontabData, getIntervalData } from '/@/views/fuadmin/system/celery/util';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '任务',
+    title: t('common.task.taskText'),
     dataIndex: 'task',
     width: 200,
   },
   {
-    title: '名称',
+    title: t('common.task.nameText'),
     dataIndex: 'name',
     width: 180,
   },
   {
-    title: '任务频率',
+    title: t('common.task.intervalText'),
     dataIndex: 'interval',
     width: 100,
     customRender: ({ record }) => {
@@ -30,7 +32,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '任务定时',
+    title: t('common.task.crontabText'),
     dataIndex: 'crontab',
     width: 100,
     customRender: ({ record }) => {
@@ -38,13 +40,13 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '任务状态',
+    title: t('common.statusText'),
     dataIndex: 'enabled',
     width: 100,
     customRender: ({ record }) => {
       const status = record.enabled;
       const color = status ? 'success' : 'error';
-      const text = status ? '开启' : '关闭';
+      const text = status ? t('common.enableText') : t('common.disableText');
       return h(Tag, { color: color }, () => text);
     },
   },
@@ -59,35 +61,35 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'task',
-    label: '任务',
+    label: t('common.task.taskText'),
     required: true,
     component: 'Input',
   },
   {
     field: 'name',
-    label: '名称',
+    label: t('common.task.nameText'),
     required: true,
     component: 'Input',
   },
   {
     field: 'interval',
-    label: '任务频率',
+    label: t('common.task.intervalText'),
     component: 'Select',
   },
   {
     field: 'crontab',
-    label: '任务定时',
+    label: t('common.task.crontabText'),
     component: 'Select',
   },
   {
     field: 'enabled',
-    label: '任务状态',
+    label: t('common.statusText'),
     component: 'RadioButtonGroup',
     defaultValue: true,
     componentProps: {
       options: [
-        { label: '开启', value: true },
-        { label: '关闭', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
   },

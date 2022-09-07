@@ -6,30 +6,32 @@
  */
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '项目名称',
+    title: t('common.demo.nameText'),
     dataIndex: 'name',
     width: 200,
   },
   {
-    title: '项目编码',
+    title: t('common.demo.codeText'),
     dataIndex: 'code',
     width: 180,
   },
   {
-    title: '项目排序',
+    title: t('common.sortText'),
     dataIndex: 'sort',
     width: 100,
   },
   {
-    title: '项目状态',
+    title: t('common.statusText'),
     dataIndex: 'status',
     width: 100,
   },
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 180,
   },
@@ -38,7 +40,7 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '项目名称',
+    label: t('common.demo.nameText'),
     component: 'Input',
     colProps: { span: 6 },
   },
@@ -53,27 +55,27 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'name',
-    label: '项目名称',
+    label: t('common.demo.nameText'),
     required: true,
     component: 'Input',
   },
   {
     field: 'code',
-    label: '项目编码',
+    label: t('common.demo.codeText'),
     required: true,
     component: 'Input',
   },
   {
     field: 'status',
     component: 'DictSelect',
-    label: '项目状态',
+    label: t('common.statusText'),
     componentProps: {
       dictCode: 'project_status',
     },
   },
   {
     field: 'sort',
-    label: '岗位排序',
+    label: t('common.statusSort'),
     component: 'InputNumber',
     required: true,
   },

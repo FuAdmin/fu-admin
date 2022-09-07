@@ -3,8 +3,10 @@
     <div class="py-8 bg-white flex flex-col justify-center items-center">
       <BasicForm @register="register" />
       <div class="flex justify-center">
-        <a-button @click="resetFields"> 重置 </a-button>
-        <a-button class="!ml-4" type="primary" @click="handleSubmit"> 确认 </a-button>
+        <a-button @click="resetFields"> {{ t('common.resetText') }} </a-button>
+        <a-button class="!ml-4" type="primary" @click="handleSubmit">
+          {{ t('common.okText') }}
+        </a-button>
       </div>
     </div>
   </PageWrapper>
@@ -15,10 +17,13 @@
   import { BasicForm, useForm } from '/@/components/Form';
 
   import { formSchema } from './pwd.data';
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     name: 'ChangePassword',
     components: { BasicForm, PageWrapper },
     setup() {
+      const { t } = useI18n();
+
       const [register, { validate, resetFields }] = useForm({
         size: 'large',
         labelWidth: 100,
@@ -38,7 +43,7 @@
         } catch (error) {}
       }
 
-      return { register, resetFields, handleSubmit };
+      return { register, resetFields, handleSubmit, t };
     },
   });
 </script>

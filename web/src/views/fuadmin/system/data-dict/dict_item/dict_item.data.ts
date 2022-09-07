@@ -8,38 +8,40 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '显示名称',
+    title: t('common.dict.showValueText'),
     dataIndex: 'label',
     width: 50,
   },
   {
-    title: '实际值',
+    title: t('common.dict.actualValueText'),
     dataIndex: 'value',
     width: 70,
   },
   {
-    title: '状态',
+    title: t('common.statusText'),
     dataIndex: 'status',
     width: 100,
     customRender: ({ record }) => {
       const status = record.status;
       const enable = ~~status === 1;
       const color = enable ? 'success' : 'error';
-      const text = enable ? '启用' : '停用';
+      const text = enable ? t('common.enableText') : t('common.disableText');
       return h(Tag, { color: color }, () => text);
     },
   },
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 120,
     ifShow: false,
   },
   {
-    title: '备注',
+    title: t('common.remarkText'),
     dataIndex: 'remark',
     ifShow: false,
   },
@@ -56,38 +58,38 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'label',
-    label: '显示名称',
+    label: t('common.dict.showValueText'),
     component: 'Input',
     required: true,
   },
   {
     field: 'value',
-    label: '实际值',
+    label: t('common.dict.actualValueText'),
     required: true,
     component: 'Input',
     show: true,
   },
   {
     field: 'status',
-    label: '状态',
+    label: t('common.statusText'),
     component: 'RadioButtonGroup',
     defaultValue: true,
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '停用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
   },
   {
     field: 'sort',
-    label: '排序',
+    label: t('common.sortText'),
     component: 'InputNumber',
     defaultValue: 1,
     required: true,
   },
   {
-    label: '备注',
+    label: t('common.remarkText'),
     field: 'remark',
     component: 'InputTextArea',
   },

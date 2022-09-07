@@ -7,6 +7,13 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { getCrontabData } from '/@/views/fuadmin/system/celery/util';
+import { useI18n } from '/@/hooks/web/useI18n';
+import { computed } from 'vue';
+import { useLocaleStoreWithOut } from '/@/store/modules/locale';
+const { t } = useI18n();
+const localeStore = useLocaleStoreWithOut();
+
+const getLocale = computed(() => localeStore.getLocale).value;
 
 export const columns: BasicColumn[] = [
   {
@@ -14,7 +21,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'code',
     width: 300,
     customRender: ({ record }) => {
-      return getCrontabData(record);
+      if (getLocale === 'zh_CN') {
+        return getCrontabData(record);
+      } else {
+        return `${record.month_of_year} ${record.day_of_month} ${record.day_of_week} ${record.hour} ${record.minute} `;
+      }
     },
   },
 ];
@@ -29,35 +40,35 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'minute',
-    label: '分钟',
+    label: t('common.task.minuteText'),
     defaultValue: '*',
     required: true,
     component: 'Input',
   },
   {
     field: 'hour',
-    label: '小时',
+    label: t('common.task.hourText'),
     defaultValue: '*',
     required: true,
     component: 'Input',
   },
   {
     field: 'day_of_week',
-    label: '每周的周几',
+    label: t('common.task.dayOfWeekText'),
     defaultValue: '*',
     required: true,
     component: 'Input',
   },
   {
     field: 'day_of_month',
-    label: '每月的某天',
+    label: t('common.task.dayOfMonthText'),
     defaultValue: '*',
     required: true,
     component: 'Input',
   },
   {
     field: 'month_of_year',
-    label: '每年的某月',
+    label: t('common.task.monthOfYearText'),
     defaultValue: '*',
     required: true,
     component: 'Input',

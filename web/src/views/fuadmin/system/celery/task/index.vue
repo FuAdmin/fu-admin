@@ -2,7 +2,7 @@
   <div>
     <BasicTable @register="registerTable">
       <template #tableTitle>
-        <a-button type="primary" v-auth="['post:add']" @click="handleCreate"> 新增 </a-button>
+        <a-button type="primary" v-auth="['post:add']" @click="handleCreate"> {{ t('common.addText') }} </a-button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -31,7 +31,7 @@
               placement: 'left',
               auth: ['post:delete'],
               popConfirm: {
-                title: '是否确认删除',
+                title: t('common.delHintText'),
                 confirm: handleDelete.bind(null, record.id),
               },
             },
@@ -54,11 +54,13 @@
   import { deleteItem, getList, immediateExec } from './api';
   import { columns } from './data';
   import { message } from 'ant-design-vue';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'Task',
     components: { BasicTable, Drawer, TableAction },
     setup() {
+      const { t } = useI18n();
       const [registerDrawer, { openDrawer }] = useDrawer();
       // const { createMessage } = useMessage();
       const { hasPermission } = usePermission();
@@ -72,7 +74,7 @@
         showIndexColumn: false,
         actionColumn: {
           width: 150,
-          title: '操作',
+          title: t('common.operationText'),
           dataIndex: 'action',
           slots: { customRender: 'action' },
           fixed: undefined,
@@ -94,7 +96,7 @@
 
       async function handleDelete(id: number) {
         await deleteItem(id);
-        message.success('删除成功');
+        message.success(t('common.successText'));
         await reload();
       }
       async function handleExec(task: string) {
@@ -104,7 +106,7 @@
       }
 
       function handleSuccess() {
-        message.success('请求成功');
+        message.success(t('common.successText'));
         reload();
       }
 
@@ -117,6 +119,7 @@
         handleSuccess,
         handleExec,
         hasPermission,
+        t,
       };
     },
   });

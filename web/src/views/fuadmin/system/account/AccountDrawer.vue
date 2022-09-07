@@ -28,11 +28,13 @@
   import { getDeptList } from '../dept/dept.api';
   import { CropperAvatar } from '/@/components/Cropper';
   import { uploadApi } from '/@/api/sys/upload';
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     name: 'AccountModal',
     components: { BasicDrawer, BasicForm, CropperAvatar },
     emits: ['success', 'register'],
     setup(_, { emit }) {
+      const { t } = useI18n();
       const isUpdate = ref(true);
       const rowId = ref('');
 
@@ -64,7 +66,9 @@
         ]);
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增账号' : '编辑账号'));
+      const getTitle = computed(() =>
+        !unref(isUpdate) ? t('common.addText') : t('common.updateText'),
+      );
 
       async function handleSubmit() {
         try {

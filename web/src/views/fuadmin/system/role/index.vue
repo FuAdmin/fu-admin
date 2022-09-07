@@ -9,7 +9,7 @@
             preIcon="ant-design:plus-outlined"
             @click="handleCreate"
           >
-            新增
+            {{ t('common.addText') }}
           </a-button>
           <a-button
             type="error"
@@ -17,7 +17,7 @@
             preIcon="ant-design:delete-outlined"
             @click="handleBulkDelete"
           >
-            删除
+            {{ t('common.delText') }}
           </a-button>
         </Space>
       </template>
@@ -38,7 +38,7 @@
               auth: ['role:delete'],
               placement: 'left',
               popConfirm: {
-                title: '是否确认删除',
+                title: t('common.delHintText'),
                 confirm: handleDelete.bind(null, record.id),
               },
             },
@@ -70,11 +70,14 @@
   import { getList, deleteItem } from '/@/views/fuadmin/system/role/role.api';
   import { message, Space } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'RoleManagement',
     components: { BasicTable, RoleDrawer, TableAction, PermissionDrawer, Space },
     setup() {
+      const { t } = useI18n();
+
       const [registerDrawer, { openDrawer }] = useDrawer();
       const [registerPermissionDrawer, { openDrawer: openPermissionDrawer }] = useDrawer();
       const { createConfirm } = useMessage();
@@ -95,7 +98,7 @@
         showIndexColumn: false,
         actionColumn: {
           width: 150,
-          title: '操作',
+          title: t('common.operationText'),
           dataIndex: 'action',
           slots: { customRender: 'action' },
           fixed: undefined,
@@ -124,23 +127,23 @@
 
       async function handleDelete(id: number) {
         await deleteItem(id);
-        message.success('删除成功');
+        message.success(t('common.successText'));
         await reload();
       }
 
       async function handleBulkDelete() {
         if (getSelectRows().length == 0) {
-          message.warning('请选择一个选项');
+          message.warning(t('common.batchDelHintText'));
         } else {
           createConfirm({
             iconType: 'warning',
-            title: '提示',
-            content: '是否确认删除？',
+            title: t('common.hintText'),
+            content: t('common.delHintText'),
             async onOk() {
               for (const item of getSelectRows()) {
                 await deleteItem(item.id);
               }
-              message.success('删除成功');
+              message.success(t('common.successText'));
               await reload();
             },
           });
@@ -161,6 +164,7 @@
         handlePermission,
         registerPermissionDrawer,
         handleBulkDelete,
+        t,
       };
     },
   });

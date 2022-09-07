@@ -16,6 +16,7 @@
   import { formSchema } from './role.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { createOrUpdate } from './role.api';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'RoleDrawer',
@@ -23,6 +24,7 @@
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
+      const { t } = useI18n();
 
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
         labelWidth: 100,
@@ -43,7 +45,9 @@
         }
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增角色' : '编辑角色'));
+      const getTitle = computed(() =>
+        !unref(isUpdate) ? t('common.addText') : t('common.updateText'),
+      );
 
       async function handleSubmit() {
         try {

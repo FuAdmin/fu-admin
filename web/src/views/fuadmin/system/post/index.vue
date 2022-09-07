@@ -9,7 +9,7 @@
             preIcon="ant-design:plus-outlined"
             @click="handleCreate"
           >
-            新增
+            {{ t('common.addText') }}
           </a-button>
           <a-button
             type="error"
@@ -17,7 +17,7 @@
             preIcon="ant-design:delete-outlined"
             @click="handleBulkDelete"
           >
-            删除
+            {{ t('common.delText') }}
           </a-button>
           <BasicUpload
             :maxSize="20"
@@ -25,7 +25,7 @@
             @change="handleChange"
             class="my-5"
             type="warning"
-            text="导入"
+            :text="t('common.importText')"
             v-auth="['post:update']"
           />
           <a-button
@@ -34,7 +34,7 @@
             preIcon="carbon:cloud-download"
             @click="handleExportData"
           >
-            导出
+            {{ t('common.exportText') }}
           </a-button>
         </Space>
       </template>
@@ -55,7 +55,7 @@
               placement: 'left',
               auth: ['post:delete'],
               popConfirm: {
-                title: '是否确认删除',
+                title: t('common.delHintText'),
                 confirm: handleDelete.bind(null, record.id),
               },
             },
@@ -85,10 +85,12 @@
   import { message } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByData } from '/@/utils/file/download';
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     name: 'PostManagement',
     components: { BasicTable, ButtonDrawer, TableAction, BasicUpload, Space },
     setup() {
+      const { t } = useI18n();
       const [registerDrawer, { openDrawer }] = useDrawer();
       const { createConfirm } = useMessage();
       const { hasPermission } = usePermission();
@@ -109,7 +111,7 @@
         },
         actionColumn: {
           width: 150,
-          title: '操作',
+          title: t('common.operationText'),
           dataIndex: 'action',
           slots: { customRender: 'action' },
           fixed: undefined,
@@ -131,23 +133,23 @@
 
       async function handleDelete(id: number) {
         await deleteItem(id);
-        message.success('删除成功');
+        message.success(t('common.successText'));
         await reload();
       }
 
       function handleBulkDelete() {
         if (getSelectRows().length == 0) {
-          message.warning('请选择一个选项');
+          message.warning(t('common.batchDelHintText'));
         } else {
           createConfirm({
             iconType: 'warning',
-            title: '提示',
-            content: '是否确认删除？',
+            title: t('common.hintText'),
+            content: t('common.delHintText'),
             async onOk() {
               for (const item of getSelectRows()) {
                 await deleteItem(item.id);
               }
-              message.success('删除成功');
+              message.success(t('common.successText'));
               await reload();
             },
           });
@@ -167,7 +169,7 @@
       }
 
       function handleSuccess() {
-        message.success('请求成功');
+        message.success(t('common.successText'));
         reload();
       }
 
@@ -183,6 +185,7 @@
         getSelectRows,
         handleExportData,
         handleChange,
+        t,
       };
     },
   });

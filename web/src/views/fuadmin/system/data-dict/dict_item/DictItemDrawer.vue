@@ -16,12 +16,14 @@
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { formSchema } from './dict_item.data';
   import { createOrUpdate } from './dict_item.api';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'DictItemDrawer',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
+      const { t } = useI18n();
       const isUpdate = ref(true);
       const dictId = ref();
 
@@ -44,7 +46,9 @@
         }
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增字典列表' : '编辑字典列表'));
+      const getTitle = computed(() =>
+        !unref(isUpdate) ? t('common.addText') : t('common.updateText'),
+      );
 
       async function handleSubmit() {
         try {

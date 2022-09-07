@@ -64,7 +64,7 @@
         showIndexColumn: false,
         actionColumn: {
           width: 80,
-          title: '操作',
+          title: t('common.operationText'),
           dataIndex: 'action',
           slots: { customRender: 'action' },
           fixed: undefined,
@@ -92,12 +92,12 @@
 
       async function handleDelete(id: number) {
         await deleteItem(id);
-        message.success('删除成功');
+        message.success(t('common.successText'));
         await reload();
       }
 
       function handleSuccess() {
-        message.success('请求成功');
+        message.success(t('common.successText'));
         reload();
       }
 

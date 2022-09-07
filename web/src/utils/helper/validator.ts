@@ -1,6 +1,7 @@
 import { dateUtil } from '/@/utils/dateUtil';
 // import {duplicateCheck} from "/@/views/system/user/user.api";
-
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 export const rules = {
   rule(type, required) {
     if (type === 'email') {
@@ -89,10 +90,10 @@ export const rules = {
         required: required ? required : false,
         validator: (_, value) => {
           if (!value) {
-            return Promise.reject('密码不能为空');
+            return Promise.reject(t('common.account.passwordBlackMsg'));
           }
           if (value !== values.password) {
-            return Promise.reject('两次输入的密码不一致!');
+            return Promise.reject(t('common.account.confirmPasswordMsg'));
           }
           return Promise.resolve();
         },

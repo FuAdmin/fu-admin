@@ -8,42 +8,44 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '按钮名称',
+    title: t('common.button.nameText'),
     dataIndex: 'name',
     width: 200,
   },
   {
-    title: '按钮编码',
+    title: t('common.button.codeText'),
     dataIndex: 'code',
     width: 180,
   },
   {
-    title: '按钮排序',
+    title: t('common.sortText'),
     dataIndex: 'sort',
     width: 100,
   },
   {
-    title: '按钮状态',
+    title: t('common.statusText'),
     dataIndex: 'status',
     width: 100,
     customRender: ({ record }) => {
       const status = record.status;
       const enable = ~~status === 1;
       const color = enable ? 'success' : 'error';
-      const text = enable ? '启用' : '停用';
+      const text = enable ? t('common.enableText') : t('common.disableText');
       return h(Tag, { color: color }, () => text);
     },
   },
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 180,
   },
   {
-    title: '按钮备注',
+    title: t('common.remarkText'),
     dataIndex: 'remark',
   },
 ];
@@ -51,18 +53,18 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '按钮名称',
+    label: t('common.button.nameText'),
     component: 'Input',
     colProps: { span: 8 },
   },
   {
     field: 'status',
-    label: '按钮状态',
+    label: t('common.statusText'),
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '停用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
     colProps: { span: 8 },
@@ -78,36 +80,36 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'name',
-    label: '按钮名称',
+    label: t('common.button.nameText'),
     required: true,
     component: 'Input',
   },
   {
     field: 'code',
-    label: '按钮编码',
+    label: t('common.button.codeText'),
     required: true,
     component: 'Input',
   },
   {
     field: 'status',
-    label: '按钮状态',
+    label: t('common.statusText'),
     component: 'RadioButtonGroup',
     defaultValue: true,
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '停用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
   },
   {
     field: 'sort',
-    label: '按钮排序',
+    label: t('common.sortText'),
     component: 'InputNumber',
     required: true,
   },
   {
-    label: '按钮备注',
+    label: t('common.remarkText'),
     field: 'remark',
     component: 'InputTextArea',
   },

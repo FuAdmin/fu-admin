@@ -16,12 +16,15 @@
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { createOrUpdate } from './dict.api';
   import { formSchema } from './dict.data';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'ButtonDrawer',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
+      const { t } = useI18n();
+
       const isUpdate = ref(true);
 
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
@@ -43,7 +46,9 @@
         }
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增字典' : '编辑字典'));
+      const getTitle = computed(() =>
+        !unref(isUpdate) ? t('common.addText') : t('common.updateText'),
+      );
 
       async function handleSubmit() {
         try {

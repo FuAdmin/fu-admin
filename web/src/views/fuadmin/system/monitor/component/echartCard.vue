@@ -17,6 +17,7 @@
   import { ref } from 'vue';
   import { Card } from 'ant-design-vue';
   import LyMonitorLineEchart from './lineEchart.vue';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   defineProps({
     network: {
@@ -25,12 +26,14 @@
     },
   });
 
+  const { t } = useI18n();
+
   const activeKey = ref('tab1');
 
   const tabListTitle = [
     {
       key: 'tab1',
-      tab: '流量趋势',
+      tab: t('common.monitor.networkTrafficTrendText'),
     },
     // {
     //   key: 'tab2',

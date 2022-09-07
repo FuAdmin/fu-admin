@@ -6,30 +6,32 @@
  */
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '文件名称',
+    title: t('common.file.fileNameText'),
     dataIndex: 'name',
     width: 100,
   },
   {
-    title: '保存名称',
+    title: t('common.file.saveNameText'),
     dataIndex: 'save_name',
     width: 100,
   },
   {
-    title: '文件大小',
+    title: t('common.file.sizeText'),
     dataIndex: 'size',
     width: 100,
   },
   {
-    title: 'URL',
+    title: t('common.file.urlText'),
     dataIndex: 'url',
     width: 200,
   },
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 100,
   },
@@ -38,7 +40,7 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '文件名称',
+    label: t('common.file.fileNameText'),
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -52,25 +54,25 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'name',
-    label: '文件名称',
+    label: t('common.file.fileNameText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'size',
-    label: '文件大小',
+    label: t('common.file.sizeText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'save_name',
-    label: '保存名称',
+    label: t('common.file.saveNameText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'url',
-    label: 'URL',
+    label: t('common.file.urlText'),
     required: false,
     component: 'Input',
   },

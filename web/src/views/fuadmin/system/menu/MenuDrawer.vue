@@ -17,16 +17,19 @@
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
 
   import { getMenuList, createOrUpdate } from '/@/views/fuadmin/system/menu/menu.api';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'MenuDrawer',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
+      const { t } = useI18n();
+
       const isUpdate = ref(true);
 
       const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
-        labelWidth: 100,
+        labelWidth: 120,
         schemas: formSchema,
         showActionButtonGroup: false,
         baseColProps: { lg: 12, md: 24 },
@@ -49,7 +52,9 @@
         });
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增菜单' : '编辑菜单'));
+      const getTitle = computed(() =>
+        !unref(isUpdate) ? t('common.addText') : t('common.updateText'),
+      );
 
       async function handleSubmit() {
         try {

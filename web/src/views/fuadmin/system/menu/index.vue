@@ -9,13 +9,13 @@
             preIcon="ant-design:plus-outlined"
             @click="handleCreate"
           >
-            新增
+            {{ t('common.addText') }}
           </a-button>
         </Space>
       </template>
       <template #toolbar>
-        <a-button type="primary" @click="expandAll">展开</a-button>
-        <a-button type="primary" @click="collapseAll">折叠</a-button>
+        <a-button type="primary" @click="expandAll">{{ t('common.expandText') }}</a-button>
+        <a-button type="primary" @click="collapseAll">{{ t('common.collapseText') }}</a-button>
       </template>
 
       <template #action="{ record }">
@@ -35,14 +35,14 @@
               placement: 'left',
               auth: ['menu:delete'],
               popConfirm: {
-                title: '是否确认删除',
+                title: t('common.delHintText'),
                 confirm: handleDelete.bind(null, record.id),
               },
             },
             {
               type: 'button',
               color: 'warning',
-              tooltip: '菜单按钮',
+              tooltip: t('common.menuButtonText'),
               icon: 'ant-design:plus-square-outlined',
               auth: ['menu:update'],
               onClick: addButton.bind(null, record.id),
@@ -68,11 +68,13 @@
   import { Space } from 'ant-design-vue';
 
   import { columns, searchFormSchema } from './menu.data';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'MenuManagement',
     components: { BasicTable, MenuDrawer, TableAction, AddMenuButton, Space },
     setup() {
+      const { t } = useI18n();
       const [registerDrawer, { openDrawer }] = useDrawer();
       const [registerAddButtonDrawer, { openDrawer: openAddButtonDrawer }] = useDrawer();
       // const { push } = useRouter();
@@ -96,7 +98,7 @@
         actionColumn: {
           align: 'left',
           width: 150,
-          title: '操作',
+          title: t('common.operationText'),
           dataIndex: 'action',
           slots: { customRender: 'action' },
           fixed: undefined,
@@ -149,6 +151,7 @@
         collapseAll,
         addButton,
         registerAddButtonDrawer,
+        t,
       };
     },
   });

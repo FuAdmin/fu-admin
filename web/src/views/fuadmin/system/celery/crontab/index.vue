@@ -2,7 +2,9 @@
   <div>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button type="primary" v-auth="['post:add']" @click="handleCreate"> 新增 </a-button>
+        <a-button type="primary" v-auth="['post:add']" @click="handleCreate">
+          {{ t('common.addText') }}
+        </a-button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -21,7 +23,7 @@
               placement: 'left',
               auth: ['post:delete'],
               popConfirm: {
-                title: '是否确认删除',
+                title: t('common.delHintText'),
                 confirm: handleDelete.bind(null, record.id),
               },
             },
@@ -44,18 +46,20 @@
   import { deleteItem, getList } from './api';
   import { columns } from './data';
   import { message } from 'ant-design-vue';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'Crontab',
     components: { BasicTable, Drawer, TableAction },
     setup() {
+      const { t } = useI18n();
       const [registerDrawer, { openDrawer }] = useDrawer();
       // const { createMessage } = useMessage();
       const { hasPermission } = usePermission();
       const [registerTable, { reload }] = useTable({
         api: getList,
         columns,
-        title: '任务定时',
+        title: t('common.task.crontabText'),
         maxHeight: 210,
         useSearchForm: false,
         showTableSetting: true,
@@ -73,7 +77,7 @@
         showIndexColumn: false,
         actionColumn: {
           width: 80,
-          title: '操作',
+          title: t('common.operationText'),
           dataIndex: 'action',
           slots: { customRender: 'action' },
           fixed: undefined,
@@ -95,12 +99,12 @@
 
       async function handleDelete(id: number) {
         await deleteItem(id);
-        message.success('删除成功');
+        message.success(t('common.successText'));
         await reload();
       }
 
       function handleSuccess() {
-        message.success('请求成功');
+        message.success(t('common.successText'));
         reload();
       }
 
@@ -112,6 +116,7 @@
         handleDelete,
         handleSuccess,
         hasPermission,
+        t,
       };
     },
   });

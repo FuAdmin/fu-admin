@@ -9,45 +9,47 @@ import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
 import { Icon } from '/@/components/Icon';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '菜单名称',
+    title: t('common.menu.titleText'),
     dataIndex: 'title',
     width: 200,
     align: 'left',
   },
   {
-    title: '图标',
+    title: t('common.menu.iconText'),
     dataIndex: 'icon',
-    width: 50,
+    width: 100,
     customRender: ({ record }) => {
       return h(Icon, { icon: record.icon });
     },
   },
   {
-    title: '路由地址',
+    title: t('common.menu.pathText'),
     dataIndex: 'path',
   },
   {
-    title: '排序',
+    title: t('common.sortText'),
     dataIndex: 'sort',
     width: 50,
   },
   {
-    title: '状态',
+    title: t('common.statusText'),
     dataIndex: 'status',
     width: 80,
     customRender: ({ record }) => {
       const status = record.status;
       const enable = ~~status === 1;
       const color = enable ? 'success' : 'error';
-      const text = enable ? '启用' : '停用';
+      const text = enable ? t('common.enableText') : t('common.disableText');
       return h(Tag, { color: color }, () => text);
     },
   },
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 180,
   },
@@ -60,18 +62,18 @@ const isButton = (type: number) => type === 2;
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'title',
-    label: '菜单名称',
+    label: t('common.menu.titleText'),
     component: 'Input',
     colProps: { span: 6 },
   },
   {
     field: 'status',
-    label: '状态',
+    label: t('common.statusText'),
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '停用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
     colProps: { span: 6 },
@@ -87,28 +89,28 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'type',
-    label: '菜单类型',
+    label: t('common.menu.typeText'),
     component: 'RadioButtonGroup',
     defaultValue: 0,
     componentProps: {
       options: [
-        { label: '目录', value: 0 },
-        { label: '菜单', value: 1 },
-        { label: '按钮', value: 2 },
+        { label: t('common.menu.directoryText'), value: 0 },
+        { label: t('common.menu.menuText'), value: 1 },
+        { label: t('common.menu.buttonText'), value: 2 },
       ],
     },
     colProps: { lg: 24, md: 24 },
   },
   {
     field: 'title',
-    label: '菜单名称',
+    label: t('common.menu.titleText'),
     component: 'Input',
     required: true,
   },
 
   {
     field: 'parent_id',
-    label: '上级菜单',
+    label: t('common.menu.parentText'),
     component: 'TreeSelect',
     componentProps: {
       fieldNames: {
@@ -122,13 +124,13 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'sort',
-    label: '菜单排序',
+    label: t('common.sortText'),
     component: 'InputNumber',
-    required: true,
+    defaultValue: 1,
   },
   {
     field: 'icon',
-    label: '菜单图标',
+    label: t('common.menu.iconText'),
     component: 'IconPicker',
     required: false,
     ifShow: ({ values }) => !isButton(values.type),
@@ -136,7 +138,7 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'path',
-    label: '路由地址',
+    label: t('common.menu.pathText'),
     component: 'Input',
     // helpMessage: '请用/开头',
     required: true,
@@ -145,7 +147,7 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'redirect',
-    label: '跳转地址',
+    label: t('common.menu.redirectText'),
     component: 'Input',
     required: false,
     ifShow: ({ values }) => isDir(values.type),
@@ -153,37 +155,37 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'component',
-    label: '组件路径',
+    label: t('common.menu.componentText'),
     component: 'Input',
     ifShow: ({ values }) => isMenu(values.type),
   },
   {
     field: 'name',
-    label: '组件名称',
+    label: t('common.menu.nameText'),
     component: 'Input',
     ifShow: ({ values }) => isMenu(values.type),
   },
   {
     field: 'status',
-    label: '菜单状态',
+    label: t('common.statusText'),
     component: 'RadioButtonGroup',
     defaultValue: true,
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '禁用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
   },
   {
     field: 'is_ext',
-    label: '是否外链',
+    label: t('common.menu.isExtText'),
     component: 'RadioButtonGroup',
     defaultValue: false,
     componentProps: {
       options: [
-        { label: '是', value: true },
-        { label: '否', value: false },
+        { label: t('common.yesText'), value: true },
+        { label: t('common.noText'), value: false },
       ],
     },
     ifShow: ({ values }) => isMenu(values.type),
@@ -191,13 +193,13 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'keepalive',
-    label: '是否缓存',
+    label: t('common.menu.keepaliveText'),
     component: 'RadioButtonGroup',
     defaultValue: false,
     componentProps: {
       options: [
-        { label: '是', value: true },
-        { label: '否', value: false },
+        { label: t('common.yesText'), value: true },
+        { label: t('common.noText'), value: false },
       ],
     },
     ifShow: ({ values }) => isMenu(values.type),
@@ -205,13 +207,13 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'hide_menu',
-    label: '是否隐藏',
+    label: t('common.menu.hideMenuText'),
     component: 'RadioButtonGroup',
     defaultValue: false,
     componentProps: {
       options: [
-        { label: '是', value: true },
-        { label: '否', value: false },
+        { label: t('common.yesText'), value: true },
+        { label: t('common.noText'), value: false },
       ],
     },
     ifShow: ({ values }) => !isButton(values.type),

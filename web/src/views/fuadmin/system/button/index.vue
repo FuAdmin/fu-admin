@@ -2,7 +2,7 @@
   <div>
     <BasicTable @register="registerTable">
       <template #tableTitle>
-        <a-button type="primary" @click="handleCreate"> 新增 </a-button>
+        <a-button type="primary" @click="handleCreate"> {{ t('common.addText') }} </a-button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -19,7 +19,7 @@
               color: 'error',
               placement: 'left',
               popConfirm: {
-                title: '是否确认删除',
+                title: t('common.delHintText'),
                 confirm: handleDelete.bind(null, record.id),
               },
             },
@@ -40,11 +40,14 @@
 
   import { deleteItem, getList } from '/@/views/fuadmin/system/button/button.api';
   import { columns, searchFormSchema } from '/@/views/fuadmin/system/button/button.data';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'ButtonManagement',
     components: { BasicTable, ButtonDrawer, TableAction },
     setup() {
+      const { t } = useI18n();
+
       const [registerDrawer, { openDrawer }] = useDrawer();
 
       const [registerTable, { reload }] = useTable({
@@ -61,7 +64,7 @@
         showIndexColumn: false,
         actionColumn: {
           width: 150,
-          title: '操作',
+          title: t('common.operationText'),
           dataIndex: 'action',
           slots: { customRender: 'action' },
           fixed: undefined,
@@ -97,6 +100,7 @@
         handleEdit,
         handleDelete,
         handleSuccess,
+        t,
       };
     },
   });

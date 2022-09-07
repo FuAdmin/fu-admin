@@ -6,40 +6,42 @@
  */
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '任务ID',
+    title: t('common.log.taskIdText'),
     dataIndex: 'task_id',
     width: 100,
   },
   {
-    title: '任务',
+    title: t('common.log.taskText'),
     dataIndex: 'task_name',
     width: 100,
   },
   {
-    title: '名称',
+    title: t('common.log.nameText'),
     dataIndex: 'periodic_task_name',
     width: 100,
   },
   {
-    title: '状态',
+    title: t('common.statusText'),
     dataIndex: 'status',
     width: 100,
   },
   {
-    title: '结果',
+    title: t('common.log.resultText'),
     dataIndex: 'result',
     width: 150,
   },
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'date_created',
     width: 100,
   },
   {
-    title: '完成时间',
+    title: t('common.log.dateDoneText'),
     dataIndex: 'date_done',
     width: 100,
   },
@@ -48,7 +50,7 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'periodic_task_name',
-    label: '名称',
+    label: t('common.log.nameText'),
     component: 'Input',
     colProps: { span: 6 },
   },
@@ -63,43 +65,43 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'task_id',
-    label: '任务ID',
+    label: t('common.log.taskIdText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'task_name',
-    label: '任务',
+    label: t('common.log.taskText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'periodic_task_name',
-    label: '名称',
+    label: t('common.log.nameText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'status',
-    label: '状态',
+    label: t('common.statusText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'result',
-    label: '结果',
+    label: t('common.log.resultText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'date_created',
-    label: '创建时间',
+    label: t('common.createDateText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'date_done',
-    label: '完成时间',
+    label: t('common.log.dateDoneText'),
     required: false,
     component: 'Input',
   },
