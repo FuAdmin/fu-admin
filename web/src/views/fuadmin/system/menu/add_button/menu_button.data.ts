@@ -8,6 +8,8 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 const methodOptions = [
   { label: 'GET', value: 0 },
@@ -18,17 +20,17 @@ const methodOptions = [
 
 export const columns: BasicColumn[] = [
   {
-    title: '按钮名称',
+    title: t('common.button.nameText'),
     dataIndex: 'name',
     width: 50,
   },
   {
-    title: '按钮编码',
+    title: t('common.button.codeText'),
     dataIndex: 'code',
     width: 70,
   },
   {
-    title: '请求方式',
+    title: t('common.button.methodText'),
     dataIndex: 'method',
     width: 50,
     customRender: ({ record }) => {
@@ -57,18 +59,18 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '按钮接口',
+    title: t('common.button.apiText'),
     dataIndex: 'api',
     width: 100,
   },
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 120,
     ifShow: false,
   },
   {
-    title: '按钮备注',
+    title: t('common.remarkText'),
     dataIndex: 'remark',
     ifShow: false,
   },
@@ -85,13 +87,13 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'name',
-    label: '按钮名称',
+    label: t('common.button.nameText'),
     component: 'Input',
     required: true,
   },
   {
     field: 'code',
-    label: '按钮编码',
+    label: t('common.button.codeText'),
     required: true,
     component: 'Input',
     show: true,
@@ -99,7 +101,7 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'method',
-    label: '请求方式',
+    label: t('common.button.methodText'),
     component: 'Select',
     componentProps: {
       options: methodOptions,
@@ -109,7 +111,7 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'api',
-    label: '按钮接口',
+    label: t('common.button.apiText'),
     required: true,
     component: 'Input',
   },
@@ -121,20 +123,20 @@ export const formSchema: FormSchema[] = [
   //   defaultValue: true,
   //   componentProps: {
   //     options: [
-  //       { label: '启用', value: true },
-  //       { label: '停用', value: false },
+  //       { label: t('common.enableText'), value: true },
+  //       { label: t('common.disableText'), value: false },
   //     ],
   //   },
   // },
   {
     field: 'sort',
-    label: '按钮排序',
+    label: t('common.sortText'),
     component: 'InputNumber',
     defaultValue: 1,
     required: true,
   },
   {
-    label: '按钮备注',
+    label: t('common.remarkText'),
     field: 'remark',
     component: 'InputTextArea',
   },

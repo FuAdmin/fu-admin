@@ -8,42 +8,44 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '角色名称',
+    title: t('common.role.nameText'),
     dataIndex: 'name',
     width: 200,
   },
   {
-    title: '角色编码',
+    title: t('common.role.codeText'),
     dataIndex: 'code',
     width: 180,
   },
   {
-    title: '角色排序',
+    title: t('common.sortText'),
     dataIndex: 'sort',
     width: 100,
   },
   {
-    title: '角色状态',
+    title: t('common.statusText'),
     dataIndex: 'status',
     width: 100,
     customRender: ({ record }) => {
       const status = record.status;
       const enable = ~~status === 1;
       const color = enable ? 'success' : 'error';
-      const text = enable ? '启用' : '停用';
+      const text = enable ? t('common.enableText') : t('common.disableText');
       return h(Tag, { color: color }, () => text);
     },
   },
   {
-    title: '角色备注',
+    title: t('common.remarkText'),
     dataIndex: 'remark',
     width: 280,
   },
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 180,
   },
@@ -52,18 +54,18 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '角色名称',
+    label: t('common.role.nameText'),
     component: 'Input',
     colProps: { span: 6 },
   },
   {
     field: 'status',
-    label: '角色状态',
+    label: t('common.statusText'),
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '停用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
     colProps: { span: 6 },
@@ -80,64 +82,64 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'name',
-    label: '角色名称',
+    label: t('common.role.nameText'),
     required: true,
     component: 'Input',
   },
   {
     field: 'code',
-    label: '角色编码',
+    label: t('common.role.codeText'),
     required: true,
     component: 'Input',
   },
   {
     field: 'status',
-    label: '角色状态',
+    label: t('common.statusText'),
     component: 'RadioButtonGroup',
     defaultValue: true,
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '停用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
   },
   {
     field: 'sort',
-    label: '角色排序',
+    label: t('common.sortText'),
     component: 'InputNumber',
     required: true,
   },
   {
-    label: '角色备注',
+    label: t('common.remarkText'),
     field: 'remark',
     component: 'InputTextArea',
   },
   //防止在更新角色信息时漏掉menu，permission，data_range，dept
   {
     field: 'menu',
-    label: '菜单权限',
+    label: t('common.role.menuPermissionText'),
     component: 'Select',
     show: false,
   },
 
   {
     field: 'permission',
-    label: '按钮权限',
+    label: t('common.role.buttonPermissionText'),
     component: 'Select',
     show: false,
   },
 
   {
     field: 'data_range',
-    label: '数据范围',
+    label: t('common.role.dataPermissionText'),
     component: 'Select',
     show: false,
   },
 
   {
     field: 'dept',
-    label: '选择权限',
+    label: t('common.role.choosePermissionText'),
     component: 'Select',
     show: false,
   },
@@ -146,16 +148,16 @@ export const formSchema: FormSchema[] = [
 export const formPermissionSchema: FormSchema[] = [
   {
     field: 'data_range',
-    label: '数据范围',
+    label: t('common.role.dataPermissionText'),
     component: 'Select',
     componentProps: ({ formModel }) => {
       return {
         options: [
-          { label: '仅本人数据权限', value: 0 },
-          { label: '本部门数据权限', value: 1 },
-          { label: '本部门及以下数据权限', value: 2 },
-          { label: '全部数据权限', value: 3 },
-          { label: '自定义数据权限', value: 4 },
+          { label: t('common.role.onlyOwnDataText'), value: 0 },
+          { label: t('common.role.onlyDeptDataText'), value: 1 },
+          { label: t('common.role.deptAndBelowDataText'), value: 2 },
+          { label: t('common.role.allDataText'), value: 3 },
+          { label: t('common.role.customizeOwnDataText'), value: 4 },
         ],
         onChange: () => {
           formModel.dept = [];
@@ -167,7 +169,7 @@ export const formPermissionSchema: FormSchema[] = [
 
   {
     field: 'dept',
-    label: '选择权限',
+    label: t('common.role.choosePermissionText'),
     component: 'TreeSelect',
     componentProps: {
       treeCheckable: true,

@@ -2,7 +2,7 @@
   <div class="md:flex">
     <Card
       size="small"
-      title="负载状态"
+      :title="t('common.monitor.loadStatusText')"
       :loading="loading"
       class="md:w-1/4 w-full !md:mt-0"
       :class="{ '!md:mr-4': 1 < 4, '!mt-4': 0 > 0 }"
@@ -15,16 +15,18 @@
           :strokeColor="getProgressColor(dataList.load_average.percent)"
         />
         <div class="space-main-up-cpu">
-          <span>最近1分钟平均负载：{{ dataList.load_average.one }}</span>
-          <span>最近5分钟平均负载：{{ dataList.load_average.five }}</span>
-          <span>最近15分钟平均负载：{{ dataList.load_average.fifteen }}</span>
+          <span> {{ t('common.monitor.last1MinuteText') }}：{{ dataList.load_average.one }} </span>
+          <span> {{ t('common.monitor.last5MinuteText') }}：{{ dataList.load_average.five }} </span>
+          <span>
+            {{ t('common.monitor.last15MinuteText') }}：{{ dataList.load_average.fifteen }}
+          </span>
         </div>
       </div>
     </Card>
 
     <Card
       size="small"
-      title="CPU使用率"
+      :title="t('common.monitor.cpuUtilizationText')"
       :loading="loading"
       class="md:w-1/4 w-full !md:mt-0"
       :class="{ '!md:mr-4': 2 < 4, '!mt-4': 1 > 0 }"
@@ -37,17 +39,19 @@
           :strokeColor="getProgressColor(dataList.cpu[0])"
         />
         <div class="space-main-up-cpu">
-          <span>CPU型号：{{ dataList.cpu[3] }}</span>
-          <span>物理CPU：{{ dataList.cpu[5] }}颗</span>
-          <span>物理核心：{{ dataList.cpu[5] * dataList.cpu[4] }}个</span>
-          <span>逻辑核心：{{ dataList.cpu[1] }}个</span>
+          <span>{{ t('common.monitor.cpuTypeText') }}：{{ dataList.cpu[3] }}</span>
+          <span>{{ t('common.monitor.cpuCountText') }}：{{ dataList.cpu[5] }}</span>
+          <span>
+            {{ t('common.monitor.coreCountText') }}：{{ dataList.cpu[5] * dataList.cpu[4] }}
+          </span>
+          <span>{{ t('common.monitor.threadCountText') }}：{{ dataList.cpu[1] }}</span>
         </div>
       </div>
     </Card>
 
     <Card
       size="small"
-      title="内存使用率"
+      :title="t('common.monitor.memoryUtilizationText')"
       :loading="loading"
       class="md:w-1/4 w-full !md:mt-0"
       :class="{ '!md:mr-4': 3 < 4, '!mt-4': 2 > 0 }"
@@ -60,16 +64,16 @@
           :strokeColor="getProgressColor(dataList.mem.percent)"
         />
         <div class="space-main-up-cpu">
-          <span>总共内存：{{ dataList.mem.total }}GB</span>
-          <span>已用内存：{{ dataList.mem.used }}GB</span>
-          <span>剩余内存：{{ dataList.mem.free }}GB</span>
+          <span>{{ t('common.monitor.allMemoryText') }}：{{ dataList.mem.total }}GB</span>
+          <span>{{ t('common.monitor.usedMemoryText') }}：{{ dataList.mem.used }}GB</span>
+          <span>{{ t('common.monitor.freeMemoryText') }}：{{ dataList.mem.free }}GB</span>
         </div>
       </div>
     </Card>
 
     <Card
       size="small"
-      title="硬盘使用率"
+      :title="t('common.monitor.diskUtilizationText')"
       :loading="loading"
       class="md:w-1/4 w-full !md:mt-0"
       :class="{ '!md:mr-4': 4 < 4, '!mt-4': 3 > 0 }"
@@ -82,9 +86,9 @@
           :strokeColor="getProgressColor(item.size[3])"
         />
         <div class="space-main-up-cpu">
-          <span>总共大小：{{ item.size[0] }}</span>
-          <span>已用大小：{{ item.size[1] }}</span>
-          <span>剩余大小：{{ item.size[2] }}</span>
+          <span>{{ t('common.monitor.allDiskText') }}：{{ item.size[0] }}</span>
+          <span>{{ t('common.monitor.usedDiskText') }}：{{ item.size[1] }}</span>
+          <span>{{ t('common.monitor.freeDiskText') }}：{{ item.size[2] }}</span>
         </div>
       </div>
     </Card>
@@ -93,6 +97,7 @@
 
 <script>
   import { Progress, Card } from 'ant-design-vue';
+  import { useI18n } from '../../../../../hooks/web/useI18n';
 
   export default {
     name: 'LyStatuscard',
@@ -125,7 +130,7 @@
           load_average: { one: 0, five: 0, fifteen: 0, max: 0, limit: 0, safe: 0, percent: 0 },
           mem: { percent: 0, total: 0, free: 0, used: 0 },
           system: 'Windows 10 Pro (build 16299) x64 (Py3.9.8)',
-          time: '0天',
+          time: '0day',
         },
       },
       height: {
@@ -135,6 +140,7 @@
     },
     data() {
       return {
+        t: undefined,
         dataList: {
           cpu: [0, 0, [0, 0, 0, 0], 'Intel(R) Core(TM) i5-71200 CPU @ 3.40GHz * 1', 0, 1],
           disk: [{ path: '', size: ['0GB', '0GB', '0GB', 0], inodes: false }],
@@ -142,7 +148,7 @@
           load_average: { one: 0, five: 0, fifteen: 0, max: 0, limit: 0, safe: 0, percent: 0 },
           mem: { percent: 0, total: 0, free: 0, used: 0 },
           system: 'Windows 10 Pro (build 16299) x64 (Py3.9.8)',
-          time: '0天',
+          time: '0day',
         },
         load_config: [
           {
@@ -178,6 +184,11 @@
     },
     mounted() {
       this.dataList = this.modelValue;
+    },
+
+    created() {
+      const { t } = useI18n();
+      this.t = t;
     },
 
     methods: {

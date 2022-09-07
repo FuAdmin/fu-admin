@@ -19,6 +19,7 @@
   import { getAllList as getCrontabList } from '/@/views/fuadmin/system/celery/crontab/api';
   import { getAllList as getIntervalList } from '/@/views/fuadmin/system/celery/interval/api';
   import { getCrontabData, getIntervalData } from '/@/views/fuadmin/system/celery/util';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'ButtonDrawer',
@@ -26,6 +27,7 @@
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
+      const { t } = useI18n();
 
       const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
         labelWidth: 100,
@@ -96,7 +98,9 @@
         ]);
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增任务' : '编辑任务'));
+      const getTitle = computed(() =>
+        !unref(isUpdate) ? t('common.addText') : t('common.updateText'),
+      );
 
       async function handleSubmit() {
         try {

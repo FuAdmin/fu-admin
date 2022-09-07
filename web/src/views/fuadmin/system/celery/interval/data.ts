@@ -7,6 +7,8 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { getIntervalData } from '/@/views/fuadmin/system/celery/util';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
@@ -28,22 +30,22 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'every',
-    label: '频率',
+    label: t('common.task.everyText'),
     component: 'InputNumber',
     defaultValue: 1,
     required: true,
   },
   {
     field: 'period',
-    label: '周期',
+    label: t('common.task.periodText'),
     component: 'Select',
     defaultValue: 'days',
     componentProps: {
       options: [
-        { label: '天', value: 'days' },
-        { label: '小时', value: 'hours' },
-        { label: '分钟', value: 'minutes' },
-        { label: '秒', value: 'seconds' },
+        { label: t('common.task.dayText'), value: 'days' },
+        { label: t('common.task.hourText'), value: 'hours' },
+        { label: t('common.task.minuteText'), value: 'minutes' },
+        { label: t('common.task.secondText'), value: 'seconds' },
       ],
     },
   },

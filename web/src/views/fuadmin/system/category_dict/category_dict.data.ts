@@ -6,36 +6,38 @@
  */
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '显示值',
+    title: t('common.category.showValueText'),
     dataIndex: 'label',
     width: 160,
     align: 'left',
   },
   {
-    title: '实际值',
+    title: t('common.category.actualValueText'),
     dataIndex: 'value',
     width: 180,
   },
   {
-    title: '编码',
+    title: t('common.category.codeText'),
     dataIndex: 'code',
     width: 180,
   },
   {
-    title: '排序',
+    title: t('common.sortText'),
     dataIndex: 'sort',
     width: 50,
   },
   {
-    title: '备注',
+    title: t('common.remarkText'),
     dataIndex: 'remark',
   },
 
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 180,
   },
@@ -44,19 +46,19 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'label',
-    label: '显示值',
+    label: t('common.category.showValueText'),
     component: 'Input',
     colProps: { span: 6 },
   },
   {
     field: 'value',
-    label: '实际值',
+    label: t('common.category.actualValueText'),
     component: 'Input',
     colProps: { span: 6 },
   },
   {
     field: 'code',
-    label: '编码',
+    label: t('common.category.codeText'),
     component: 'Input',
     colProps: { span: 6 },
   },
@@ -71,7 +73,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'parent_id',
-    label: '上级字典',
+    label: t('common.category.parentText'),
     component: 'TreeSelect',
     componentProps: {
       fieldNames: {
@@ -85,32 +87,32 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'label',
-    label: '显示值',
+    label: t('common.category.showValueText'),
     component: 'Input',
     required: true,
   },
   {
     field: 'value',
-    label: '实际值',
+    label: t('common.category.actualValueText'),
     component: 'Input',
     required: true,
   },
   {
     field: 'code',
-    label: '编码',
+    label: t('common.category.codeText'),
     component: 'Input',
     required: true,
   },
 
   {
     field: 'sort',
-    label: '排序',
+    label: t('common.sortText'),
     defaultValue: 1,
     component: 'InputNumber',
     required: true,
   },
   {
-    label: '备注',
+    label: t('common.remarkText'),
     field: 'remark',
     component: 'InputTextArea',
   },

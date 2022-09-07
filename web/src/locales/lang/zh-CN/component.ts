@@ -113,7 +113,7 @@ export default {
     legend: '略缩图',
     fileName: '文件名',
     fileSize: '文件大小',
-    fileStatue: '状态',
+    fileStatue: '文件状态',
 
     startUpload: '开始上传',
     uploadSuccess: '上传成功',

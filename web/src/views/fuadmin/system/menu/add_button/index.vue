@@ -2,7 +2,7 @@
   <BasicDrawer v-bind="$attrs" @register="registerDrawerMenu" :title="getTitle" width="50%">
     <BasicTable @register="registerTable">
       <template #tableTitle>
-        <a-button type="primary" @click="handleCreate"> 新增 </a-button>
+        <a-button type="primary" @click="handleCreate"> {{ t('common.addText') }} </a-button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -19,7 +19,7 @@
               color: 'error',
               placement: 'left',
               popConfirm: {
-                title: '是否确认删除',
+                title: t('common.delHintText'),
                 confirm: handleDelete.bind(null, record.id),
               },
             },
@@ -39,11 +39,14 @@
   import { deleteItem, getList } from './menu_button.api';
   import { columns } from './menu_button.data';
   import MenuButtonDrawer from '/@/views/fuadmin/system/menu/add_button/MenuButtonDrawer.vue';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'AddMenuButton',
     components: { BasicTable, MenuButtonDrawer, BasicDrawer, TableAction },
     setup() {
+      const { t } = useI18n();
+
       const [registerDrawer, { openDrawer }] = useDrawer();
       const menuId = ref(0);
       const [registerDrawerMenu] = useDrawerInner(async (data) => {
@@ -64,7 +67,7 @@
         },
         actionColumn: {
           width: 50,
-          title: '操作',
+          title: t('common.operationText'),
           dataIndex: 'action',
           slots: { customRender: 'action' },
           fixed: 'right',
@@ -104,6 +107,7 @@
         handleSuccess,
         registerDrawerMenu,
         getTitle,
+        t,
       };
     },
   });

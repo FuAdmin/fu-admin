@@ -1,11 +1,11 @@
 <template>
-  <CollapseContainer title="密码设置" :canExpan="false">
+  <CollapseContainer :title="t('common.account.secureSettingText')" :canExpan="false">
     <a-row :gutter="24">
       <a-col :span="14">
         <BasicForm @register="register" />
       </a-col>
     </a-row>
-    <Button type="primary" @click="handleSubmit"> 更新密码 </Button>
+    <Button type="primary" @click="handleSubmit"> {{ t('common.saveText') }} </Button>
   </CollapseContainer>
 </template>
 <script lang="ts">
@@ -21,6 +21,7 @@
   import { useUserStore } from '/@/store/modules/user';
   import { repassword } from '/@/views/fuadmin/system/account/account.api';
   import { useRoute } from 'vue-router';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     components: {
@@ -31,6 +32,7 @@
       ACol: Col,
     },
     setup() {
+      const { t } = useI18n();
       const { createMessage } = useMessage();
       const userStore = useUserStore();
       const route = useRoute();
@@ -62,6 +64,7 @@
         avatar,
         register,
         handleSubmit,
+        t,
       };
     },
   });

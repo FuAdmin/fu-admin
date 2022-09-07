@@ -12,63 +12,65 @@ import { Tag, Image } from 'ant-design-vue';
 import { rules } from '/@/utils/helper/validator';
 import { getAllList } from '/@/views/fuadmin/system/role/role.api';
 import { getAllList as getPostAllList } from '/@/views/fuadmin/system/post/post.api';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '用户名',
+    title: t('common.account.accountText'),
     dataIndex: 'username',
-    width: 120,
+    width: 110,
   },
   {
-    title: '姓名',
+    title: t('common.account.userNameText'),
     dataIndex: 'name',
-    width: 120,
+    width: 110,
   },
   {
-    title: '头像',
+    title: t('common.account.avatarText'),
     dataIndex: 'avatar',
-    width: 80,
+    width: 110,
     customRender: ({ record }) => {
       const avatar = record.avatar;
       return h(Image, { src: avatar, width: 40 });
     },
   },
   {
-    title: '邮箱',
+    title: t('common.account.emailText'),
     dataIndex: 'email',
     width: 120,
   },
   {
-    title: '电话',
+    title: t('common.account.mobileText'),
     dataIndex: 'mobile',
     width: 120,
   },
   {
-    title: '性别',
+    title: t('common.account.genderText'),
     dataIndex: 'gender',
-    width: 80,
+    width: 110,
     customRender: ({ record }) => {
       const gender = record.gender;
       // const enable = ~~status === 1;
       const color = gender ? 'cyan' : 'purple';
-      const text = gender ? '男' : '女';
+      const text = gender ? t('common.account.maleText') : t('common.account.femaleText');
       return h(Tag, { color: color }, () => text);
     },
   },
   {
-    title: '状态',
+    title: t('common.statusText'),
     dataIndex: 'status',
-    width: 80,
+    width: 100,
     customRender: ({ record }) => {
       const status = record.status;
       const enable = ~~status === 1;
       const color = enable ? 'success' : 'error';
-      const text = enable ? '启用' : '停用';
+      const text = enable ? t('common.enableText') : t('common.disableText');
       return h(Tag, { color: color }, () => text);
     },
   },
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 180,
   },
@@ -77,24 +79,24 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '用户姓名',
+    label: t('common.account.userNameText'),
     component: 'Input',
     colProps: { span: 6 },
   },
   {
     field: 'mobile',
-    label: '用户电话',
+    label: t('common.account.mobileText'),
     component: 'Input',
     colProps: { span: 6 },
   },
   {
     field: 'status',
-    label: '用户状态',
+    label: t('common.statusText'),
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '停用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
     colProps: { span: 6 },
@@ -116,31 +118,31 @@ export const accountFormSchema: FormSchema[] = [
   },
   {
     field: 'username',
-    label: '用户账号',
+    label: t('common.account.accountText'),
     component: 'Input',
     required: true,
   },
   {
     field: 'name',
-    label: '用户姓名',
+    label: t('common.account.userNameText'),
     component: 'Input',
     required: true,
   },
 
   {
     field: 'mobile',
-    label: '用户电话',
+    label: t('common.account.mobileText'),
     component: 'Input',
     rules: rules.rule('phone', false),
   },
   {
     field: 'email',
-    label: '用户邮箱',
+    label: t('common.account.emailText'),
     component: 'Input',
     rules: rules.rule('email', false),
   },
   {
-    label: '用户角色',
+    label: t('common.account.userRoleText'),
     field: 'role',
     component: 'ApiSelect',
     componentProps: {
@@ -152,7 +154,7 @@ export const accountFormSchema: FormSchema[] = [
     required: true,
   },
   {
-    label: '用户岗位',
+    label: t('common.account.userPostText'),
     field: 'post',
     component: 'ApiSelect',
     componentProps: {
@@ -165,7 +167,7 @@ export const accountFormSchema: FormSchema[] = [
   },
   {
     field: 'dept',
-    label: '所属部门',
+    label: t('common.account.userDeptText'),
     component: 'TreeSelect',
     componentProps: {
       fieldNames: {
@@ -179,25 +181,25 @@ export const accountFormSchema: FormSchema[] = [
   },
   {
     field: 'gender',
-    label: '用户性别',
+    label: t('common.account.genderText'),
     component: 'RadioButtonGroup',
     defaultValue: 1,
     componentProps: {
       options: [
-        { label: '男', value: 1 },
-        { label: '女', value: 0 },
+        { label: t('common.account.maleText'), value: 1 },
+        { label: t('common.account.femaleText'), value: 0 },
       ],
     },
   },
   {
     field: 'status',
-    label: '部门状态',
+    label: t('common.statusText'),
     component: 'RadioButtonGroup',
     defaultValue: true,
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '停用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
     required: true,
@@ -205,7 +207,7 @@ export const accountFormSchema: FormSchema[] = [
 
   {
     field: 'avatar',
-    label: '用户头像',
+    label: t('common.account.avatarText'),
     component: 'Input',
     slot: 'avatar',
   },

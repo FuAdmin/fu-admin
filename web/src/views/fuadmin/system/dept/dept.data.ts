@@ -9,49 +9,51 @@ import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
 import { rules } from '/@/utils/helper/validator';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '部门名称',
+    title: t('common.dept.nameText'),
     dataIndex: 'name',
     width: 160,
     align: 'left',
   },
   {
-    title: '部门电话',
+    title: t('common.dept.phoneText'),
     dataIndex: 'phone',
     width: 180,
   },
   {
-    title: '部门邮箱',
+    title: t('common.dept.mailText'),
     dataIndex: 'email',
     width: 180,
   },
   {
-    title: '排序',
+    title: t('common.sortText'),
     dataIndex: 'sort',
     width: 50,
   },
   {
-    title: '状态',
+    title: t('common.statusText'),
     dataIndex: 'status',
     width: 80,
     customRender: ({ record }) => {
       const status = record.status;
       const enable = ~~status === 1;
       const color = enable ? 'success' : 'error';
-      const text = enable ? '启用' : '停用';
+      const text = enable ? t('common.enableText') : t('common.disableText');
       return h(Tag, { color: color }, () => text);
     },
   },
 
   {
-    title: '备注',
+    title: t('common.remarkText'),
     dataIndex: 'remark',
   },
 
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 180,
   },
@@ -60,18 +62,18 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '部门名称',
+    label: t('common.dept.nameText'),
     component: 'Input',
     colProps: { span: 6 },
   },
   {
     field: 'status',
-    label: '状态',
+    label: t('common.statusText'),
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '停用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
     colProps: { span: 6 },
@@ -87,7 +89,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'parent_id',
-    label: '上级部门',
+    label: t('common.dept.parentText'),
     component: 'TreeSelect',
     componentProps: {
       fieldNames: {
@@ -101,44 +103,44 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'name',
-    label: '部门名称',
+    label: t('common.dept.nameText'),
     component: 'Input',
     required: true,
   },
   {
     field: 'phone',
-    label: '部门电话',
+    label: t('common.dept.phoneText'),
     component: 'Input',
     rules: rules.rule('phone', false),
   },
   {
     field: 'email',
-    label: '部门邮箱',
+    label: t('common.dept.mailText'),
     component: 'Input',
     rules: rules.rule('email', false),
   },
 
   {
     field: 'sort',
-    label: '部门排序',
+    label: t('common.sortText'),
     component: 'InputNumber',
     required: true,
   },
   {
     field: 'status',
-    label: '部门状态',
+    label: t('common.statusText'),
     component: 'RadioButtonGroup',
     defaultValue: true,
     componentProps: {
       options: [
-        { label: '启用', value: true },
-        { label: '停用', value: false },
+        { label: t('common.enableText'), value: true },
+        { label: t('common.disableText'), value: false },
       ],
     },
     required: true,
   },
   {
-    label: '部门备注',
+    label: t('common.remarkText'),
     field: 'remark',
     component: 'InputTextArea',
   },

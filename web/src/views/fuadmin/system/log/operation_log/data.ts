@@ -6,50 +6,52 @@
  */
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '操作用户',
+    title: t('common.log.requestNameText'),
     dataIndex: 'request_username',
     width: 100,
   },
   {
-    title: '请求地址',
+    title: t('common.log.pathText'),
     dataIndex: 'request_path',
     width: 200,
   },
   {
-    title: '请求方式',
+    title: t('common.log.methodText'),
     dataIndex: 'request_method',
     width: 100,
   },
   {
-    title: '操作说明',
+    title: t('common.log.msgText'),
     dataIndex: 'request_msg',
     width: 100,
   },
   {
-    title: '请求ip地址',
+    title: t('common.log.ipText'),
     dataIndex: 'request_ip',
     width: 100,
   },
   {
-    title: '请求浏览器',
+    title: t('common.log.browserText'),
     dataIndex: 'request_browser',
     width: 100,
   },
   {
-    title: '响应状态码',
+    title: t('common.log.codeText'),
     dataIndex: 'response_code',
     width: 100,
   },
   {
-    title: '操作系统',
+    title: t('common.log.osText'),
     dataIndex: 'request_os',
     width: 100,
   },
   {
-    title: '创建时间',
+    title: t('common.createDateText'),
     dataIndex: 'create_datetime',
     width: 180,
   },
@@ -58,7 +60,7 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'request_username',
-    label: '操作用户',
+    label: t('common.log.requestNameText'),
     component: 'Input',
     colProps: { span: 6 },
   },
@@ -73,67 +75,67 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'request_username',
-    label: '操作用户',
+    label: t('common.log.requestNameText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'request_path',
-    label: '请求地址',
+    label: t('common.log.pathText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'request_method',
-    label: '请求方式',
+    label: t('common.log.methodText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'request_msg',
-    label: '操作说明',
+    label: t('common.log.msgText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'request_ip',
-    label: '请求ip地址',
+    label: t('common.log.ipText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'request_browser',
-    label: '请求浏览器',
+    label: t('common.log.browserText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'response_code',
-    label: '响应状态码',
+    label: t('common.log.codeText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'request_os',
-    label: '操作系统',
+    label: t('common.log.osText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'status',
-    label: '响应状态',
+    label: t('common.log.statusText'),
     required: false,
     component: 'Input',
   },
   {
     field: 'request_body',
-    label: '请求参数',
+    label: t('common.log.bodyText'),
     required: false,
     component: 'InputTextArea',
   },
   {
     field: 'json_result',
-    label: '返回信息',
+    label: t('common.log.jsonText'),
     required: false,
     component: 'InputTextArea',
   },

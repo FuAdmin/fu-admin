@@ -6,6 +6,8 @@
  */
 import { FormSchema } from '/@/components/Form';
 import { rules } from '/@/utils/helper/validator';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 export interface ListItem {
   key: string;
@@ -20,12 +22,12 @@ export interface ListItem {
 export const settingList = [
   {
     key: '1',
-    name: '基本设置',
+    name: t('common.account.basicSettingText'),
     component: 'BaseSetting',
   },
   {
     key: '2',
-    name: '安全设置',
+    name: t('common.account.secureSettingText'),
     component: 'SecureSetting',
   },
   // {
@@ -50,7 +52,7 @@ export const baseSetschemas: FormSchema[] = [
   },
   {
     field: 'username',
-    label: '账号',
+    label: t('common.account.accountText'),
     component: 'Input',
     show: true,
     colProps: { span: 18 },
@@ -61,32 +63,32 @@ export const baseSetschemas: FormSchema[] = [
   {
     field: 'name',
     component: 'Input',
-    label: '姓名',
+    label: t('common.account.userNameText'),
     colProps: { span: 18 },
   },
   {
     field: 'email',
     component: 'Input',
-    label: '邮箱',
+    label: t('common.account.emailText'),
     colProps: { span: 18 },
     rules: rules.rule('email', false),
   },
   {
     field: 'mobile',
     component: 'Input',
-    label: '电话',
+    label: t('common.account.mobileText'),
     colProps: { span: 18 },
     rules: rules.rule('phone', false),
   },
   {
     field: 'remark',
     component: 'InputTextArea',
-    label: '简介',
+    label: t('common.remarkText'),
     colProps: { span: 18 },
   },
   {
     field: 'avatar',
-    label: '用户头像',
+    label: t('common.account.avatarText'),
     component: 'Input',
     ifShow: false,
   },
@@ -102,20 +104,20 @@ export const secureSetschemas: FormSchema[] = [
   // },
   {
     field: 'password',
-    label: '输入新密码',
+    label: t('common.account.secureSettingText'),
     component: 'InputPassword',
     show: true,
     rules: [
       {
         required: true,
-        message: '请输入新密码',
+        message: t('common.account.newPasswordMsg'),
       },
     ],
     colProps: { span: 18 },
   },
   {
     field: 'verify_password',
-    label: '确认新密码',
+    label: t('common.account.secureSettingText'),
     component: 'InputPassword',
     show: true,
     colProps: { span: 18 },

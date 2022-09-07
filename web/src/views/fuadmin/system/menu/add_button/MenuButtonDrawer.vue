@@ -16,12 +16,15 @@
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { formSchema } from './menu_button.data';
   import { createOrUpdate } from './menu_button.api';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'MenuButtonDrawer',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
+      const { t } = useI18n();
+
       const isUpdate = ref(true);
       const menuId = ref();
 
@@ -45,7 +48,9 @@
         }
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增菜单按钮' : '编辑菜单按钮'));
+      const getTitle = computed(() =>
+        !unref(isUpdate) ? t('common.addText') : t('common.updateText'),
+      );
 
       async function handleSubmit() {
         try {

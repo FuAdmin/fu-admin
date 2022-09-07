@@ -10,7 +10,7 @@
             preIcon="ant-design:plus-outlined"
             @click="handleCreate"
           >
-            新增
+            {{ t('common.addText') }}
           </a-button>
 
           <a-button
@@ -19,7 +19,7 @@
             preIcon="ant-design:delete-outlined"
             @click="handleBulkDelete"
           >
-            删除
+            {{ t('common.delText') }}
           </a-button>
         </Space>
       </template>
@@ -42,7 +42,7 @@
               auth: ['user:delete'],
               disabled: record.id === 1,
               popConfirm: {
-                title: '是否确认删除',
+                title: t('common.delHintText'),
                 confirm: handleDelete.bind(null, record.id),
               },
             },
@@ -67,10 +67,12 @@
   import { getList, deleteItem } from './account.api';
   import { message, Space } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     name: 'AccountManagement',
     components: { BasicTable, PageWrapper, AccountModal, TableAction, Space, DeptTree },
     setup() {
+      const { t } = useI18n();
       const go = useGo();
       const [registerDrawer, { openDrawer }] = useDrawer();
       const { createConfirm } = useMessage();
@@ -105,7 +107,7 @@
         },
         actionColumn: {
           width: 120,
-          title: '操作',
+          title: t('common.operationText'),
           dataIndex: 'action',
           slots: { customRender: 'action' },
         },
@@ -132,17 +134,17 @@
 
       function handleBulkDelete() {
         if (getSelectRows().length == 0) {
-          message.warning('请选择一个选项');
+          message.warning(t('common.batchDelHintText'));
         } else {
           createConfirm({
             iconType: 'warning',
-            title: '提示',
-            content: '是否确认删除？',
+            title: t('common.hintText'),
+            content: t('common.delHintText'),
             async onOk() {
               for (const item of getSelectRows()) {
                 await deleteItem(item.id);
               }
-              message.success('删除成功');
+              message.success(t('common.successText'));
               await reload();
             },
           });
@@ -162,7 +164,8 @@
 
       function handleSelect(deptIds) {
         console.log(deptIds);
-        searchInfo.dept_ids = deptIds; JSON.stringify()
+        searchInfo.dept_ids = deptIds;
+        JSON.stringify();
         reload();
       }
 
@@ -181,6 +184,7 @@
         handleView,
         searchInfo,
         handleBulkDelete,
+        t,
       };
     },
   });

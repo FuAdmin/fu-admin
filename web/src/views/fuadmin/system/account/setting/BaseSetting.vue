@@ -1,5 +1,5 @@
 <template>
-  <CollapseContainer title="基本设置" :canExpan="false">
+  <CollapseContainer :title="t('common.account.basicSettingText')" :canExpan="false">
     <a-row :gutter="24">
       <a-col :span="14">
         <BasicForm @register="register" />
@@ -9,7 +9,7 @@
           <CropperAvatar
             :uploadApi="uploadApi"
             :value="avatar"
-            btnText="更换头像"
+            :btnText="t('common.account.changeAvatarText')"
             :btnProps="{ preIcon: 'ant-design:cloud-upload-outlined' }"
             @change="updateAvatar"
             width="150"
@@ -17,7 +17,7 @@
         </div>
       </a-col>
     </a-row>
-    <Button type="primary" @click="handleSubmit"> 更新基本信息 </Button>
+    <Button type="primary" @click="handleSubmit"> {{ t('common.saveText') }} </Button>
   </CollapseContainer>
 </template>
 <script lang="ts">
@@ -35,6 +35,7 @@
   import { uploadApi } from '/@/api/sys/upload';
   import { useRoute } from 'vue-router';
   import { createOrUpdate, getById } from '/@/views/fuadmin/system/account/account.api';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     components: {
@@ -46,6 +47,7 @@
       CropperAvatar,
     },
     setup() {
+      const { t } = useI18n();
       const { createMessage } = useMessage();
       const userStore = useUserStore();
       const route = useRoute();
@@ -86,6 +88,7 @@
         uploadApi: uploadApi as any,
         updateAvatar,
         handleSubmit,
+        t,
       };
     },
   });

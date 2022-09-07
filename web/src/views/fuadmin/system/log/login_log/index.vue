@@ -30,11 +30,13 @@
   import { deleteItem, getList } from './api';
   import { columns, searchFormSchema } from './data';
   import { message } from 'ant-design-vue';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'LoginLogManagement',
     components: { BasicTable, Drawer, TableAction },
     setup() {
+      const { t } = useI18n();
       const [registerDrawer, { openDrawer }] = useDrawer();
       // const { createMessage } = useMessage();
       const { hasPermission } = usePermission();
@@ -52,7 +54,7 @@
         showIndexColumn: false,
         actionColumn: {
           width: 80,
-          title: '操作',
+          title: t('common.operationText'),
           dataIndex: 'action',
           slots: { customRender: 'action' },
           fixed: undefined,
@@ -74,12 +76,12 @@
 
       async function handleDelete(id: number) {
         await deleteItem(id);
-        message.success('删除成功');
+        message.success(t('common.successText'));
         await reload();
       }
 
       function handleSuccess() {
-        message.success('请求成功');
+        message.success(t('common.successText'));
         reload();
       }
 

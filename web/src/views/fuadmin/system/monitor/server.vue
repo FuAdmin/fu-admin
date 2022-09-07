@@ -2,10 +2,12 @@
   <div class="p-4">
     <Card size="small">
       <div class="lycard-left">
-        <span :class="iconClass">系统：</span>
+        <span :class="iconClass">{{ t('common.monitor.osText') }}：</span>
         <span>{{ monitorData.system }}</span>
-        <span style="margin-left: 20px">已不间断运行: {{ monitorData.time }}</span>
-        <span style="margin-left: 20px">自动刷新(秒)：</span>
+        <span style="margin-left: 20px">
+          {{ t('common.monitor.runTimeText') }}: {{ monitorData.time }}</span
+        >
+        <span style="margin-left: 20px">{{ t('common.monitor.autoRefreshText') }}：</span>
         <InputNumber
           v-model:value="refreshInterval"
           size="small"
@@ -19,7 +21,9 @@
           :text="true"
           link
           @click="getData"
-          ><span style="font-size: 13px" @click="clearIntervalMonitor">停止</span></a-button
+          ><span style="font-size: 13px" @click="clearIntervalMonitor">{{
+            t('common.monitor.stopText')
+          }}</span></a-button
         >
         <a-button
           style="margin-left: 20px"
@@ -29,10 +33,14 @@
           link
           @click="getData"
         >
-          <span style="font-size: 13px" @click="restartIntervalMonitor">开始</span>
+          <span style="font-size: 13px" @click="restartIntervalMonitor">{{
+            t('common.monitor.startText')
+          }}</span>
         </a-button>
         <a-button type="link" :text="true" link @click="getData"
-          ><span style="font-size: 13px">手动刷新</span></a-button
+          ><span style="font-size: 13px">
+            {{ t('common.monitor.manualRefreshText') }}</span
+          ></a-button
         >
       </div>
     </Card>
@@ -46,16 +54,17 @@
 </template>
 
 <script>
-  import { Row, Col, InputNumber, Card } from 'ant-design-vue';
+  import { InputNumber, Card } from 'ant-design-vue';
   import LyStatuscard from './component/statusCard.vue';
   import { getSystemInfo } from './api';
   import EchartCard from './component/echartCard.vue';
-
+  import { useI18n } from '../../../../hooks/web/useI18n';
   export default {
     name: 'Server',
-    components: { EchartCard, LyStatuscard, Row, Col, InputNumber, Card },
+    components: { EchartCard, LyStatuscard, InputNumber, Card },
     data() {
       return {
+        t: undefined,
         isFull: false,
         isRunning: false,
         showloading: true,
@@ -67,7 +76,7 @@
           load_average: { one: 0, five: 0, fifteen: 0, max: 0, limit: 0, safe: 0, percent: 0 },
           mem: { percent: 0, total: 0, free: 0, used: 0 },
           system: '',
-          time: '0天',
+          time: '0day',
           network: {
             up: 0,
             down: 0,
@@ -88,6 +97,8 @@
     },
     created() {
       this.getData();
+      const { t } = useI18n();
+      this.t = t;
     },
     mounted() {
       if (!this.isRunning) {
