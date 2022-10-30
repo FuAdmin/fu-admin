@@ -70,22 +70,12 @@ def list_demo(request, filters: Filters = Query(...)):
 # 导入
 @router.get("/demo/all/export")
 def export_demo(request):
-    title_dict = {
-        'name': '名称',
-        'code': '编码',
-        'status': '状态',
-        'sort': '排序',
-    }
-    return export_data(request, Demo, DemoSchemaOut, title_dict)
+    export_fields = ['name', 'code', 'status']
+    return export_data(request, Demo, DemoSchemaOut, export_fields)
 
 
 # 导出
 @router.post("/demo/all/import")
 def import_demo(request, data: ImportSchema):
-    title_dict = {
-        '名称': 'name',
-        '编码': 'code',
-        '状态': 'status',
-        '排序': 'sort',
-    }
-    return import_data(request, Demo, DemoSchemaIn, data, title_dict)
+    import_fields = ['name', 'code', 'status']
+    return import_data(request, Demo, DemoSchemaIn, data, import_fields)
