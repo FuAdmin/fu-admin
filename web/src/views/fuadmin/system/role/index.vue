@@ -21,36 +21,39 @@
           </a-button>
         </Space>
       </template>
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              type: 'button',
-              icon: 'clarity:note-edit-line',
-              auth: ['role:update'],
-              color: 'primary',
-              onClick: handleEdit.bind(null, record),
-            },
-            {
-              icon: 'ant-design:delete-outlined',
-              type: 'button',
-              color: 'error',
-              auth: ['role:delete'],
-              placement: 'left',
-              popConfirm: {
-                title: t('common.delHintText'),
-                confirm: handleDelete.bind(null, record.id),
+
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                type: 'button',
+                icon: 'clarity:note-edit-line',
+                auth: ['role:update'],
+                color: 'primary',
+                onClick: handleEdit.bind(null, record),
               },
-            },
-            {
-              type: 'button',
-              color: 'warning',
-              auth: ['role:update'],
-              icon: 'ant-design:key-outlined',
-              onClick: handlePermission.bind(null, record),
-            },
-          ]"
-        />
+              {
+                icon: 'ant-design:delete-outlined',
+                type: 'button',
+                color: 'error',
+                auth: ['role:delete'],
+                placement: 'left',
+                popConfirm: {
+                  title: t('common.delHintText'),
+                  confirm: handleDelete.bind(null, record.id),
+                },
+              },
+              {
+                type: 'button',
+                color: 'warning',
+                auth: ['role:update'],
+                icon: 'ant-design:key-outlined',
+                onClick: handlePermission.bind(null, record),
+              },
+            ]"
+          />
+        </template>
       </template>
     </BasicTable>
     <RoleDrawer @register="registerDrawer" @success="handleSuccess" />
@@ -100,7 +103,6 @@
           width: 150,
           title: t('common.operationText'),
           dataIndex: 'action',
-          slots: { customRender: 'action' },
           fixed: undefined,
         },
       });

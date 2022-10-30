@@ -2,41 +2,45 @@
   <div>
     <BasicTable @register="registerTable">
       <template #tableTitle>
-        <a-button type="primary" v-auth="['post:add']" @click="handleCreate"> {{ t('common.addText') }} </a-button>
+        <a-button type="primary" v-auth="['post:add']" @click="handleCreate">
+          {{ t('common.addText') }}
+        </a-button>
       </template>
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              type: 'button',
-              icon: 'ant-design:caret-left-filled',
-              color: 'success',
-              auth: ['post:update'],
-              popConfirm: {
-                title: '是否确认执行',
-                confirm: handleExec.bind(null, record.task),
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                type: 'button',
+                icon: 'ant-design:caret-left-filled',
+                color: 'success',
+                auth: ['post:update'],
+                popConfirm: {
+                  title: '是否确认执行',
+                  confirm: handleExec.bind(null, record.task),
+                },
               },
-            },
-            {
-              type: 'button',
-              icon: 'clarity:note-edit-line',
-              color: 'primary',
-              auth: ['post:update'],
-              onClick: handleEdit.bind(null, record),
-            },
-            {
-              icon: 'ant-design:delete-outlined',
-              type: 'button',
-              color: 'error',
-              placement: 'left',
-              auth: ['post:delete'],
-              popConfirm: {
-                title: t('common.delHintText'),
-                confirm: handleDelete.bind(null, record.id),
+              {
+                type: 'button',
+                icon: 'clarity:note-edit-line',
+                color: 'primary',
+                auth: ['post:update'],
+                onClick: handleEdit.bind(null, record),
               },
-            },
-          ]"
-        />
+              {
+                icon: 'ant-design:delete-outlined',
+                type: 'button',
+                color: 'error',
+                placement: 'left',
+                auth: ['post:delete'],
+                popConfirm: {
+                  title: t('common.delHintText'),
+                  confirm: handleDelete.bind(null, record.id),
+                },
+              },
+            ]"
+          />
+        </template>
       </template>
     </BasicTable>
     <Drawer @register="registerDrawer" @success="handleSuccess" />
@@ -76,7 +80,6 @@
           width: 150,
           title: t('common.operationText'),
           dataIndex: 'action',
-          slots: { customRender: 'action' },
           fixed: undefined,
         },
       });

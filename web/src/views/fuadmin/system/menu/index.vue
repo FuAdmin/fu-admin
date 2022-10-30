@@ -18,38 +18,40 @@
         <a-button type="primary" @click="collapseAll">{{ t('common.collapseText') }}</a-button>
       </template>
 
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              type: 'button',
-              color: 'primary',
-              icon: 'clarity:note-edit-line',
-              onClick: handleEdit.bind(null, record),
-              auth: ['menu:update'],
-            },
-            {
-              type: 'button',
-              color: 'error',
-              icon: 'ant-design:delete-outlined',
-              placement: 'left',
-              auth: ['menu:delete'],
-              popConfirm: {
-                title: t('common.delHintText'),
-                confirm: handleDelete.bind(null, record.id),
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                type: 'button',
+                color: 'primary',
+                icon: 'clarity:note-edit-line',
+                onClick: handleEdit.bind(null, record),
+                auth: ['menu:update'],
               },
-            },
-            {
-              type: 'button',
-              color: 'warning',
-              tooltip: t('common.menuButtonText'),
-              icon: 'ant-design:plus-square-outlined',
-              auth: ['menu:update'],
-              onClick: addButton.bind(null, record.id),
-              ifShow: record.type === 1,
-            },
-          ]"
-        />
+              {
+                type: 'button',
+                color: 'error',
+                icon: 'ant-design:delete-outlined',
+                placement: 'left',
+                auth: ['menu:delete'],
+                popConfirm: {
+                  title: t('common.delHintText'),
+                  confirm: handleDelete.bind(null, record.id),
+                },
+              },
+              {
+                type: 'button',
+                color: 'warning',
+                tooltip: t('common.menuButtonText'),
+                icon: 'ant-design:plus-square-outlined',
+                auth: ['menu:update'],
+                onClick: addButton.bind(null, record.id),
+                ifShow: record.type === 1,
+              },
+            ]"
+          />
+        </template>
       </template>
     </BasicTable>
     <MenuDrawer @register="registerDrawer" @success="handleSuccess" />
@@ -100,7 +102,6 @@
           width: 150,
           title: t('common.operationText'),
           dataIndex: 'action',
-          slots: { customRender: 'action' },
           fixed: undefined,
         },
       });

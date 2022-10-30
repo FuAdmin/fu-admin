@@ -6,25 +6,27 @@
           <BasicUpload :maxSize="20" :maxNumber="10" @change="handleChange" class="my-5" />
         </Space>
       </template>
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              type: 'button',
-              icon: 'bi:eye',
-              color: 'success',
-              auth: ['post:update'],
-              onClick: handleEdit.bind(null, record),
-            },
-            {
-              type: 'button',
-              icon: 'ant-design:cloud-download-outlined',
-              color: 'primary',
-              auth: ['post:update'],
-              onClick: handleDownload.bind(null, record),
-            },
-          ]"
-        />
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                type: 'button',
+                icon: 'bi:eye',
+                color: 'success',
+                auth: ['post:update'],
+                onClick: handleEdit.bind(null, record),
+              },
+              {
+                type: 'button',
+                icon: 'ant-design:cloud-download-outlined',
+                color: 'primary',
+                auth: ['post:update'],
+                onClick: handleDownload.bind(null, record),
+              },
+            ]"
+          />
+        </template>
       </template>
     </BasicTable>
     <Drawer @register="registerDrawer" @success="handleSuccess" />
@@ -43,6 +45,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { BasicUpload } from '/@/components/Upload';
   import { downloadByData } from '/@/utils/file/download';
+  import { t } from '/@/hooks/web/useI18n';
   export default defineComponent({
     name: 'CeleryLogManagement',
     components: { BasicTable, Drawer, BasicUpload, TableAction, Space },
@@ -66,7 +69,6 @@
           width: 80,
           title: t('common.operationText'),
           dataIndex: 'action',
-          slots: { customRender: 'action' },
           fixed: undefined,
         },
       });

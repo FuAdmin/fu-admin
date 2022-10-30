@@ -21,39 +21,41 @@
           </a-button>
         </Space>
       </template>
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              type: 'button',
-              icon: 'clarity:note-edit-line',
-              color: 'primary',
-              tooltip: t('common.updateText'),
-              onClick: handleEdit.bind(null, record),
-              auth: ['dict:update'],
-            },
-            {
-              icon: 'ant-design:delete-outlined',
-              type: 'button',
-              color: 'error',
-              tooltip: t('common.delText'),
-              placement: 'left',
-              popConfirm: {
-                title: t('common.delHintText'),
-                confirm: handleDelete.bind(null, record.id),
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                type: 'button',
+                icon: 'clarity:note-edit-line',
+                color: 'primary',
+                tooltip: t('common.updateText'),
+                onClick: handleEdit.bind(null, record),
+                auth: ['dict:update'],
               },
-              auth: ['dict:delete'],
-            },
-            {
-              type: 'button',
-              color: 'warning',
-              tooltip: t('common.dictConfigText'),
-              icon: 'ant-design:plus-square-outlined',
-              onClick: addDictItem.bind(null, record.id),
-              auth: ['dict:update'],
-            },
-          ]"
-        />
+              {
+                icon: 'ant-design:delete-outlined',
+                type: 'button',
+                color: 'error',
+                tooltip: t('common.delText'),
+                placement: 'left',
+                popConfirm: {
+                  title: t('common.delHintText'),
+                  confirm: handleDelete.bind(null, record.id),
+                },
+                auth: ['dict:delete'],
+              },
+              {
+                type: 'button',
+                color: 'warning',
+                tooltip: t('common.dictConfigText'),
+                icon: 'ant-design:plus-square-outlined',
+                onClick: addDictItem.bind(null, record.id),
+                auth: ['dict:update'],
+              },
+            ]"
+          />
+        </template>
       </template>
     </BasicTable>
     <DictDrawer @register="registerDrawer" @success="handleSuccess" />
@@ -102,7 +104,6 @@
           width: 150,
           title: t('common.operationText'),
           dataIndex: 'action',
-          slots: { customRender: 'action' },
           fixed: undefined,
         },
       });
