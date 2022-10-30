@@ -38,29 +38,31 @@
           </a-button>
         </Space>
       </template>
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              type: 'button',
-              icon: 'clarity:note-edit-line',
-              color: 'primary',
-              auth: ['demo:update'],
-              onClick: handleEdit.bind(null, record),
-            },
-            {
-              icon: 'ant-design:delete-outlined',
-              type: 'button',
-              color: 'error',
-              placement: 'left',
-              auth: ['demo:delete'],
-              popConfirm: {
-                title: t('common.delHintText'),
-                confirm: handleDelete.bind(null, record.id),
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                type: 'button',
+                icon: 'clarity:note-edit-line',
+                color: 'primary',
+                auth: ['demo:update'],
+                onClick: handleEdit.bind(null, record),
               },
-            },
-          ]"
-        />
+              {
+                icon: 'ant-design:delete-outlined',
+                type: 'button',
+                color: 'error',
+                placement: 'left',
+                auth: ['demo:delete'],
+                popConfirm: {
+                  title: t('common.delHintText'),
+                  confirm: handleDelete.bind(null, record.id),
+                },
+              },
+            ]"
+          />
+        </template>
       </template>
     </BasicTable>
     <DemoDrawer @register="registerDrawer" @success="handleSuccess" />
@@ -109,7 +111,6 @@
           width: 150,
           title: t('common.operationText'),
           dataIndex: 'action',
-          slots: { customRender: 'action' },
           fixed: undefined,
         },
       });

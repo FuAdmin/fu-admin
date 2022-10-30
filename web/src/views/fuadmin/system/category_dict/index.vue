@@ -25,29 +25,31 @@
         <a-button type="primary" @click="expandAll">{{ t('common.expandText') }}</a-button>
         <a-button type="primary" @click="collapseAll">{{ t('common.collapseText') }}</a-button>
       </template>
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              type: 'button',
-              color: 'primary',
-              auth: ['category:update'],
-              icon: 'clarity:note-edit-line',
-              onClick: handleEdit.bind(null, record),
-            },
-            {
-              type: 'button',
-              color: 'error',
-              auth: ['category:delete'],
-              icon: 'ant-design:delete-outlined',
-              placement: 'left',
-              popConfirm: {
-                title: t('common.delHintText'),
-                confirm: handleDelete.bind(null, record.id),
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                type: 'button',
+                color: 'primary',
+                auth: ['category:update'],
+                icon: 'clarity:note-edit-line',
+                onClick: handleEdit.bind(null, record),
               },
-            },
-          ]"
-        />
+              {
+                type: 'button',
+                color: 'error',
+                auth: ['category:delete'],
+                icon: 'ant-design:delete-outlined',
+                placement: 'left',
+                popConfirm: {
+                  title: t('common.delHintText'),
+                  confirm: handleDelete.bind(null, record.id),
+                },
+              },
+            ]"
+          />
+        </template>
       </template>
     </BasicTable>
     <CategoryDictDrawer @register="registerDrawer" @success="handleSuccess" />
@@ -97,7 +99,6 @@
           width: 150,
           title: t('common.operationText'),
           dataIndex: 'action',
-          slots: { customRender: 'action' },
           fixed: undefined,
         },
       });

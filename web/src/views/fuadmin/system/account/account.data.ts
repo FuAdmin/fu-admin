@@ -152,6 +152,7 @@ export const accountFormSchema: FormSchema[] = [
       mode: 'multiple',
     },
     required: true,
+    itemProps: { validateTrigger: 'blur' },
   },
   {
     label: t('common.account.userPostText'),
@@ -164,6 +165,7 @@ export const accountFormSchema: FormSchema[] = [
       mode: 'multiple',
     },
     required: true,
+    itemProps: { validateTrigger: 'blur' },
   },
   {
     field: 'dept',

@@ -1,18 +1,20 @@
 <template>
   <div>
     <BasicTable @register="registerTable">
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              type: 'button',
-              icon: 'bi:eye',
-              color: 'success',
-              auth: ['post:update'],
-              onClick: handleEdit.bind(null, record),
-            },
-          ]"
-        />
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                type: 'button',
+                icon: 'bi:eye',
+                color: 'success',
+                auth: ['post:update'],
+                onClick: handleEdit.bind(null, record),
+              },
+            ]"
+          />
+        </template>
       </template>
     </BasicTable>
     <Drawer @register="registerDrawer" @success="handleSuccess" />
@@ -56,7 +58,6 @@
           width: 80,
           title: t('common.operationText'),
           dataIndex: 'action',
-          slots: { customRender: 'action' },
           fixed: undefined,
         },
       });
