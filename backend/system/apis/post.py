@@ -73,22 +73,12 @@ def all_list_post(request):
 
 @router.get("/post/all/export")
 def export_post(request):
-    title_dict = {
-        'name': '名称',
-        'code': '编码',
-        'status': '状态',
-        'sort': '排序',
-    }
-    return export_data(request, Post, PostSchemaOut, title_dict)
+    export_fields = ['name', 'code', 'status', 'sort']
+    return export_data(request, Post, PostSchemaOut, export_fields)
 
 
 @router.post("/post/all/import")
 def import_post(request, data: ImportSchema):
-    title_dict = {
-        '名称': 'name',
-        '编码': 'code',
-        '状态': 'status',
-        '排序': 'sort',
-    }
-    return import_data(request, Post, PostSchemaIn, data, title_dict)
+    import_fields = ['name', 'code', 'status', 'sort']
+    return import_data(request, Post, PostSchemaIn, data, import_fields)
 

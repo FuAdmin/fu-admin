@@ -68,7 +68,12 @@ def retrieve(request, model, filters: FuFilters = FuFilters()):
     return query_set
 
 
-def export_data(request, model, scheme, title_dict):
+def export_data(request, model, scheme, export_fields):
+    title_dict = {}
+    for field in export_fields:
+        field_obj = getattr(model, field).field
+        title_dict[field_obj.column] = field_obj.help_text
+
     qs = retrieve(request, model)
     list_data = []
     for qs_item in qs:
@@ -94,7 +99,11 @@ def export_data(request, model, scheme, title_dict):
     return FileResponse(open(file_url, "rb"), as_attachment=True)
 
 
-def import_data(request, model, scheme, data, title_dict):
+def import_data(request, model, scheme, data, import_fields):
+    title_dict = {}
+    for field in import_fields:
+        field_obj = getattr(model, field).field
+        title_dict[field_obj.help_text] = field_obj.column
     file_path = str(BASE_DIR) + unquote(data.path)
     wb = load_workbook(file_path)
     ws = wb.active
