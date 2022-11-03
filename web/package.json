@@ -44,6 +44,7 @@
     "@zxcvbn-ts/core": "^2.0.1",
     "ant-design-vue": "^3.2.3",
     "axios": "^0.26.1",
+    "china-area-data": "^5.0.1",
     "codemirror": "^5.65.3",
     "cropperjs": "^1.5.12",
     "crypto-js": "^4.1.1",
