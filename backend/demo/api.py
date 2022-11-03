@@ -26,6 +26,8 @@ class Filters(FuFilters):
 
 # 设置请求接收字段
 class DemoSchemaIn(ModelSchema):
+    remark: list
+
     class Config:
         model = Demo
         model_fields = ['name', 'code', 'sort', 'status']
@@ -33,14 +35,16 @@ class DemoSchemaIn(ModelSchema):
 
 # 设置响应字段
 class DemoSchemaOut(ModelSchema):
+
     class Config:
         model = Demo
-        model_fields = "__all__"
+        model_fields = ['id', 'name', 'code', 'sort', 'status', 'remark', 'create_datetime']
 
 
 # 创建Demo
 @router.post("/demo", response=DemoSchemaOut)
 def create_demo(request, data: DemoSchemaIn):
+    data.remark = ','.join(data.remark)
     demo = create(request, data, Demo)
     return demo
 
@@ -55,6 +59,7 @@ def delete_demo(request, demo_id: int):
 # 更新Demo
 @router.put("/demo/{demo_id}", response=DemoSchemaOut)
 def update_demo(request, demo_id: int, data: DemoSchemaIn):
+    data.remark = ','.join(data.remark)
     demo = update(request, demo_id, data, Demo)
     return demo
 

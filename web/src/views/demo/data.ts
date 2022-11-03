@@ -7,6 +7,7 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { useI18n } from '/@/hooks/web/useI18n';
+import {getAreaTextByCode} from "/@/components/Form/src/utils/Area";
 const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
@@ -29,6 +30,16 @@ export const columns: BasicColumn[] = [
     title: t('common.statusText'),
     dataIndex: 'status',
     width: 100,
+  },
+  {
+    title: t('common.remarkText'),
+    dataIndex: 'remark',
+    width: 180,
+    customRender: ({ record }) => {
+      console.log(record.remark)
+      return getAreaTextByCode(record.remark);
+    },
+
   },
   {
     title: t('common.createDateText'),
@@ -74,8 +85,13 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
+    field: 'remark',
+    component: 'AreaLinkage',
+    label: t('common.remarkText'),
+  },
+  {
     field: 'sort',
-    label: t('common.statusSort'),
+    label: t('common.sortText'),
     component: 'InputNumber',
     required: true,
   },

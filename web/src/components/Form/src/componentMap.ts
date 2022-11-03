@@ -33,10 +33,12 @@ import { IconPicker } from '/@/components/Icon';
 import { CountdownInput } from '/@/components/CountDown';
 
 import DictSelect from './components/DictSelect.vue';
+import AreaLinkage from './components/AreaLinkage.vue';
 
 const componentMap = new Map<ComponentType, Component>();
 
 componentMap.set('DictSelect', DictSelect);
+componentMap.set('AreaLinkage', AreaLinkage);
 
 componentMap.set('Input', Input);
 componentMap.set('InputGroup', Input.Group);
