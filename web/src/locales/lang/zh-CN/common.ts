@@ -131,6 +131,7 @@ export default {
     titleText: '菜单名称',
     iconText: '菜单图标',
     pathText: '路由地址',
+    frameSrcText: '内嵌地址',
     typeText: '菜单类型',
     nameText: '组件名称',
     parentText: '上级菜单',

@@ -16,7 +16,7 @@ import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { joinTimestamp, formatRequestDate } from './helper';
-import {useUserStore, useUserStoreWithOut} from '/@/store/modules/user';
+import { useUserStoreWithOut} from '/@/store/modules/user';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 
 const globSetting = useGlobSetting();
@@ -99,15 +99,7 @@ const transform: AxiosTransform = {
   // 请求之前处理config
   beforeRequestHook: (config, options) => {
     const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true, urlPrefix } = options;
-    const userStore = useUserStore();
 
-    const userinfo = userStore.getUserInfo
-    config.headers = {
-      signature: '18f24f77-5d9a-11ed-b88e-a029195c487d',
-      timestamp: '',
-      appname: 'fuadmin',
-      username: userinfo.username
-    }
     if (joinPrefix) {
       config.url = `${urlPrefix}${config.url}`;
     }

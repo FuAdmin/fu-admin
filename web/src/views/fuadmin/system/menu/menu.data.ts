@@ -96,7 +96,6 @@ export const formSchema: FormSchema[] = [
       options: [
         { label: t('common.menu.directoryText'), value: 0 },
         { label: t('common.menu.menuText'), value: 1 },
-        { label: t('common.menu.buttonText'), value: 2 },
       ],
     },
     colProps: { lg: 24, md: 24 },
@@ -146,6 +145,14 @@ export const formSchema: FormSchema[] = [
   },
 
   {
+    field: 'frameSrc',
+    label: t('common.menu.frameSrcText'),
+    component: 'Input',
+    // helpMessage: '请用/开头',
+    ifShow: ({ values }) => isMenu(values.type),
+  },
+
+  {
     field: 'redirect',
     label: t('common.menu.redirectText'),
     component: 'Input',
@@ -163,6 +170,7 @@ export const formSchema: FormSchema[] = [
     field: 'name',
     label: t('common.menu.nameText'),
     component: 'Input',
+    required: true,
     ifShow: ({ values }) => isMenu(values.type),
   },
   {

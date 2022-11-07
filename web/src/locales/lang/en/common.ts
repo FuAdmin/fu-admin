@@ -129,6 +129,7 @@ export default {
     titleText: 'Menu Title',
     iconText: 'Menu Icon',
     pathText: 'Menu Path',
+    frameSrcText: 'Frame Src',
     typeText: 'Menu Type',
     nameText: 'Component Name',
     parentText: 'Parent Menu',

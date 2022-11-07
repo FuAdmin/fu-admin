@@ -6,6 +6,7 @@ export const darkMode = ThemeEnum.LIGHT;
 
 // app theme preset color
 export const APP_PRESET_COLOR_LIST: string[] = [
+  '#1890ff',
   '#767DFF',
   '#0084f4',
   '#009688',
