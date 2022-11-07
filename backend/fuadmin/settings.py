@@ -221,10 +221,10 @@ STATIC_FILES_VERSION = '1.0'
 # LOGIN_URL = '/manage/login'
 
 APPEND_SLASH = False  # disable urls.W002 warning
-if platform.system() == 'Windows':
-    HOMEPATH = os.environ['HOMEPATH']
-else:
-    HOMEPATH = os.environ['HOME']
+# if platform.system() == 'Windows':
+#     HOMEPATH = os.environ['HOMEPATH']
+# else:
+#     HOMEPATH = os.environ['HOME']
 
 DEPLOY_ZONE = ''
 
