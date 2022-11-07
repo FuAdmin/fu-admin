@@ -1,3 +1,5 @@
+import {UserInfo} from "/#/store";
+
 /**
  * @description: Login interface parameters
  */
@@ -17,7 +19,9 @@ export interface RoleInfo {
 export interface LoginResultModel {
   userId: string | number;
   token: string;
+  userInfo: UserInfo;
   role: RoleInfo;
+  loonJWT: string;
 }
 
 /**

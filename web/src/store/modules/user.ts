@@ -91,10 +91,15 @@ export const useUserStore = defineStore({
       try {
         const { goHome = true, mode, ...loginParams } = params;
         const data = await loginApi(loginParams, mode);
-        const { token } = data;
+        const { token, userInfo, loonJWT } = data;
+        console.log(data)
+        localStorage.setItem('loonJWT',loonJWT)
+
 
         // save token
         this.setToken(token);
+        this.setUserInfo(userInfo);
+
         return this.afterLoginAction(goHome);
       } catch (error) {
         return Promise.reject(error);

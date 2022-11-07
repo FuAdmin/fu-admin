@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
+import platform
 from datetime import timedelta
 from pathlib import Path
 from conf.env import *
@@ -39,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_celery_beat',
     'django_celery_results',
+    'flow.workflow',
+    'flow.account',
+    'flow.ticket',
     'system',
     'demo',
 ]
@@ -47,11 +51,12 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'utils.middleware.ApiLoggingMiddleware',
+    'flow.service.permission.api_permission.ApiPermissionCheck',
 
 ]
 
@@ -199,6 +204,32 @@ API_LOG_ENABLE = True
 API_LOG_METHODS = ['POST', 'GET', 'DELETE', 'PUT']
 API_MODEL_MAP = {}
 
-
 # 初始化需要执行的列表，用来初始化后执行
 INITIALIZE_RESET_LIST = []
+
+################loon###################
+
+DATETIME_FORMAT = 'Y-m-d H:i:s'
+TIME_FORMAT = 'H:i:s'
+
+LOGIN_URL = '/account/login/'
+AUTH_USER_MODEL = 'system.Users'
+
+FIXTURE_DIRS = ['fixtures/']
+STATIC_FILES_VERSION = '1.0'
+
+# LOGIN_URL = '/manage/login'
+
+APPEND_SLASH = False  # disable urls.W002 warning
+if platform.system() == 'Windows':
+    HOMEPATH = os.environ['HOMEPATH']
+else:
+    HOMEPATH = os.environ['HOME']
+
+DEPLOY_ZONE = ''
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+JWT_SALT = 'aUApFqfQjyYVAPo8'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

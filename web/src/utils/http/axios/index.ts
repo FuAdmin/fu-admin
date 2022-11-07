@@ -16,7 +16,7 @@ import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { joinTimestamp, formatRequestDate } from './helper';
-import { useUserStoreWithOut } from '/@/store/modules/user';
+import {useUserStore, useUserStoreWithOut} from '/@/store/modules/user';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 
 const globSetting = useGlobSetting();
@@ -44,18 +44,25 @@ const transform: AxiosTransform = {
     }
     // 错误的时候返回
 
+    console.log(res,'res')
     const { data } = res;
     if (!data) {
       // return '[HTTP] Request has no return value';
       throw new Error(t('sys.api.apiRequestFailed'));
     }
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, result, message } = data;
+    const { code, result, message, data:loondata } = data;
 
     // 这里逻辑可以根据项目进行修改
-    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
+    const hasSuccess = data && Reflect.has(data, 'code') && (code === ResultEnum.SUCCESS || code === 0);
     if (hasSuccess) {
-      return result;
+      if (result) {
+        return result;
+      }
+      if (loondata) {
+        return loondata;
+      }
+
     }
 
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
@@ -92,7 +99,15 @@ const transform: AxiosTransform = {
   // 请求之前处理config
   beforeRequestHook: (config, options) => {
     const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true, urlPrefix } = options;
+    const userStore = useUserStore();
 
+    const userinfo = userStore.getUserInfo
+    config.headers = {
+      signature: '18f24f77-5d9a-11ed-b88e-a029195c487d',
+      timestamp: '',
+      appname: 'fuadmin',
+      username: userinfo.username
+    }
     if (joinPrefix) {
       config.url = `${urlPrefix}${config.url}`;
     }

@@ -32,7 +32,8 @@ def list_to_route(data):
             'ignoreKeepAlive': d.pop('keepalive'),
             'orderNo': d.pop('sort'),
             'hideMenu': d.pop('hide_menu'),
-            'icon': d.pop('icon')
+            'icon': d.pop('icon'),
+            'frameSrc': d.pop('frameSrc')
         }
 
         d["choice"] = 0

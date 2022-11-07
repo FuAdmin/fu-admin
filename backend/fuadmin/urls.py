@@ -14,10 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+from flow.account.views import LoonJwtLoginView
 from .api import api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', api.urls),
+    path('api/v1.0/login', LoonJwtLoginView.as_view()),
+    path('api/v1.0/accounts', include('flow.account.urls')),
+    path('api/v1.0/tickets', include('flow.ticket.urls')),
+    path('api/v1.0/workflows', include('flow.workflow.urls')),
 ]
