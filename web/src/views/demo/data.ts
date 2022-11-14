@@ -75,7 +75,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'sort',
-    label: t('common.statusSort'),
+    label: t('common.sortText'),
     component: 'InputNumber',
     required: true,
   },

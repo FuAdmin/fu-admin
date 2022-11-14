@@ -6,7 +6,7 @@
     @tab-change="onTabChange"
   >
     <p v-if="activeKey === 'tab1'">
-      <LyMonitorLineEchart v-model="network" />
+      <LyMonitorLineEchart model-value="network" />
     </p>
     <p v-if="activeKey === 'tab2'">
       <!--      <VisitAnalysisBar />-->
