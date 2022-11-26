@@ -31,7 +31,7 @@
 
 ## 平台简介
 
-💡 [fu-admin-web](https://gitee.com/fuadmin/fu-admin-web) 采用 VUE3，TS 开发。 💡 [fu-admin-backend](https://gitee.com/fuadmin/fu-admin-backend) 采用 Python，Django 和 Django-Ninija 开发。数据库支持MySql，SqlServer，Sqlite。
+💡 [fu-admin-web](https://gitee.com/fuadmin/fu-admin/tree/master/web) 采用 VUE3，TS 开发。 💡 [fu-admin-backend](https://gitee.com/fuadmin/fu-admin/tree/master/backend) 采用 Python，Django 和 Django-Ninija 开发。数据库支持MySql，SqlServer，Sqlite。
 
 - 🧑‍🤝‍🧑 前端采用[VbenAdmin](https://vvbin.cn/doc-next) 、[Vue3](https://cn.vuejs.org/)、[Ant Design Vue](https://www.antdv.com/docs/vue/getting-started-cn)。
 - 👭 后端采用 Python 语言 Django 框架以及强大的 [Django Ninja](https://django-ninja.rest-framework.com/)。
@@ -88,17 +88,17 @@ Redis(可选，最新版)
 
 ```bash
 # 克隆项目
-git https://gitee.com/fuadmin/fu-admin.git
+git clone https://gitee.com/fuadmin/fu-admin.git
 
 # 进入项目目录
-cd web
+cd fu-admin/web
 
 # 安装依赖
 yarn install --registry=https://registry.npm.taobao.org
 
 # 启动服务
-yarn run dev
-# 浏览器访问 http://localhost:8080
+yarn run serve
+# 浏览器访问 https://localhost:8080
 # .env 文件中可配置启动端口等参数
 # 构建生产环境
 # yarn run build
@@ -108,11 +108,11 @@ yarn run dev
 
 ```bash
 # 克隆项目
-git https://gitee.com/fuadmin/fu-admin.git
+git clone https://gitee.com/fuadmin/fu-admin.git
 # 进入项目目录
-cd backend
+cd fu-admin/backend
 # 在 `env.py` 中配置数据库信息
-# 默认是Mysql，如果使用SqlServer，qing在requirements.txt中打开 
+# 默认是Mysql，如果使用SqlServer，请在requirements.txt中打开 
    mssql-django==1.1.2 
    pyodbc==4.0.32
 # 安装依赖环境
@@ -127,12 +127,12 @@ cd backend
 # 启动项目
 	python3 manage.py runserver 0.0.0.0:8000
 # 或使用 daphne :
-    daphne -b 0.0.0.0 -p 8000 application.asgi:application
+    daphne -b 0.0.0.0 -p 8000 fuadmin.asgi:application
 ```
 
 ### 访问项目
 
-- 文档访问地址：[http://localhost:8080/api/docs](http://localhost:8080/api/docs) (默认为此地址，如有修改请按照配置文件)
+- 文档访问地址：[https://localhost:8080/api/docs](https://localhost:8080/api/docs) (默认为此地址，如有修改请按照配置文件)
 - 账号：`superadmin` 密码：`123456`
 
 ## 演示图 ✅

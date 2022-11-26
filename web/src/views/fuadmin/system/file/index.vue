@@ -45,7 +45,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { BasicUpload } from '/@/components/Upload';
   import { downloadByData } from '/@/utils/file/download';
-  import { t } from '/@/hooks/web/useI18n';
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     name: 'CeleryLogManagement',
     components: { BasicTable, Drawer, BasicUpload, TableAction, Space },
@@ -53,6 +53,7 @@
       const [registerDrawer, { openDrawer }] = useDrawer();
       const { createMessage } = useMessage();
       const { hasPermission } = usePermission();
+      const { t } = useI18n();
       const [registerTable, { reload }] = useTable({
         api: getList,
         columns,
