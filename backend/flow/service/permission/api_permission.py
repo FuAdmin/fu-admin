@@ -20,7 +20,7 @@ class ApiPermissionCheck(MiddlewareMixin):
         if request.path == '/api/v1.0/login':
             # jwt 登录
             return
-        if request.path.startswith('/api/v1.0'):
+        if request.path.startswith('/api/'):
             # for common check
             if request.user.is_authenticated:
                 request.META.update(dict(HTTP_APPNAME='loonflow'))
