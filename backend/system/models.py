@@ -1,33 +1,14 @@
 import hashlib
 import os
 
-from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
 from utils.models import CoreModel
 
 STATUS_CHOICES = (
     (0, "禁用"),
     (1, "启用"),
 )
-
-
-class LoonUserManager(BaseUserManager):
-
-    def create_user(self, email, username, password=None, dep=0):
-        if not email:
-            raise ValueError('Users must have an email address')
-        user = self.model(username=username, email=self.normalize_email(email))
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, username, password):
-        user = self.create_user(email=self.normalize_email(email), username=username, password=password)
-        user.type_id = 2
-        user.save(using=self._db)
-        return user
 
 
 class Users(AbstractUser, CoreModel):
@@ -49,83 +30,12 @@ class Users(AbstractUser, CoreModel):
     )
     user_type = models.IntegerField(choices=USER_TYPE, default=0, verbose_name="用户类型", null=True, blank=True,
                                     help_text="用户类型")
-    type_id = models.IntegerField('loon用户类型', default=0)  # 见service.common.constant_service中定义
-
     post = models.ManyToManyField(to='Post', verbose_name='关联岗位', db_constraint=False, help_text="关联岗位")
     role = models.ManyToManyField(to='Role', verbose_name='关联角色', db_constraint=False, help_text="关联角色")
     dept = models.ForeignKey(to='Dept', verbose_name='所属部门', on_delete=models.SET_NULL, db_constraint=False, null=True,
                              blank=True, help_text="关联部门")
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
-
-    objects = LoonUserManager()
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
-
-    @property
-    def is_staff(self):
-        return self.is_active
-
-    def get_short_name(self):
-        return self.username
-
-    def get_alias_name(self):
-        return self.name
-
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    def has_perms(self, perm, obj=None):
-        return True
-
-    def has_module_perms(self, app_label):
-        return True
-
-    @property
-    def dept_name(self):
-        user_dept_queryset = Dept.objects.filter(user_id=self.id, is_deleted=0).all()
-        user_dept_name_list = []
-        for user_dept in user_dept_queryset:
-            user_dept_name_list.append(user_dept.dept.name)
-        return ','.join(user_dept_name_list)
-
-    def get_dict(self):
-        fields = []
-        for field in self._meta.fields:
-            fields.append(field.name)
-
-        dict_result = {}
-        import datetime
-        for attr in fields:
-            if isinstance(getattr(self, attr), datetime.datetime):
-                dict_result[attr] = getattr(self, attr).strftime('%Y-%m-%d %H:%M:%S')
-            elif isinstance(getattr(self, attr), datetime.date):
-                dict_result[attr] = getattr(self, attr).strftime('%Y-%m-%d')
-            elif attr == 'dept_id':
-                dept_obj = Dept.objects.filter(id=getattr(self, attr), is_deleted=0).first()
-                dept_name = dept_obj.name if dept_obj else ''
-                dict_result['dept_info'] = dict(dept_id=getattr(self, attr), dept_name=dept_name)
-            elif attr == 'password':
-                pass
-            elif attr == 'creator':
-                creator_obj = Users.objects.filter(username=getattr(self, attr)).first()
-                if creator_obj:
-                    dict_result['creator_info'] = dict(creator_id=creator_obj.id, creator_alias=creator_obj.name,
-                                                       creator_username=creator_obj.username)
-                else:
-                    dict_result['creator_info'] = dict(creator_id=0, creator_alias='',
-                                                       creator_username=getattr(self, attr))
-            else:
-                dict_result[attr] = getattr(self, attr)
-
-        return dict_result
-
-    def get_json(self):
-        import json
-        dict_result = self.get_dict()
-        return json.dumps(dict_result)
 
     class Meta:
         db_table = "system_users"
@@ -168,19 +78,6 @@ class Role(CoreModel):
     menu = models.ManyToManyField(to='Menu', verbose_name='关联菜单', db_constraint=False, help_text="关联菜单")
     permission = models.ManyToManyField(to='MenuButton', verbose_name='关联菜单的接口按钮', db_constraint=False,
                                         help_text="关联菜单的接口按钮")
-    label = models.CharField('标签', max_length=50, blank=True, default='{}',
-                             help_text='因为角色信息也可能是从别处同步过来， 为保证对应关系，同步时可以在此字段设置其他系统中相应的唯一标识,字典的json格式')
-
-    def get_dict(self):
-        role_dict_info = super().get_dict()
-        creator_obj = Users.objects.filter(username=getattr(self, 'creator')).first()
-        if creator_obj:
-            role_dict_info['creator_info'] = dict(creator_id=creator_obj.id, creator_alias=creator_obj.alias,
-                                                  creator_username=creator_obj.username)
-        else:
-            role_dict_info['creator_info'] = dict(creator_id=0, creator_alias='',
-                                                  creator_username=getattr(self, 'creator'))
-        return role_dict_info
 
     class Meta:
         db_table = 'system_role'
@@ -198,68 +95,6 @@ class Dept(CoreModel):
                                  help_text="部门状态")
     parent = models.ForeignKey(to='Dept', on_delete=models.PROTECT, default=None, verbose_name="上级部门",
                                db_constraint=False, null=True, blank=True, help_text="上级部门")
-
-    def get_dict(self):
-        dept_dict_info = super().get_dict()
-        creator_obj = Users.objects.filter(username=getattr(self, 'creator')).first()
-        if creator_obj:
-            dept_dict_info['creator_info'] = dict(creator_id=creator_obj.id, creator_alias=creator_obj.name)
-        else:
-            dept_dict_info['creator_info'] = dict(creator_id=0, creator_alias='',
-                                                  creator_username=getattr(self, 'creator'))
-        if self.parent:
-            parent_dept_obj = Dept.objects.filter(id=self.parent.id, is_deleted=0).first()
-            if parent_dept_obj:
-                parent_dept_info = dict(parent_dept_id=self.parent.id, parent_dept_name=parent_dept_obj.name)
-            else:
-                parent_dept_info = dict(parent_dept_id=self.parent.id, parent_dept_name='未知')
-        else:
-            parent_dept_info = dict(parent_dept_id=self.parent, parent_dept_name='')
-        dept_dict_info['parent_dept_info'] = parent_dept_info
-
-        if self.owner:
-            leader_obj = Users.objects.filter(username=self.owner).first()
-            if leader_obj:
-                dept_dict_info['leader_info'] = {
-                    'leader_username': leader_obj.username,
-                    'leader_alias': leader_obj.alias,
-                    'leader_id': leader_obj.id,
-                }
-            else:
-                dept_dict_info['leader_info'] = {
-                    'leader_username': self.owner,
-                    'leader_alias': self.owner,
-                    'leader_id': 0,
-                }
-        else:
-            dept_dict_info['leader_info'] = {
-                'leader_username': '',
-                'leader_alias': '',
-                'leader_id': 0,
-            }
-
-        if self.owner:
-            approver_list = self.owner.split(',')
-            approver_info_list = []
-            for approver in approver_list:
-                approver_obj = Users.objects.filter(username=approver).first()
-                if approver_obj:
-                    approver_info_list.append({
-                        'approver_name': approver_obj.username,
-                        'approver_alias': approver_obj.alias,
-                        'approver_id': approver_obj.id,
-                    })
-                else:
-                    approver_info_list.append({
-                        'approver_name': approver,
-                        'approver_alias': approver,
-                        'approver_id': 0,
-                    })
-            dept_dict_info['approver_info'] = approver_info_list
-        else:
-            dept_dict_info['approver_info'] = []
-
-        return dept_dict_info
 
     class Meta:
         db_table = "system_dept"
@@ -285,7 +120,6 @@ class Menu(CoreModel):
                                db_constraint=False, help_text="上级菜单")
     icon = models.CharField(max_length=64, default='ant-design:book-outlined', verbose_name="菜单图标", help_text="菜单图标")
     title = models.CharField(max_length=64, verbose_name="菜单名称", help_text="菜单名称")
-    frameSrc = models.CharField(max_length=255, verbose_name="内嵌iframe的地址", help_text="内嵌iframe的地址")
     permission = models.CharField(max_length=64, null=True, blank=True, verbose_name="权限标识", help_text="权限标识")
     ISLINK_CHOICES = (
         (0, "否"),
@@ -352,8 +186,7 @@ class DictItem(CoreModel):
     label = models.CharField(max_length=100, blank=True, null=True, verbose_name="显示名称", help_text="显示名称")
     value = models.CharField(max_length=100, blank=True, null=True, verbose_name="实际值", help_text="实际值")
     status = models.BooleanField(default=True, blank=True, verbose_name="状态", help_text="状态")
-    dict = models.ForeignKey(to="Dict", db_constraint=False, related_name="dictItem", on_delete=models.CASCADE,
-                             help_text="字典")
+    dict = models.ForeignKey(to="Dict", db_constraint=False, related_name="dictItem", on_delete=models.CASCADE, help_text="字典")
     remark = models.CharField(max_length=2000, blank=True, null=True, verbose_name="备注", help_text="备注")
 
     class Meta:

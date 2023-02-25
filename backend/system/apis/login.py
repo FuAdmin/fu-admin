@@ -12,7 +12,6 @@ from django.forms import model_to_dict
 from django.shortcuts import get_object_or_404
 from ninja import Router, ModelSchema, Query, Schema, Field
 
-from flow.service.account.account_base_service import account_base_service_ins
 from fuadmin.settings import SECRET_KEY, TOKEN_LIFETIME
 from system.models import Users, Role, MenuButton
 from utils.fu_jwt import FuJwt
@@ -41,7 +40,6 @@ class Out(Schema):
     departs: str
     userInfo: SchemaOut
     token: str
-    loonJWT: str
 
 
 @router.post("/login", response=Out, auth=None)
@@ -65,9 +63,6 @@ def login(request, data: LoginSchema):
 
         time_now = int(datetime.now().timestamp())
         jwt = FuJwt(SECRET_KEY, user_obj_dic, valid_to=time_now + TOKEN_LIFETIME)
-
-        flag, jwt_info = account_base_service_ins.get_user_jwt(user_obj_dic['username'])
-
         # 将生成的token加入缓存
         cache.set(user_obj.id, jwt.encode())
         token = f"bearer {jwt.encode()}"
@@ -76,8 +71,7 @@ def login(request, data: LoginSchema):
             "sysAllDictItems": "q",
             "departs": "e",
             'userInfo': user_obj_dic,
-            'token': token,
-            'loonJWT': jwt_info,
+            'token': token
         }
         save_login_log(request=request)
         return data
