@@ -17,3 +17,4 @@ user-agents==2.2.0
 django_redis==5.2.0
 openpyxl==3.0.10
 psutil==5.9.1
+daphne==4.0.0

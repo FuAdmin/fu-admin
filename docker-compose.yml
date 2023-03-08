@@ -1,0 +1,76 @@
+version: "3"
+
+services:
+    fuadmin-django:
+        build:
+            context: .
+            dockerfile: ./docker/django/Dockerfile
+        container_name: fuadmin-django
+        depends_on:
+            - fuadmin-mysql
+        environment:
+            TZ: Asia/Shanghai
+        ports:
+            - 8000:8000
+        expose:
+            - 8000
+        restart: always
+
+    fuadmin-web:
+        container_name: fuadmin-web
+        build:
+            context: ./
+            dockerfile: ./docker/web/Dockerfile
+        depends_on:
+            - fuadmin-django
+        ports:
+            - 8080:8080
+        expose:
+            - 8080
+        volumes:
+            - ./docker/web/nginx.conf:/etc/nginx/conf.d/fuadmin.conf
+        environment:
+            TZ: Asia/Shanghai
+
+    fuadmin-mysql:
+        image: mysql:8
+        container_name: fuadmin-mysql
+        restart: always
+        ports:
+            - 33060:3306
+        expose:
+            - 3306
+        environment:
+            MYSQL_ROOT_PASSWORD: "root"
+            MYSQL_DATABASE: "fuadmin"
+            TZ: Asia/Shanghai
+        volumes:
+            - mysql:/var/lib/mysql
+
+    fuadmin-redis:
+        image: redis:7-alpine
+        container_name: fuadmin-redis
+        restart: on-failure
+        environment:
+            - TZ=Asia/Shanghai
+        ports:
+            - 63790:6379
+        expose:
+            - 6379
+        volumes:
+            - redis:/data
+
+    fuadmin-celery:
+        build:
+            context: .
+            dockerfile: ./docker/celery/Dockerfile
+        container_name: fuadmin-celery
+        depends_on:
+            - fuadmin-mysql
+        environment:
+            TZ: Asia/Shanghai
+        restart: always
+
+volumes:
+    mysql:
+    redis:
