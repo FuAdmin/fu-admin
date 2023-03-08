@@ -20,15 +20,15 @@ interface UseFormActionContext {
   handleFormValues: Fn;
 }
 export function useFormEvents({
-  emit,
-  getProps,
-  formModel,
-  getSchema,
-  defaultValueRef,
-  formElRef,
-  schemaRef,
-  handleFormValues,
-}: UseFormActionContext) {
+                                emit,
+                                getProps,
+                                formModel,
+                                getSchema,
+                                defaultValueRef,
+                                formElRef,
+                                schemaRef,
+                                handleFormValues,
+                              }: UseFormActionContext) {
   async function resetFields(): Promise<void> {
     const { resetFunc, submitOnReset } = unref(getProps);
     resetFunc && isFunction(resetFunc) && (await resetFunc());
@@ -229,12 +229,15 @@ export function useFormEvents({
     }
 
     const obj: Recordable = {};
+    const currentFieldsValue = getFieldsValue();
     schemas.forEach((item) => {
       if (
         item.component != 'Divider' &&
         Reflect.has(item, 'field') &&
         item.field &&
-        !isNullOrUnDef(item.defaultValue)
+        // !isNullOrUnDef(item.defaultValue)
+        !isNullOrUnDef(item.defaultValue) &&
+        !(item.field in currentFieldsValue)
       ) {
         obj[item.field] = item.defaultValue;
       }
