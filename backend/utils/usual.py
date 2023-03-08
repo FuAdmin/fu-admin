@@ -7,7 +7,8 @@
 
 from fuadmin.settings import SECRET_KEY
 from system.models import Dept
-from utils.fu_jwt import FuJwt
+
+from .fu_jwt import FuJwt
 
 
 def get_user_info_from_token(request):

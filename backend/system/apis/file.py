@@ -4,21 +4,21 @@
 # @FileName: file.py
 # @Software: PyCharm
 import os
+from datetime import datetime
 from typing import List
 from urllib.parse import unquote
 
-from django.http import StreamingHttpResponse, FileResponse
-from ninja.files import UploadedFile
-from ninja import File as NinjaFile
+from django.http import FileResponse, StreamingHttpResponse
 from django.shortcuts import get_object_or_404
-from ninja import Router, ModelSchema, Query, Schema, Field
+from fuadmin.settings import BASE_DIR, STATIC_URL
+from ninja import Field
+from ninja import File as NinjaFile
+from ninja import ModelSchema, Query, Router, Schema
+from ninja.files import UploadedFile
 from ninja.pagination import paginate
-from datetime import datetime
-
-from fuadmin.settings import STATIC_URL, BASE_DIR
 from system.models import File
-from utils.fu_crud import create, delete, update, retrieve
-from utils.fu_ninga import MyPagination, FuFilters
+from utils.fu_crud import create, delete, retrieve, update
+from utils.fu_ninja import FuFilters, MyPagination
 
 router = Router()
 

@@ -9,13 +9,13 @@ import re
 from datetime import datetime
 
 from django.core.cache import cache
+from fuadmin.settings import DEMO, SECRET_KEY, WHITE_LIST
 from ninja.security import HttpBearer
+from system.models import MenuButton, Users
 
-from fuadmin.settings import SECRET_KEY, WHITE_LIST, DEMO
-from system.models import Users, MenuButton
-from utils.fu_jwt import FuJwt
-from utils.fu_ninga import FuFilters
-from utils.usual import get_user_info_from_token, get_dept
+from .fu_jwt import FuJwt
+from .fu_ninja import FuFilters
+from .usual import get_dept, get_user_info_from_token
 
 METHOD = {
     'GET': 0,

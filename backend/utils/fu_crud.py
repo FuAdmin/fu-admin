@@ -11,14 +11,14 @@ from urllib.parse import unquote
 import openpyxl
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
+from fuadmin.settings import BASE_DIR, STATIC_URL
 from ninja import Schema
 from openpyxl import load_workbook
 
-from fuadmin.settings import STATIC_URL, BASE_DIR
-from utils.fu_auth import data_permission
-from utils.fu_ninga import FuFilters
-from utils.fu_response import FuResponse
-from utils.usual import get_user_info_from_token
+from .fu_auth import data_permission
+from .fu_ninja import FuFilters
+from .fu_response import FuResponse
+from .usual import get_user_info_from_token
 
 
 class ImportSchema(Schema):

@@ -4,12 +4,13 @@
 # @FileName: crontab_schedule.py
 # @Software: PyCharm
 from typing import List
+
 from django.shortcuts import get_object_or_404
 from django_celery_beat.models import CrontabSchedule
-from ninja import Router, ModelSchema
+from ninja import ModelSchema, Router
 from ninja.pagination import paginate
-from utils.fu_crud import create, delete, update, retrieve
-from utils.fu_ninga import MyPagination
+from utils.fu_crud import create, delete, retrieve, update
+from utils.fu_ninja import MyPagination
 
 router = Router()
 

@@ -16,9 +16,9 @@ import platform
 
 plat = platform.system().lower()
 if plat == 'windows':
-    from utils.server import windows as myos
+    from .server import windows as myos
 else:
-    from utils.server import linux as myos
+    from .server import linux as myos
 
 
 class system:

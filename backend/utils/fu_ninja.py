@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2022/5/13 23:41
 # @Author  : 臧成龙
-# @FileName: fu_ninga.py
+# @FileName: fu_ninja.py
 # @Software: PyCharm
-from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponse
-from ninja import NinjaAPI, Schema, ModelSchema
 from typing import Any, List
 
+from django.db.models import QuerySet
+from django.http import HttpRequest, HttpResponse
+from ninja import Field, ModelSchema, NinjaAPI, Query, Router, Schema
 from ninja.orm.metaclass import ModelSchemaMetaclass
-from ninja.types import DictStrAny
 from ninja.pagination import PaginationBase
-from ninja import Field, Query, Router, Schema
+from ninja.types import DictStrAny
 
-from utils.fu_response import FuResponse
-from utils.usual import get_user_info_from_token
+from .fu_response import FuResponse
+from .usual import get_user_info_from_token
 
 
 class FuNinjaAPI(NinjaAPI):

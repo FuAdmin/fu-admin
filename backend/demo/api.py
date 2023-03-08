@@ -6,12 +6,20 @@
 # QQ: 939589097
 
 from typing import List
-from ninja import Router, ModelSchema, Query, Field
-from ninja.pagination import paginate
 
 from demo.models import Demo
-from utils.fu_crud import create, delete, update, retrieve, ImportSchema, export_data, import_data
-from utils.fu_ninga import MyPagination, FuFilters
+from ninja import Field, ModelSchema, Query, Router
+from ninja.pagination import paginate
+from utils.fu_crud import (
+    ImportSchema,
+    create,
+    delete,
+    export_data,
+    import_data,
+    retrieve,
+    update,
+)
+from utils.fu_ninja import FuFilters, MyPagination
 
 router = Router()
 

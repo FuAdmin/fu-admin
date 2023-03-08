@@ -4,11 +4,12 @@
 # @FileName: celery_log.py
 # @Software: PyCharm
 from typing import List
+
 from django_celery_results.models import TaskResult
-from ninja import Router, ModelSchema, Query, Schema, Field
+from ninja import Field, ModelSchema, Query, Router, Schema
 from ninja.pagination import paginate
 from utils.fu_crud import delete, retrieve
-from utils.fu_ninga import MyPagination, FuFilters
+from utils.fu_ninja import FuFilters, MyPagination
 
 router = Router()
 

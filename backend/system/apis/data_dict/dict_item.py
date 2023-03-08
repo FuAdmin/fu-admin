@@ -4,12 +4,13 @@
 # @FileName: dict_item.py
 # @Software: PyCharm
 from typing import List
+
 from django.shortcuts import get_object_or_404
-from ninja import Router, ModelSchema, Query, Schema, Field
+from ninja import Field, ModelSchema, Query, Router, Schema
 from ninja.pagination import paginate
-from system.models import DictItem, Dict
-from utils.fu_crud import create, delete, update, retrieve
-from utils.fu_ninga import MyPagination, FuFilters
+from system.models import Dict, DictItem
+from utils.fu_crud import create, delete, retrieve, update
+from utils.fu_ninja import FuFilters, MyPagination
 
 router = Router()
 

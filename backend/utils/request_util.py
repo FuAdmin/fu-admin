@@ -5,13 +5,12 @@ import json
 
 import requests
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.models import AbstractBaseUser, AnonymousUser
 from django.urls.resolvers import ResolverMatch
+from system.models import LoginLog
 from user_agents import parse
 
-from system.models import LoginLog
-from utils.usual import get_user_info_from_token
+from .usual import get_user_info_from_token
 
 
 def get_request_user(request):

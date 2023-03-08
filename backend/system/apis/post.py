@@ -5,12 +5,22 @@
 # @Software: PyCharm
 
 from typing import List
+
 from django.shortcuts import get_object_or_404
-from ninja import Router, ModelSchema, Query, Schema, Field, UploadedFile
+from ninja import Field, ModelSchema, Query, Router, Schema, UploadedFile
 from ninja.pagination import paginate
 from system.models import Post
-from utils.fu_crud import create, delete, update, retrieve, ImportSchema, export_data, import_data
-from utils.fu_ninga import MyPagination, FuFilters
+from utils.fu_crud import (
+    ImportSchema,
+    create,
+    delete,
+    export_data,
+    import_data,
+    retrieve,
+    update,
+)
+from utils.fu_ninja import FuFilters, MyPagination
+
 router = Router()
 
 
