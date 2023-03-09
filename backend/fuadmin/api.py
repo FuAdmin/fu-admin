@@ -6,7 +6,7 @@
 from demo.router import demo_router
 from system.router import system_router
 from utils.fu_auth import GlobalAuth
-from utils.fu_ninga import FuNinjaAPI
+from utils.fu_ninja import FuNinjaAPI
 
 api = FuNinjaAPI(auth=GlobalAuth())
 

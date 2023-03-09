@@ -9,8 +9,7 @@ import json
 
 from django.http import HttpResponse
 
-from utils.fu_jwt import DateEncoder
-
+from .fu_jwt import DateEncoder
 
 # class JsonResponse(HttpResponse):
 #

@@ -9,12 +9,11 @@
 from typing import List
 
 from django.shortcuts import get_object_or_404
-from ninja import Router, ModelSchema, Query, Schema, Field
+from ninja import Field, ModelSchema, Query, Router, Schema
 from ninja.pagination import paginate
-from system.models import Role, Menu
+from system.models import Menu, Role
 from utils.fu_crud import create, delete, retrieve
-
-from utils.fu_ninga import MyPagination, FuFilters
+from utils.fu_ninja import FuFilters, MyPagination
 
 router = Router()
 

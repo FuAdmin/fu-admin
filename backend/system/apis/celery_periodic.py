@@ -7,14 +7,13 @@ from typing import List
 
 from django.forms import model_to_dict
 from django.shortcuts import get_object_or_404
-from django_celery_beat.models import PeriodicTask, IntervalSchedule, CrontabSchedule
-from ninja import Router, ModelSchema, Schema
+from django_celery_beat.models import CrontabSchedule, IntervalSchedule, PeriodicTask
+from ninja import ModelSchema, Router, Schema
 from ninja.pagination import paginate
 from pydantic import Field
-
-from system.apis import celery_interval, celery_crontab
-from utils.fu_crud import create, delete, update, retrieve
-from utils.fu_ninga import MyPagination
+from system.apis import celery_crontab, celery_interval
+from utils.fu_crud import create, delete, retrieve, update
+from utils.fu_ninja import MyPagination
 from utils.fu_response import FuResponse
 
 router = Router()

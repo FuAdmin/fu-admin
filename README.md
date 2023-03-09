@@ -20,7 +20,7 @@ English Preview：[http://175.24.184.165:9090](http://175.24.184.165:9090)
 
 - Django 集成：与 Django 自身的功能和 ORM 有很好的集成。
 
-![](backend/utils/picture/benchmark.png)
+![](screenshots/benchmark.png)
 
 💡 **「Vue3 」**
 
@@ -55,14 +55,14 @@ English Preview：[http://175.24.184.165:9090](http://175.24.184.165:9090)
 
 - FuAdmin 交流群：726947525
 
-<img src="backend/utils/picture/qq.png" alt="qq 群" style="zoom: 25%;" />
+<img src="screenshots/qq.png" alt="qq 群" style="zoom: 25%;" />
 
 ## 源码地址
 
-|        | 项目地址                                |
-|--------|-------------------------------------|
+|        | 项目地址                            |
+| ------ | ----------------------------------- |
 | github | https://github.com/FuAdmin/fu-admin |
-| 码云     | https://gitee.com/fuadmin/fu-admin  | 
+| 码云   | https://gitee.com/fuadmin/fu-admin  |
 
 ## 内置功能
 
@@ -83,10 +83,12 @@ English Preview：[http://175.24.184.165:9090](http://175.24.184.165:9090)
 Python >= 3.8.0 (推荐3.8+版本)
 nodejs >= 16.0 (推荐最新)
 Mysql >= 5.7.0 (可选，默认数据库sqlite3，推荐8.0版本)
-Redis(可选，最新版)
+Redis (默认需要，推荐最新版，可修改后台项目的cache配置)
 ```
 
 ## 前端 ♝
+
+建议使用pnpm，项目提供了`pnpm-lock.yaml`，使用其他包管理器，容易出现版本依赖问题。
 
 ```bash
 # 克隆项目
@@ -96,14 +98,14 @@ git clone https://gitee.com/fuadmin/fu-admin.git
 cd fu-admin/web
 
 # 安装依赖
-yarn install --registry=https://registry.npm.taobao.org
+pnpm install --registry=https://registry.npm.taobao.org
 
 # 启动服务
-yarn run serve
+pnpm dev
 # 浏览器访问 https://localhost:8080
 # .env 文件中可配置启动端口等参数
 # 构建生产环境
-# yarn run build
+# pnpm build
 ```
 
 ## 后端 💈
@@ -115,21 +117,21 @@ git clone https://gitee.com/fuadmin/fu-admin.git
 cd fu-admin/backend
 # 在 `env.py` 中配置数据库信息
 # 默认是Mysql，如果使用SqlServer，请在requirements.txt中打开 
-   mssql-django==1.1.2 
-   pyodbc==4.0.32
+    mssql-django==1.1.2 
+    pyodbc==4.0.32
 # 安装依赖环境
-	pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 # 执行迁移命令：
-	python3 manage.py makemigrations system
-	python3 manage.py migrate
+python3 manage.py makemigrations system
+python3 manage.py migrate
 # 初始化数据
-	python3 manage.py init
+python3 manage.py init
 # 初始化省市县数据:
-	python3 manage.py init_area
+python3 manage.py init_area
 # 启动项目
-	python3 manage.py runserver 0.0.0.0:8000
+python3 manage.py runserver 0.0.0.0:8000
 # 或使用 daphne :
-    daphne -b 0.0.0.0 -p 8000 fuadmin.asgi:application
+daphne -b 0.0.0.0 -p 8000 fuadmin.asgi:application
 ```
 
 ### 访问项目
@@ -138,13 +140,18 @@ cd fu-admin/backend
 - 账号：`superadmin` 密码：`123456`
 
 ## 演示图 ✅
-![](backend/utils/picture/1.png) 
-![](backend/utils/picture/2.png) 
-![](backend/utils/picture/3.png) 
-![](backend/utils/picture/4.png) 
-![](backend/utils/picture/5.png) 
-![](backend/utils/picture/6.png) 
-![](backend/utils/picture/7.png) 
-![](backend/utils/picture/8.png) 
-![](backend/utils/picture/9.png) 
-![](backend/utils/picture/10.png)
+![](screenshots/1.png) 
+![](screenshots/2.png) 
+![](screenshots/3.png) 
+![](screenshots/4.png) 
+![](screenshots/5.png) 
+![](screenshots/6.png) 
+![](screenshots/7.png) 
+![](screenshots/8.png) 
+![](screenshots/9.png) 
+![](screenshots/10.png)
+
+
+## Docker构建
+
+请参考文档[Docker构建](docker/README.md)
