@@ -6,6 +6,12 @@
     :options="getOptions"
     v-model:value="state"
   >
+    <template #option="{ value: val, label, icon }">
+      <span role="img" :aria-label="val">
+        <SvgIcon :name="icon" />
+      </span>
+      &nbsp;&nbsp;{{ label }}
+    </template>
     <template #[item]="data" v-for="item in Object.keys($slots)">
       <slot :name="item" v-bind="data || {}"></slot>
     </template>
@@ -31,12 +37,14 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { propTypes } from '/@/utils/propTypes';
   import { getListByCode } from '/@/views/fuadmin/system/data-dict/dict_item/dict_item.api';
+  import SvgIcon from '/@/components/Icon/src/SvgIcon.vue';
 
-  type OptionsItem = { label: string; value: string; disabled?: boolean };
+  type OptionsItem = { label: string; value: string; icon: string; disabled?: boolean };
 
   export default defineComponent({
     name: 'DictSelect',
     components: {
+      SvgIcon,
       Select,
       LoadingOutlined,
     },
@@ -49,6 +57,7 @@
       resultField: propTypes.string.def(''),
       labelField: propTypes.string.def('label'),
       valueField: propTypes.string.def('value'),
+      iconField: propTypes.string.def('icon'),
       immediate: propTypes.bool.def(true),
       alwaysLoad: propTypes.bool.def(false),
     },
@@ -66,7 +75,7 @@
       const [state] = useRuleFormItem(props, 'value', 'change', emitData);
 
       const getOptions = computed(() => {
-        const { labelField, valueField, numberToString } = props;
+        const { labelField, valueField, iconField, numberToString } = props;
 
         return unref(options).reduce((prev, next: Recordable) => {
           if (next) {
@@ -75,6 +84,7 @@
               ...omit(next, [labelField, valueField]),
               label: next[labelField],
               value: numberToString ? `${value}` : value,
+              icon: next[iconField],
             });
           }
           return prev;

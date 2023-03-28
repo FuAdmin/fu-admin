@@ -9,9 +9,18 @@ import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
 import { useI18n } from '/@/hooks/web/useI18n';
+import { SvgIcon } from "/@/components/Icon";
 const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
+  {
+    title: t('common.menu.iconText'),
+    dataIndex: 'icon',
+    width: 100,
+    customRender: ({ record }) => {
+      return h(SvgIcon, { name: record.icon });
+    },
+  },
   {
     title: t('common.dict.showValueText'),
     dataIndex: 'label',
@@ -50,6 +59,15 @@ export const columns: BasicColumn[] = [
 // @ts-ignore
 // @ts-ignore
 export const formSchema: FormSchema[] = [
+  {
+    field: 'icon',
+    label: t('common.menu.iconText'),
+    component: 'IconPicker',
+    required: false,
+    componentProps: {
+      mode: 'svg',
+    },
+  },
   {
     field: 'id',
     label: 'id',

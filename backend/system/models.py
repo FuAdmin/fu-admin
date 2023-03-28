@@ -183,6 +183,7 @@ class Dict(CoreModel):
 
 
 class DictItem(CoreModel):
+    icon = models.CharField(max_length=100, blank=True, null=True, verbose_name="ICON", help_text="ICON")
     label = models.CharField(max_length=100, blank=True, null=True, verbose_name="显示名称", help_text="显示名称")
     value = models.CharField(max_length=100, blank=True, null=True, verbose_name="实际值", help_text="实际值")
     status = models.BooleanField(default=True, blank=True, verbose_name="状态", help_text="状态")
