@@ -28,13 +28,13 @@ class SchemaIn(ModelSchema):
 
     class Config:
         model = DictItem
-        model_fields = ['label', 'value', 'sort', 'status']
+        model_fields = ['label', 'value', 'sort', 'icon', 'status']
 
 
 class SchemaOut(ModelSchema):
     class Config:
         model = DictItem
-        model_fields = ['id', 'label', 'value', 'sort', 'status']
+        model_fields = ['id', 'label', 'value', 'sort', 'icon', 'status']
 
 
 @router.post("/dict_item", response=SchemaOut)

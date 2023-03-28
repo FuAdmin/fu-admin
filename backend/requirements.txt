@@ -5,7 +5,7 @@ simplejwt==2.0.1
 pydantic==1.9.2
 requests==2.28.1
 # mysql
-mysqlclient==2.1.0
+mysqlclient==2.1.1
 # sqlserver
 # mssql-django==1.1.2
 # pyodbc==4.0.32
