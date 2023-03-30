@@ -169,6 +169,19 @@ class MenuButton(CoreModel):
         ordering = ('sort',)
 
 
+class MenuColumnField(CoreModel):
+    menu = models.ForeignKey(to="Menu", db_constraint=False, related_name="menuColumnField", on_delete=models.CASCADE,
+                             verbose_name="关联菜单", help_text='关联菜单')
+    name = models.CharField(max_length=64, verbose_name="名称", help_text="名称")
+    code = models.CharField(max_length=64, verbose_name="权限值", help_text="权限值")
+
+    class Meta:
+        db_table = "system_menu_column_field"
+        verbose_name = '菜单数据列表'
+        verbose_name_plural = verbose_name
+        ordering = ('sort',)
+
+
 class Dict(CoreModel):
     name = models.CharField(max_length=100, blank=True, null=True, verbose_name="字典名称", help_text="字典名称")
     code = models.CharField(max_length=100, blank=True, null=True, verbose_name="编码", help_text="编码")

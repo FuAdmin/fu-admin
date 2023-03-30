@@ -7,7 +7,7 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { useI18n } from '/@/hooks/web/useI18n';
-import {getAreaTextByCode} from "/@/components/Form/src/utils/Area";
+import { getAreaTextByCode } from '/@/components/Form/src/utils/Area';
 const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
@@ -15,6 +15,7 @@ export const columns: BasicColumn[] = [
     title: t('common.demo.nameText'),
     dataIndex: 'name',
     width: 200,
+    auth: ['q'],
   },
   {
     title: t('common.demo.codeText'),

@@ -57,7 +57,6 @@ export const columns: BasicColumn[] = [
 
 const isDir = (type: number) => type === 0;
 const isMenu = (type: number) => type === 1;
-const isButton = (type: number) => type === 2;
 
 export const searchFormSchema: FormSchema[] = [
   {
@@ -96,7 +95,6 @@ export const formSchema: FormSchema[] = [
       options: [
         { label: t('common.menu.directoryText'), value: 0 },
         { label: t('common.menu.menuText'), value: 1 },
-        { label: t('common.menu.buttonText'), value: 2 },
       ],
     },
     colProps: { lg: 24, md: 24 },
@@ -133,7 +131,6 @@ export const formSchema: FormSchema[] = [
     label: t('common.menu.iconText'),
     component: 'IconPicker',
     required: false,
-    ifShow: ({ values }) => !isButton(values.type),
   },
 
   {
@@ -142,7 +139,6 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     // helpMessage: '请用/开头',
     required: true,
-    ifShow: ({ values }) => !isButton(values.type),
   },
 
   {
@@ -216,6 +212,5 @@ export const formSchema: FormSchema[] = [
         { label: t('common.noText'), value: false },
       ],
     },
-    ifShow: ({ values }) => !isButton(values.type),
   },
 ];
