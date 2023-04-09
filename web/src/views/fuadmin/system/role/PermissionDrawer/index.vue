@@ -51,8 +51,6 @@
         :menuIds="[1, 2, 3]"
         ref="RefPerData"
       />
-
-      <div> 2222{{ perData }} </div>
     </div>
   </BasicDrawer>
 </template>
@@ -103,8 +101,10 @@
       const [registerDrawer, { closeDrawer, changeLoading }] = useDrawerInner(async (record) => {
         try {
           changeLoading(true);
+          cleanData();
           submitLoad.value = true;
           current.value = 0;
+          perData.value = record;
 
           await Promise.all([
             RefMenu.value.loadData(),
@@ -114,7 +114,6 @@
           ]);
 
           thisReloData = record;
-          perData.value = record;
           menuCheck.value = record.menu;
           buttonCheck.value = record.permission.map((item) => {
             return 'b' + item;
@@ -153,12 +152,21 @@
         columnDataValue.value = val;
       };
 
+      function cleanData() {
+        menuDataValue.value = [];
+        buttonDataValue.value = [];
+        columnDataValue.value = [];
+        dataPerDataValue.value = {};
+        buttonCheck.value = [];
+        columnCheck.value = [];
+        menuCheck.value = [];
+        perData.value = [];
+      }
+
       async function handleSubmit() {
         try {
           submitLoad.value = true;
           RefPerData.value.getPerData();
-
-          console.log(dataPerDataValue)
 
           let menu_ids: never[];
           let button_ids: never[];
@@ -200,14 +208,7 @@
           };
           debugger;
           await createOrUpdate(payload, unref(true));
-          menuDataValue.value = [];
-          buttonDataValue.value = [];
-          columnDataValue.value = [];
-          dataPerDataValue.value = {};
-          buttonCheck.value = [];
-          columnCheck.value = [];
-          menuCheck.value = [];
-          perData.value = [];
+          cleanData();
           closeDrawer();
           emit('success');
         } finally {

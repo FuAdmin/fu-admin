@@ -101,10 +101,12 @@ def route_menu_tree(request):
     user = Users.objects.get(id=token_user['id'])
 
     if not token_user['is_superuser']:
-        menu_ids = user.role.values_list('permission__id', flat=True)
+        menu_button_ids = user.role.values_list('permission__id', flat=True)
+        menu_column_ids = user.role.values_list('column__id', flat=True)
+
         # queryset = MenuButton.objects.filter(id__in=menuIds, status=1).values()
-        queryset_button = MenuButton.objects.filter(id__in=menu_ids)
-        queryset_column = MenuColumnField.objects.filter(id__in=menu_ids)
+        queryset_button = MenuButton.objects.filter(id__in=menu_button_ids)
+        queryset_column = MenuColumnField.objects.filter(id__in=menu_column_ids)
     else:
         queryset_button = MenuButton.objects.all()
         queryset_column = MenuColumnField.objects.all()

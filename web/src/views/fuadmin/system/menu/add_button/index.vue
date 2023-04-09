@@ -32,12 +32,20 @@
           </template>
         </BasicTable>
       </TabPane>
-      <TabPane key="2" tab="列的字段">
+      <TabPane key="2" tab="列表字段">
         <BasicTable @register="registerColumnTable">
           <template #tableTitle>
             <Space style="height: 40px">
               <a-button type="primary" @click="handleColumnCreate">
                 {{ t('common.addText') }}
+              </a-button>
+              <a-button
+                type="error"
+                v-auth="['demo:delete']"
+                preIcon="ant-design:delete-outlined"
+                @click="handleColumnBulkDelete"
+              >
+                {{ t('common.delText') }}
               </a-button>
               <a-button type="success" @click="handleQuickImport">
                 {{ t('common.quickImport') }}
@@ -80,7 +88,7 @@
   import { defineComponent, ref, unref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { Tabs, TabPane, Space } from 'ant-design-vue';
+  import { Tabs, TabPane, Space, message } from 'ant-design-vue';
   import { BasicDrawer, useDrawer, useDrawerInner } from '/@/components/Drawer';
   import { deleteItem, getList } from './menu_button.api';
   import {
@@ -96,6 +104,7 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import MenuColumnFieldDrawer from '/@/views/fuadmin/system/menu/add_button/MenuColumnFieldDrawer.vue';
   import MenuColumnQuickDrawer from '/@/views/fuadmin/system/menu/add_button/MenuColumnQuickDrawer.vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
   export default defineComponent({
     name: 'AddMenuButton',
@@ -116,6 +125,7 @@
       const [registerDrawer, { openDrawer }] = useDrawer();
       const [registerColumnDrawer, { openDrawer: openColumnDrawer }] = useDrawer();
       const [registerQuickDrawer, { openDrawer: openQuickDrawer }] = useDrawer();
+      const { createConfirm } = useMessage();
 
       const menuId = ref(0);
       const path = ref();
@@ -143,14 +153,17 @@
         },
       });
 
-      const [registerColumnTable, { reload: reloadColumn }] = useTable({
+      const [registerColumnTable, { reload: reloadColumn, getSelectRows }] = useTable({
         api: getColumnList,
         columns: columnColumns,
         showTableSetting: true,
         bordered: true,
-        showIndexColumn: false,
+        showIndexColumn: true,
         searchInfo: {
           menu_id: menuId,
+        },
+        rowSelection: {
+          type: 'checkbox',
         },
         actionColumn: {
           width: 50,
@@ -204,6 +217,25 @@
         await reloadColumn();
       }
 
+      async function handleColumnBulkDelete() {
+        if (getSelectRows().length == 0) {
+          message.warning(t('common.batchDelHintText'));
+        } else {
+          createConfirm({
+            iconType: 'warning',
+            title: t('common.hintText'),
+            content: t('common.delHintText'),
+            async onOk() {
+              for (const item of getSelectRows()) {
+                await handleColumnDelete(item.id);
+              }
+              message.success(t('common.successText'));
+            },
+          });
+        }
+        await reloadColumn();
+      }
+
       function handleColumnSuccess() {
         reloadColumn();
       }
@@ -238,6 +270,7 @@
         registerQuickDrawer,
         getTitle,
         activeKey,
+        handleColumnBulkDelete,
         t,
       };
     },

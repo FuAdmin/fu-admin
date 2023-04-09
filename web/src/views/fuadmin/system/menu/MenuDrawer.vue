@@ -45,7 +45,7 @@
             ...data.record,
           });
         }
-        const treeData = await getMenuList();
+        const treeData = await getMenuList({});
         await updateSchema({
           field: 'parent_id',
           componentProps: { treeData },

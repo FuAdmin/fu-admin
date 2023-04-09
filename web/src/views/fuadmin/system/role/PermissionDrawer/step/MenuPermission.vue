@@ -9,6 +9,7 @@
     show-icon
     title="菜单权限"
     @check="check"
+    checkStrictly
     toolbar
     ref="treeRef"
   />
@@ -62,8 +63,9 @@
       // );
 
       function check(val, e) {
-        const parent = e.halfCheckedKeys;
-        const checkData = val.concat(parent);
+        // const parent = e.halfCheckedKeys;
+        // const checkData = val.concat(parent);
+        const checkData = val.checked;
         nextTick(() => {
           emit('menuData', { checkChildMenuData: val, checkMenuData: checkData });
         });
