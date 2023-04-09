@@ -188,6 +188,7 @@ export default {
     codeText: '角色编码',
     menuPermissionText: '菜单权限',
     buttonPermissionText: '按钮权限',
+    columnPermissionText: '列表权限',
     dataPermissionText: '数据范围',
     choosePermissionText: '选择权限',
     onlyOwnDataText: '仅本人数据权限',

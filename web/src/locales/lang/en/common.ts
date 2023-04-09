@@ -186,6 +186,7 @@ export default {
     codeText: 'Role Code',
     menuPermissionText: 'Menu Permission',
     buttonPermissionText: 'Button Permission',
+    columnPermissionText: 'Column Permission',
     dataPermissionText: 'Data Permission',
     choosePermissionText: 'Choose Permission',
     onlyOwnDataText: 'Only own data permission',

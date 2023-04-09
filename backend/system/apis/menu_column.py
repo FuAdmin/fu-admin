@@ -11,8 +11,9 @@ from django.shortcuts import get_object_or_404
 from ninja import Field, ModelSchema, Query, Router, Schema
 from ninja.pagination import paginate
 from system.models import MenuColumnField
-from utils.fu_crud import create, delete, retrieve, update
+from utils.fu_crud import create, delete, retrieve, update, batch_create
 from utils.fu_ninja import FuFilters, MyPagination
+from utils.fu_response import FuResponse
 
 router = Router()
 
@@ -24,11 +25,15 @@ class Filters(FuFilters):
 
 
 class SchemaIn(ModelSchema):
-    menu_id: int = None
+    menu_id: str = Field(None, alias="menu_id")
 
     class Config:
         model = MenuColumnField
         model_exclude = ['id', 'menu', 'create_datetime', 'update_datetime']
+
+
+class BatchSchemaIn(Schema):
+    batch_info: list = Field(None, alias="batch_info")
 
 
 class SchemaOut(ModelSchema):
@@ -42,6 +47,12 @@ class SchemaOut(ModelSchema):
 def create_menu_column_field(request, data: SchemaIn):
     menu_column_field = create(request, data, MenuColumnField)
     return menu_column_field
+
+
+@router.post("/menu_column_field/batch/create")
+def batch_create_menu_column_field(request, data: BatchSchemaIn):
+    batch_create(request, data.batch_info, MenuColumnField)
+    return FuResponse(msg="导入成功")
 
 
 @router.delete("/menu_column_field/{menu_column_field_id}")

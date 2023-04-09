@@ -49,6 +49,24 @@ export const columns: BasicColumn[] = [
     dataIndex: 'create_datetime',
     width: 180,
   },
+
+  {
+    dataIndex: 'menu',
+    title: t('common.role.menuPermissionText'),
+    ifShow: false,
+  },
+
+  {
+    dataIndex: 'permission',
+    title: t('common.role.buttonPermissionText'),
+    ifShow: false,
+  },
+
+  {
+    dataIndex: 'column',
+    title: t('common.role.columnPermissionText'),
+    ifShow: false,
+  },
 ];
 
 export const searchFormSchema: FormSchema[] = [
@@ -126,6 +144,13 @@ export const formSchema: FormSchema[] = [
   {
     field: 'permission',
     label: t('common.role.buttonPermissionText'),
+    component: 'Select',
+    show: false,
+  },
+
+  {
+    field: 'column',
+    label: t('common.role.columnPermissionText'),
     component: 'Select',
     show: false,
   },

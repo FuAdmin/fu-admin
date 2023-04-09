@@ -56,7 +56,6 @@
           const values = await validate();
           values.menu_id = unref(menuId);
           setDrawerProps({ confirmLoading: true });
-          console.log(values);
           await createOrUpdate(values, unref(isUpdate));
           closeDrawer();
           emit('success');

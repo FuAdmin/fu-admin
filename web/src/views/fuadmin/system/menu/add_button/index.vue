@@ -211,6 +211,7 @@
       function handleQuickImport() {
         openQuickDrawer(true, {
           path: unref(path),
+          menuId: unref(menuId),
         });
       }
 

@@ -31,6 +31,14 @@ export const createOrUpdate = (params, isUpdate) => {
 };
 
 /**
+ * 批量保存
+ */
+
+export const batchCreate = (params) => {
+  return defHttp.post({ url: DeptApi.prefix + '/batch/create', params });
+};
+
+/**
  * 删除
  */
 

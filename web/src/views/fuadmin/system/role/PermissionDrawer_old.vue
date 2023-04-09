@@ -106,35 +106,38 @@
         }
       }
 
-      const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
-        await resetFields();
-        setDrawerProps({ confirmLoading: false });
-        isUpdate.value = !!data?.isUpdate;
+      const [registerDrawer, { setDrawerProps, closeDrawer, changeLoading }] = useDrawerInner(
+        async (data) => {
+          changeLoading(true);
+          await resetFields();
+          setDrawerProps({ confirmLoading: false });
+          isUpdate.value = !!data?.isUpdate;
 
-        treeData.value = await getMenuList();
+          treeData.value = await getMenuList();
 
-        treeData.value = XEUtils.toArrayTree(treeData.value, {
-          parentKey: 'parent_id',
-          strict: true,
-        });
-        console.log(treeData.value);
-        const treeDeptData = await getDeptList();
-        await updateSchema([
-          {
-            field: 'dept',
-            componentProps: { treeData: treeDeptData },
-          },
-        ]);
-        thisRoledata = data.record;
-        const menu = thisRoledata.menu;
-        const button = thisRoledata.permission.map((item) => {
-          return 'b' + item;
-        });
-        checkedKeys.value = menu.concat(button);
-        await setFieldsValue({
-          ...data.record,
-        });
-      });
+          treeData.value = XEUtils.toArrayTree(treeData.value, {
+            parentKey: 'parent_id',
+            strict: true,
+          });
+          const treeDeptData = await getDeptList();
+          await updateSchema([
+            {
+              field: 'dept',
+              componentProps: { treeData: treeDeptData },
+            },
+          ]);
+          thisRoledata = data.record;
+          const menu = thisRoledata.menu;
+          const button = thisRoledata.permission.map((item) => {
+            return 'b' + item;
+          });
+          checkedKeys.value = menu.concat(button);
+          await setFieldsValue({
+            ...data.record,
+          });
+          changeLoading(false);
+        },
+      );
 
       const getTitle = '权限分配';
 
@@ -167,6 +170,7 @@
             },
             unref(isUpdate),
           );
+
           closeDrawer();
           emit('success');
         } finally {

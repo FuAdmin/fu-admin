@@ -24,7 +24,7 @@ from system.apis.celery_periodic import router as celery_periodic_router
 from system.apis.log.celery_log import router as celery_log_router
 from system.apis.file import router as file_router
 from system.apis.monitor import router as monitor_router
-from system.apis.menu_column_field import router as menu_column_field
+from system.apis.menu_column import router as menu_column_field
 
 
 system_router = Router()

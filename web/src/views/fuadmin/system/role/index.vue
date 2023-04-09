@@ -67,7 +67,7 @@
 
   import { useDrawer } from '/@/components/Drawer';
   import RoleDrawer from './RoleDrawer.vue';
-  import PermissionDrawer from './PermissionDrawer.vue';
+  import PermissionDrawer from './PermissionDrawer/index.vue';
 
   import { columns, searchFormSchema } from './role.data';
   import { getList, deleteItem } from '/@/views/fuadmin/system/role/role.api';
@@ -121,10 +121,7 @@
       }
 
       function handlePermission(record: Recordable) {
-        openPermissionDrawer(true, {
-          record,
-          isUpdate: true,
-        });
+        openPermissionDrawer(true, record);
       }
 
       async function handleDelete(id: number) {

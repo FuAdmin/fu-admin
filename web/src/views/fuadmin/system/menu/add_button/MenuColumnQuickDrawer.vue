@@ -8,8 +8,8 @@
     @ok="handleSubmit"
   >
     <a-input-group compact style="padding: 6px">
-      <a-input v-model:value="url" addon-before="URL" style="width: calc(100% - 64px)" />
-      <a-button type="primary" style="width: 64px" @click="loadField">{{
+      <a-input v-model:value="url" addon-before="URL" style="width: calc(100% - 80px)" />
+      <a-button type="primary" style="width: 80px" :loading="buttonLoanding" @click="loadField">{{
         t('common.loadText')
       }}</a-button>
     </a-input-group>
@@ -27,7 +27,7 @@
                 auth: ['demo:delete'],
                 popConfirm: {
                   title: t('common.delHintText'),
-                  confirm: handleDelete.bind(null, record.id),
+                  confirm: handleDelete.bind(null, record),
                 },
               },
             ]"
@@ -44,6 +44,7 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { defHttp } from '/@/utils/http/axios';
+  import { batchCreate } from '/@/views/fuadmin/system/menu/add_button/menu_column_field.api';
 
   export default defineComponent({
     name: 'MenuColumnQuickDrawer',
@@ -55,11 +56,15 @@
       let tableData = ref();
       const path = ref();
       const url = ref();
+      let buttonLoading = ref(false);
+      let menuId = '';
+
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
         setDrawerProps({ confirmLoading: false });
         path.value = data.path;
+        menuId = data.menuId;
       });
-      const [registerTable, { reload, getSelectRows }] = useTable({
+      const [registerTable, { reload, deleteTableDataRecord }] = useTable({
         dataSource: tableData,
         columns: columnsQuick,
         useSearchForm: false,
@@ -77,6 +82,7 @@
       const getTitle = '快速导入';
 
       async function loadField() {
+        buttonLoading.value = true;
         const returnData = await defHttp.get({ url: unref(url) });
         if (returnData.items.length > 0) {
           const item = returnData.items[0];
@@ -85,19 +91,24 @@
             return {
               name: item,
               code: path.value + ':' + item,
+              menu_id: menuId,
             };
           });
-          console.log(tableData.value);
         }
+        buttonLoading.value = false;
       }
 
-      async function handleDelete(id: number) {
+      async function handleDelete(record) {
+        deleteTableDataRecord(record.key);
+        tableData.value = unref(tableData).filter((item) => item.code !== record.code);
         await reload();
       }
       async function handleSubmit() {
         try {
           setDrawerProps({ confirmLoading: true });
-
+          await batchCreate({ batch_info: unref(tableData) });
+          tableData.value = [];
+          url.value = '';
           closeDrawer();
           emit('success');
         } finally {
@@ -113,6 +124,7 @@
         loadField,
         handleDelete,
         tableData,
+        buttonLoanding: buttonLoading,
         url,
         t,
       };
