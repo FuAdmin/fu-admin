@@ -8,8 +8,22 @@
     @ok="handleSubmit"
   >
     <a-input-group compact style="padding: 6px">
-      <a-input v-model:value="url" addon-before="URL" style="width: calc(100% - 80px)" />
-      <a-button type="primary" style="width: 80px" :loading="buttonLoanding" @click="loadField">{{
+      <a-input
+        v-model:value="url"
+        placeholder="/api/demo/demo"
+        addon-before="URL"
+        allowClear
+        style="width: calc(100% - 80px)"
+      >
+        <template #suffix>
+          <BasicHelp
+            placement="top"
+            class="mx-1"
+            text="输入获取数据的api，例如项目演示中的GET api：/api/demo/demo"
+          />
+        </template>
+      </a-input>
+      <a-button type="primary" style="width: 70px" :loading="buttonLoanding" @click="loadField">{{
         t('common.loadText')
       }}</a-button>
     </a-input-group>
@@ -45,10 +59,13 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { defHttp } from '/@/utils/http/axios';
   import { batchCreate } from '/@/views/fuadmin/system/menu/add_button/menu_column_field.api';
+  import { InfoCircleOutlined } from '@ant-design/icons-vue';
+  import { Tooltip } from 'ant-design-vue';
+  import BasicHelp from "/@/components/Basic/src/BasicHelp.vue";
 
   export default defineComponent({
     name: 'MenuColumnQuickDrawer',
-    components: { BasicDrawer, TableAction, BasicTable },
+    components: {BasicHelp, BasicDrawer, TableAction, BasicTable, InfoCircleOutlined, Tooltip },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const { t } = useI18n();
