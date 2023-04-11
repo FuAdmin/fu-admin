@@ -8,7 +8,7 @@
 import re
 from datetime import datetime
 
-from django.core.cache import cache
+# from django.core.cache import cache
 from fuadmin.settings import DEMO, SECRET_KEY, WHITE_LIST
 from ninja.security import HttpBearer
 from system.models import MenuButton, Users
@@ -65,9 +65,9 @@ class GlobalAuth(HttpBearer):
                             return token
                         else:
                             raise TimeoutError(403, '没有权限')
-            cache_token = cache.get(token_user_id)
-            if token == cache_token:
-                return token
+            # cache_token = cache.get(token_user_id)
+            # if token == cache_token:
+            return token
         else:
             raise TimeoutError(401, 'token时间过期')
 

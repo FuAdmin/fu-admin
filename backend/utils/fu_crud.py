@@ -37,6 +37,22 @@ def create(request, data, model):
     return query_set
 
 
+def batch_create(request, data, model):
+    user_info = get_user_info_from_token(request)
+    data_list = []
+    for item in data:
+        if not isinstance(item, dict):
+            item = item.dict()
+
+        # 创建时默认添加创建人、修改者和所属部门
+        item['creator_id'] = user_info['id']
+        item['modifier'] = user_info['name']
+        item['belong_dept'] = user_info['dept']
+        data_list.append(model(**item))
+    query_set = model.objects.bulk_create(data_list)
+    return query_set
+
+
 def delete(id, model):
     instance = get_object_or_404(model, id=id)
     instance.delete()

@@ -18,6 +18,7 @@ def add_node(p, node):
         t["children"].append(add_node(t, node))
     # 退出递归的条件
     if len(p["children"]) == 0:
+        p.pop('children')
         p["choice"] = 1
         return
 

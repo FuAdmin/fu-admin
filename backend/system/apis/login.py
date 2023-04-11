@@ -5,7 +5,7 @@
 # @Software: PyCharm
 import json
 from datetime import datetime
-from django.core.cache import cache
+# from django.core.cache import cache
 
 from django.contrib import auth
 from django.forms import model_to_dict
@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404
 from ninja import Router, ModelSchema, Query, Schema, Field
 
 from fuadmin.settings import SECRET_KEY, TOKEN_LIFETIME
-from system.models import Users, Role, MenuButton
+from system.models import Users, Role, MenuButton, MenuColumnField
 from utils.fu_jwt import FuJwt
 from utils.fu_response import FuResponse
 from utils.request_util import save_login_log
@@ -64,7 +64,7 @@ def login(request, data: LoginSchema):
         time_now = int(datetime.now().timestamp())
         jwt = FuJwt(SECRET_KEY, user_obj_dic, valid_to=time_now + TOKEN_LIFETIME)
         # 将生成的token加入缓存
-        cache.set(user_obj.id, jwt.encode())
+        # cache.set(user_obj.id, jwt.encode())
         token = f"bearer {jwt.encode()}"
         data = {
             "multi_depart": 1,
@@ -83,7 +83,7 @@ def login(request, data: LoginSchema):
 def get_post(request):
     # 删除缓存
     user_info = get_user_info_from_token(request)
-    cache.delete(user_info['id'])
+    # cache.delete(user_info['id'])
     return FuResponse(msg="注销成功")
 
 
@@ -99,11 +99,19 @@ def route_menu_tree(request):
     """用于前端获取当前用户的按钮权限"""
     token_user = get_user_info_from_token(request)
     user = Users.objects.get(id=token_user['id'])
-    queryset = MenuButton.objects.all()
+
     if not token_user['is_superuser']:
-        menuIds = user.role.values_list('permission__id', flat=True)
+        menu_button_ids = user.role.values_list('permission__id', flat=True)
+        menu_column_ids = user.role.values_list('column__id', flat=True)
+
         # queryset = MenuButton.objects.filter(id__in=menuIds, status=1).values()
-        queryset = MenuButton.objects.filter(id__in=menuIds)
+        queryset_button = MenuButton.objects.filter(id__in=menu_button_ids)
+        queryset_column = MenuColumnField.objects.filter(id__in=menu_column_ids)
+    else:
+        queryset_button = MenuButton.objects.all()
+        queryset_column = MenuColumnField.objects.all()
+
+    queryset = [*queryset_button, *queryset_column]
     code_list = []
     for item in queryset:
         code_list.append(item.code)

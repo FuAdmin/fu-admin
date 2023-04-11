@@ -4,7 +4,7 @@
     @register="registerDrawer"
     showFooter
     :title="getTitle"
-    width="50%"
+    width="40%"
     @ok="handleSubmit"
   >
     <BasicForm @register="registerForm" />
@@ -13,43 +13,38 @@
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { formSchema } from './menu.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-
-  import { getMenuList, createOrUpdate } from '/@/views/fuadmin/system/menu/menu.api';
+  import { formSchema } from './menu_column_field.data';
+  import { createOrUpdate } from './menu_column_field.api';
   import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
-    name: 'MenuDrawer',
+    name: 'MenuColumnFieldDrawer',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const { t } = useI18n();
 
       const isUpdate = ref(true);
+      const menuId = ref();
 
-      const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
-        labelWidth: 120,
+      const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
+        labelWidth: 100,
         schemas: formSchema,
         showActionButtonGroup: false,
-        baseColProps: { lg: 12, md: 24 },
+        baseColProps: { lg: 24, md: 24 },
       });
 
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
-        await resetFields();
+        resetFields();
         setDrawerProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
-
+        menuId.value = data.menuId;
         if (unref(isUpdate)) {
           await setFieldsValue({
             ...data.record,
           });
         }
-        const treeData = await getMenuList({});
-        await updateSchema({
-          field: 'parent_id',
-          componentProps: { treeData },
-        });
       });
 
       const getTitle = computed(() =>
@@ -59,8 +54,8 @@
       async function handleSubmit() {
         try {
           const values = await validate();
+          values.menu_id = unref(menuId);
           setDrawerProps({ confirmLoading: true });
-          // TODO custom api
           await createOrUpdate(values, unref(isUpdate));
           closeDrawer();
           emit('success');
@@ -69,7 +64,12 @@
         }
       }
 
-      return { registerDrawer, registerForm, getTitle, handleSubmit };
+      return {
+        registerDrawer,
+        registerForm,
+        getTitle,
+        handleSubmit,
+      };
     },
   });
 </script>

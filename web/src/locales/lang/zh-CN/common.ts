@@ -1,10 +1,12 @@
 export default {
   okText: '确认',
+  loadText: '加载',
   closeText: '关闭',
   cancelText: '取消',
   loadingText: '加载中...',
   saveText: '保存',
   addText: '新增',
+  quickImport: '导入',
   updateText: '修改',
   importText: '导入',
   exportText: '导出',
@@ -71,6 +73,10 @@ export default {
     codeText: '按钮编码',
     methodText: '按钮名称',
     apiText: '按钮编码',
+  },
+  column: {
+    nameText: '列名称',
+    codeText: '列编码',
   },
   category: {
     showValueText: '显示值',
@@ -182,6 +188,7 @@ export default {
     codeText: '角色编码',
     menuPermissionText: '菜单权限',
     buttonPermissionText: '按钮权限',
+    columnPermissionText: '列表权限',
     dataPermissionText: '数据范围',
     choosePermissionText: '选择权限',
     onlyOwnDataText: '仅本人数据权限',

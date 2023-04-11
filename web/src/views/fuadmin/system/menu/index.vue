@@ -46,7 +46,7 @@
                 tooltip: t('common.menuButtonText'),
                 icon: 'ant-design:plus-square-outlined',
                 auth: ['menu:update'],
-                onClick: addButton.bind(null, record.id),
+                onClick: addButton.bind(null, record),
                 ifShow: record.type === 1,
               },
             ]"
@@ -119,11 +119,9 @@
         });
       }
 
-      function addButton(id: number) {
+      function addButton(record: Recordable) {
         // push({ name: 'AddMenuButton', params: { id: id } });
-        openAddButtonDrawer(true, {
-          id,
-        });
+        openAddButtonDrawer(true, record);
       }
 
       async function handleDelete(id: number) {

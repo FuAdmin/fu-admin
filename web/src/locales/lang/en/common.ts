@@ -1,10 +1,12 @@
 export default {
   okText: 'OK',
   closeText: 'Close',
+  loadText: 'Load',
   cancelText: 'Cancel',
   loadingText: 'Loading...',
   saveText: 'Save',
   addText: 'Add',
+  quickImport: 'Import',
   updateText: 'Update',
   importText: 'Import',
   exportText: 'Export',
@@ -69,6 +71,10 @@ export default {
   button: {
     nameText: 'Button Name',
     codeText: 'Button Code',
+  },
+  column: {
+    nameText: 'Column Name',
+    codeText: 'Column Code',
   },
   category: {
     showValueText: 'Show Value',
@@ -180,6 +186,7 @@ export default {
     codeText: 'Role Code',
     menuPermissionText: 'Menu Permission',
     buttonPermissionText: 'Button Permission',
+    columnPermissionText: 'Column Permission',
     dataPermissionText: 'Data Permission',
     choosePermissionText: 'Choose Permission',
     onlyOwnDataText: 'Only own data permission',

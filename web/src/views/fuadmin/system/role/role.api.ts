@@ -27,7 +27,19 @@ export const getAllList = () => {
  */
 
 export const getMenuList = () => {
+  return defHttp.get({ url: DeptApi.prefix + '/list/menu' });
+};
+
+export const getMenuButtonList = () => {
   return defHttp.get({ url: DeptApi.prefix + '/list/menu_button' });
+};
+
+export const getMenuColumnList = () => {
+  return defHttp.get({ url: DeptApi.prefix + '/list/menu_column' });
+};
+
+export const getButtonByMenuId = (menu_id) => {
+  return defHttp.get({ url: DeptApi.prefix + '/list/button/' + menu_id });
 };
 
 /**

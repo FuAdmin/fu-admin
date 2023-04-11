@@ -7,7 +7,7 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { useI18n } from '/@/hooks/web/useI18n';
-import {getAreaTextByCode} from "/@/components/Form/src/utils/Area";
+import { getAreaTextByCode } from '/@/components/Form/src/utils/Area';
 const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
@@ -15,16 +15,19 @@ export const columns: BasicColumn[] = [
     title: t('common.demo.nameText'),
     dataIndex: 'name',
     width: 200,
+    auth: ['/demo:name'],
   },
   {
     title: t('common.demo.codeText'),
     dataIndex: 'code',
     width: 180,
+    auth: ['/demo:code'],
   },
   {
     title: t('common.sortText'),
     dataIndex: 'sort',
     width: 100,
+    auth: ['/demo:sort'],
   },
   {
     title: t('common.statusText'),
@@ -36,10 +39,9 @@ export const columns: BasicColumn[] = [
     dataIndex: 'remark',
     width: 180,
     customRender: ({ record }) => {
-      console.log(record.remark)
       return getAreaTextByCode(record.remark);
     },
-
+    auth: ['/demo:remark'],
   },
   {
     title: t('common.createDateText'),

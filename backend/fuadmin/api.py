@@ -12,7 +12,7 @@ api = FuNinjaAPI(auth=GlobalAuth())
 
 
 # 统一处理server异常
-@api.exception_handler(Exception)
+# @api.exception_handler(Exception)
 def a(request, exc):
 
     if hasattr(exc, 'errno'):

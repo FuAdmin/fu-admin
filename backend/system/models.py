@@ -12,7 +12,8 @@ STATUS_CHOICES = (
 
 
 class Users(AbstractUser, CoreModel):
-    username = models.CharField(max_length=150, unique=True, db_index=True, verbose_name='用户账号', help_text="用户账号")
+    username = models.CharField(max_length=150, unique=True, db_index=True, verbose_name='用户账号',
+                                help_text="用户账号")
     email = models.EmailField(max_length=255, verbose_name="邮箱", null=True, blank=True, help_text="邮箱")
     mobile = models.CharField(max_length=255, verbose_name="电话", null=True, blank=True, help_text="电话")
     avatar = models.TextField(verbose_name="头像", null=True, blank=True, help_text="头像")
@@ -32,7 +33,8 @@ class Users(AbstractUser, CoreModel):
                                     help_text="用户类型")
     post = models.ManyToManyField(to='Post', verbose_name='关联岗位', db_constraint=False, help_text="关联岗位")
     role = models.ManyToManyField(to='Role', verbose_name='关联角色', db_constraint=False, help_text="关联角色")
-    dept = models.ForeignKey(to='Dept', verbose_name='所属部门', on_delete=models.SET_NULL, db_constraint=False, null=True,
+    dept = models.ForeignKey(to='Dept', verbose_name='所属部门', on_delete=models.SET_NULL, db_constraint=False,
+                             null=True,
                              blank=True, help_text="关联部门")
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
@@ -73,11 +75,15 @@ class Role(CoreModel):
         (3, "全部数据权限"),
         (4, "自定数据权限"),
     )
-    data_range = models.IntegerField(default=0, choices=DATASCOPE_CHOICES, verbose_name="数据权限范围", help_text="数据权限范围")
-    dept = models.ManyToManyField(to='Dept', verbose_name='数据权限-关联部门', db_constraint=False, help_text="数据权限-关联部门")
+    data_range = models.IntegerField(default=0, choices=DATASCOPE_CHOICES, verbose_name="数据权限范围",
+                                     help_text="数据权限范围")
+    dept = models.ManyToManyField(to='Dept', verbose_name='数据权限-关联部门', db_constraint=False,
+                                  help_text="数据权限-关联部门")
     menu = models.ManyToManyField(to='Menu', verbose_name='关联菜单', db_constraint=False, help_text="关联菜单")
     permission = models.ManyToManyField(to='MenuButton', verbose_name='关联菜单的接口按钮', db_constraint=False,
                                         help_text="关联菜单的接口按钮")
+    column = models.ManyToManyField(to='MenuColumnField', verbose_name='列表权限', db_constraint=False,
+                                    help_text="列表权限")
 
     class Meta:
         db_table = 'system_role'
@@ -118,7 +124,8 @@ class Button(CoreModel):
 class Menu(CoreModel):
     parent = models.ForeignKey(to='Menu', on_delete=models.CASCADE, verbose_name="上级菜单", null=True, blank=True,
                                db_constraint=False, help_text="上级菜单")
-    icon = models.CharField(max_length=64, default='ant-design:book-outlined', verbose_name="菜单图标", help_text="菜单图标")
+    icon = models.CharField(max_length=64, default='ant-design:book-outlined', verbose_name="菜单图标",
+                            help_text="菜单图标")
     title = models.CharField(max_length=64, verbose_name="菜单名称", help_text="菜单名称")
     permission = models.CharField(max_length=64, null=True, blank=True, verbose_name="权限标识", help_text="权限标识")
     ISLINK_CHOICES = (
@@ -133,13 +140,15 @@ class Menu(CoreModel):
     )
     type = models.IntegerField(choices=TYPE_CHOICES, verbose_name="是否目录", help_text="是否目录")
     path = models.CharField(max_length=128, verbose_name="路由地址", null=True, blank=True, help_text="路由地址")
-    redirect = models.CharField(max_length=128, verbose_name="重定向地址", null=True, blank=True, help_text="重定向地址")
+    redirect = models.CharField(max_length=128, verbose_name="重定向地址", null=True, blank=True,
+                                help_text="重定向地址")
 
     component = models.CharField(max_length=128, verbose_name="组件地址", null=True, blank=True, help_text="组件地址")
     name = models.CharField(max_length=50, verbose_name="组件名称", null=True, blank=True, help_text="组件名称")
     status = models.BooleanField(default=True, blank=True, verbose_name="菜单状态", help_text="菜单状态")
     keepalive = models.BooleanField(default=False, blank=True, verbose_name="是否页面缓存", help_text="是否页面缓存")
-    hide_menu = models.BooleanField(default=False, blank=True, verbose_name="侧边栏中是否隐藏", help_text="侧边栏中是否隐藏")
+    hide_menu = models.BooleanField(default=False, blank=True, verbose_name="侧边栏中是否隐藏",
+                                    help_text="侧边栏中是否隐藏")
 
     class Meta:
         db_table = "system_menu"
@@ -160,11 +169,25 @@ class MenuButton(CoreModel):
         (2, "PUT"),
         (3, "DELETE"),
     )
-    method = models.IntegerField(default=0, verbose_name="接口请求方法", null=True, blank=True, help_text="接口请求方法")
+    method = models.IntegerField(default=0, verbose_name="接口请求方法", null=True, blank=True,
+                                 help_text="接口请求方法")
 
     class Meta:
         db_table = "system_menu_button"
         verbose_name = '菜单权限表'
+        verbose_name_plural = verbose_name
+        ordering = ('sort',)
+
+
+class MenuColumnField(CoreModel):
+    menu = models.ForeignKey(to="Menu", db_constraint=False, related_name="menuColumnField", on_delete=models.CASCADE,
+                             verbose_name="关联菜单", help_text='关联菜单')
+    name = models.CharField(max_length=64, verbose_name="名称", help_text="名称")
+    code = models.CharField(max_length=64, verbose_name="权限值", help_text="权限值")
+
+    class Meta:
+        db_table = "system_menu_column_field"
+        verbose_name = '菜单数据列表'
         verbose_name_plural = verbose_name
         ordering = ('sort',)
 
@@ -187,7 +210,8 @@ class DictItem(CoreModel):
     label = models.CharField(max_length=100, blank=True, null=True, verbose_name="显示名称", help_text="显示名称")
     value = models.CharField(max_length=100, blank=True, null=True, verbose_name="实际值", help_text="实际值")
     status = models.BooleanField(default=True, blank=True, verbose_name="状态", help_text="状态")
-    dict = models.ForeignKey(to="Dict", db_constraint=False, related_name="dictItem", on_delete=models.CASCADE, help_text="字典")
+    dict = models.ForeignKey(to="Dict", db_constraint=False, related_name="dictItem", on_delete=models.CASCADE,
+                             help_text="字典")
     remark = models.CharField(max_length=2000, blank=True, null=True, verbose_name="备注", help_text="备注")
 
     class Meta:
@@ -212,15 +236,22 @@ class CategoryDict(CoreModel):
 
 
 class OperationLog(CoreModel):
-    request_username = models.CharField(max_length=50, blank=True, null=True, verbose_name="请求用户", help_text="请求用户")
-    request_modular = models.CharField(max_length=64, verbose_name="请求模块", null=True, blank=True, help_text="请求模块")
-    request_path = models.CharField(max_length=400, verbose_name="请求地址", null=True, blank=True, help_text="请求地址")
+    request_username = models.CharField(max_length=50, blank=True, null=True, verbose_name="请求用户",
+                                        help_text="请求用户")
+    request_modular = models.CharField(max_length=64, verbose_name="请求模块", null=True, blank=True,
+                                       help_text="请求模块")
+    request_path = models.CharField(max_length=400, verbose_name="请求地址", null=True, blank=True,
+                                    help_text="请求地址")
     request_body = models.TextField(verbose_name="请求参数", null=True, blank=True, help_text="请求参数")
-    request_method = models.CharField(max_length=8, verbose_name="请求方式", null=True, blank=True, help_text="请求方式")
+    request_method = models.CharField(max_length=8, verbose_name="请求方式", null=True, blank=True,
+                                      help_text="请求方式")
     request_msg = models.TextField(verbose_name="操作说明", null=True, blank=True, help_text="操作说明")
-    request_ip = models.CharField(max_length=32, verbose_name="请求ip地址", null=True, blank=True, help_text="请求ip地址")
-    request_browser = models.CharField(max_length=64, verbose_name="请求浏览器", null=True, blank=True, help_text="请求浏览器")
-    response_code = models.CharField(max_length=32, verbose_name="响应状态码", null=True, blank=True, help_text="响应状态码")
+    request_ip = models.CharField(max_length=32, verbose_name="请求ip地址", null=True, blank=True,
+                                  help_text="请求ip地址")
+    request_browser = models.CharField(max_length=64, verbose_name="请求浏览器", null=True, blank=True,
+                                       help_text="请求浏览器")
+    response_code = models.CharField(max_length=32, verbose_name="响应状态码", null=True, blank=True,
+                                     help_text="响应状态码")
     request_os = models.CharField(max_length=64, verbose_name="操作系统", null=True, blank=True, help_text="操作系统")
     json_result = models.TextField(verbose_name="返回信息", null=True, blank=True, help_text="返回信息")
     status = models.BooleanField(default=False, verbose_name="响应状态", help_text="响应状态")
@@ -255,7 +286,8 @@ class File(CoreModel):
 class Area(CoreModel):
     name = models.CharField(max_length=100, verbose_name="名称", help_text="名称")
     code = models.CharField(max_length=20, verbose_name="地区编码", help_text="地区编码", unique=True, db_index=True)
-    level = models.BigIntegerField(verbose_name="地区层级(1省份 2城市 3区县 4乡级)", help_text="地区层级(1省份 2城市 3区县 4乡级)")
+    level = models.BigIntegerField(verbose_name="地区层级(1省份 2城市 3区县 4乡级)",
+                                   help_text="地区层级(1省份 2城市 3区县 4乡级)")
     pinyin = models.CharField(max_length=255, verbose_name="拼音", help_text="拼音")
     initials = models.CharField(max_length=20, verbose_name="首字母", help_text="首字母")
     enable = models.BooleanField(default=True, verbose_name="是否启用", help_text="是否启用")
@@ -280,8 +312,10 @@ class ApiWhiteList(CoreModel):
         (2, "PUT"),
         (3, "DELETE"),
     )
-    method = models.IntegerField(default=0, verbose_name="接口请求方法", null=True, blank=True, help_text="接口请求方法")
-    enable_datasource = models.BooleanField(default=True, verbose_name="激活数据权限", help_text="激活数据权限", blank=True)
+    method = models.IntegerField(default=0, verbose_name="接口请求方法", null=True, blank=True,
+                                 help_text="接口请求方法")
+    enable_datasource = models.BooleanField(default=True, verbose_name="激活数据权限", help_text="激活数据权限",
+                                            blank=True)
 
     class Meta:
         db_table = "system_api_white_list"
@@ -314,7 +348,8 @@ class SystemConfig(CoreModel):
         (12, 'foreignkey'),
         (13, 'manytomany'),
     )
-    form_item_type = models.IntegerField(choices=FORM_ITEM_TYPE_LIST, verbose_name="表单类型", help_text="表单类型", default=0,
+    form_item_type = models.IntegerField(choices=FORM_ITEM_TYPE_LIST, verbose_name="表单类型", help_text="表单类型",
+                                         default=0,
                                          blank=True)
     rule = models.JSONField(null=True, blank=True, verbose_name="校验规则", help_text="校验规则")
     placeholder = models.CharField(max_length=50, null=True, blank=True, verbose_name="提示信息", help_text="提示信息")
@@ -346,11 +381,13 @@ class LoginLog(CoreModel):
     district = models.CharField(max_length=50, verbose_name="县区", null=True, blank=True, help_text="县区")
     isp = models.CharField(max_length=50, verbose_name="运营商", null=True, blank=True, help_text="运营商")
     area_code = models.CharField(max_length=50, verbose_name="区域代码", null=True, blank=True, help_text="区域代码")
-    country_english = models.CharField(max_length=50, verbose_name="英文全称", null=True, blank=True, help_text="英文全称")
+    country_english = models.CharField(max_length=50, verbose_name="英文全称", null=True, blank=True,
+                                       help_text="英文全称")
     country_code = models.CharField(max_length=50, verbose_name="简称", null=True, blank=True, help_text="简称")
     longitude = models.CharField(max_length=50, verbose_name="经度", null=True, blank=True, help_text="经度")
     latitude = models.CharField(max_length=50, verbose_name="纬度", null=True, blank=True, help_text="纬度")
-    login_type = models.IntegerField(default=1, choices=LOGIN_TYPE_CHOICES, verbose_name="登录类型", help_text="登录类型")
+    login_type = models.IntegerField(default=1, choices=LOGIN_TYPE_CHOICES, verbose_name="登录类型",
+                                     help_text="登录类型")
 
     class Meta:
         db_table = 'system_login_log'
