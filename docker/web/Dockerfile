@@ -1,8 +1,8 @@
 FROM node:18 as DIST
 WORKDIR /web
 COPY web .
-RUN npm install --registry=https://registry.npm.taobao.org -g pnpm \
-    && pnpm install --registry=https://registry.npm.taobao.org \
+RUN npm install --registry=https://registry.npmmirror.com -g pnpm \
+    && pnpm install --registry=https://registry.npmmirror.com \
     && cp .env.docker .env.production \
     && pnpm build
 
