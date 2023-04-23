@@ -7,11 +7,10 @@ from ninja.security import APIKeyQuery, APIKeyHeader, HttpBearer, HttpBasicAuth
 
 from demo.router import demo_router
 from system.router import system_router
-from utils.fu_auth import AuthBearer, BasicAuth
-
+from utils.fu_auth import GlobalAuth
 from utils.fu_ninja import FuNinjaAPI
 
-api = FuNinjaAPI(auth=[AuthBearer(), BasicAuth()])
+api = FuNinjaAPI(auth=GlobalAuth)
 
 
 # 统一处理server异常
