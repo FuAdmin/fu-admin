@@ -3,20 +3,18 @@
 # @Author  : 臧成龙
 # @FileName: api.py
 # @Software: PyCharm
-from ninja.security import APIKeyQuery, APIKeyHeader, HttpBearer, HttpBasicAuth
-
 from demo.router import demo_router
 from system.router import system_router
-from utils.fu_auth import AuthBearer, BasicAuth
-
+from utils.fu_auth import GlobalAuth
 from utils.fu_ninja import FuNinjaAPI
 
-api = FuNinjaAPI(auth=[AuthBearer(), BasicAuth()])
+api = FuNinjaAPI(auth=GlobalAuth())
 
 
 # 统一处理server异常
-@api.exception_handler(Exception)
+# @api.exception_handler(Exception)
 def a(request, exc):
+
     if hasattr(exc, 'errno'):
         return api.create_response(request, data=[], msg=str(exc), code=exc.errno)
     else:
