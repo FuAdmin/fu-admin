@@ -47,6 +47,18 @@
                   confirm: handleDelete.bind(null, record.id),
                 },
               },
+              {
+                type: 'button',
+                icon: 'ant-design:key-outlined',
+                color: 'warning',
+                auth: ['user:update'],
+                tooltip: t('common.account.resetPassword'),
+                disabled: record.id === 1,
+                popConfirm: {
+                  title: t('common.account.resetPasswordHit'),
+                  confirm: resetPassword.bind(null, record.id),
+                },
+              },
             ]"
           />
         </template>
@@ -66,7 +78,7 @@
   import DeptTree from './DeptTree.vue';
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '/@/hooks/web/usePage';
-  import { getList, deleteItem } from './account.api';
+  import { getList, deleteItem, repassword } from './account.api';
   import { message, Space } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -107,7 +119,7 @@
           },
         },
         actionColumn: {
-          width: 120,
+          width: 200,
           title: t('common.operationText'),
           dataIndex: 'action',
         },
@@ -129,6 +141,11 @@
       async function handleDelete(id: number) {
         await deleteItem(id);
         await reload();
+      }
+
+      async function resetPassword(id: number) {
+        await repassword({id:id, password:'123456'});
+        message.success(t('common.successText'));
       }
 
       function handleBulkDelete() {
@@ -183,6 +200,7 @@
         handleView,
         searchInfo,
         handleBulkDelete,
+        resetPassword,
         t,
       };
     },

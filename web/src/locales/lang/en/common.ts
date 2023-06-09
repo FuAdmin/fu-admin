@@ -67,6 +67,8 @@ export default {
     passwordBlackMsg: 'Password is empty',
     confirmPasswordMsg: 'Password is not match',
     changeAvatarText: 'Change Avatar',
+    resetPassword: 'Reset Password',
+    resetPasswordHit: 'Reset password to 123456'
   },
   button: {
     nameText: 'Button Name',

@@ -67,6 +67,8 @@ export default {
     passwordBlackMsg: '密码不能为空',
     confirmPasswordMsg: '两次输入的密码不一致!',
     changeAvatarText: '更换头像',
+    resetPassword: '重置密码',
+    resetPasswordHit: '是否重置密码为123456'
   },
   button: {
     nameText: '按钮名称',
