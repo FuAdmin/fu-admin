@@ -56,7 +56,7 @@
                 disabled: record.id === 1,
                 popConfirm: {
                   title: t('common.account.resetPasswordHit'),
-                  confirm: resetPassword.bind(null, record.id),
+                  confirm: rePassword.bind(null, record.id),
                 },
               },
             ]"
@@ -78,7 +78,7 @@
   import DeptTree from './DeptTree.vue';
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '/@/hooks/web/usePage';
-  import { getList, deleteItem, repassword } from './account.api';
+  import { getList, deleteItem, repassword, resetPassword } from './account.api';
   import { message, Space } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -143,8 +143,8 @@
         await reload();
       }
 
-      async function resetPassword(id: number) {
-        await repassword({id:id, password:'123456'});
+      async function rePassword(id: number) {
+        await resetPassword(id);
         message.success(t('common.successText'));
       }
 
@@ -200,7 +200,7 @@
         handleView,
         searchInfo,
         handleBulkDelete,
-        resetPassword,
+        rePassword,
         t,
       };
     },

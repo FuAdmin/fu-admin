@@ -48,17 +48,17 @@ class GlobalAuth(HttpBearer):
             else:
                 # 判断是否是超级管理员
                 if not token_user['is_superuser']:
+                    # 判断是path是否是‘/数字’结尾
+                    result = re.search(r'/\d+$', request_path)
+                    if result:
+                        match_value = result.group()
+                        # 将数字结尾的接口替换成.*? 因为接口中是/{id}
+                        request_path = request_path.replace(match_value, '/*')
                     # 判断是否在白名单中
                     if request_path in WHITE_LIST:
                         return token
                     else:
                         menuIds = user.role.values_list('permission__id', flat=True)
-                        # 判断是path是否是‘/数字’结尾
-                        result = re.search(r'/\d+$', request_path)
-                        if result:
-                            match_value = result.group()
-                            # 将数字结尾的接口替换成.*? 因为接口中是/{id}
-                            request_path = request_path.replace(match_value, '/*')
                         queryset = MenuButton.objects.filter(id__in=menuIds, api__regex=request_path,
                                                              method=METHOD[request_method])
                         if queryset.exists():

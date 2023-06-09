@@ -16,6 +16,7 @@ from system.models import Users
 from utils.fu_crud import create, delete, retrieve
 from utils.fu_ninja import FuFilters, MyPagination
 from utils.fu_response import FuResponse
+from utils.usual import get_user_info_from_token
 
 router = Router()
 
@@ -104,7 +105,21 @@ class SchemaIn(Schema):
 
 @router.post("/user/set/repassword", response=SchemaOut)
 def repassword(request, data: SchemaIn):
-    user = get_object_or_404(Users, id=data.id)
-    user.set_password(data.password)
+    request_user = get_user_info_from_token(request)
+    request_user_id = request_user['id']
+    update_id = data.id
+    if request_user_id == update_id:
+        user = get_object_or_404(Users, id=update_id)
+        user.set_password(data.password)
+        user.save()
+        return FuResponse(msg='密码修改成功')
+    else:
+        return FuResponse(code=403, msg='对不起, 只能修改自己的密码')
+
+
+@router.put("/user/reset/password/{id}", response=SchemaOut)
+def reset_password(request, id:int):
+    user = get_object_or_404(Users, id=id)
+    user.set_password('123456')
     user.save()
     return FuResponse(msg='密码重置成功')

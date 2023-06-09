@@ -26,6 +26,14 @@ export const repassword = (params) => {
   return defHttp.post({ url: DeptApi.prefix + '/set/repassword', params });
 };
 
+
+
+export const resetPassword = (id) => {
+  return defHttp.put({ url: DeptApi.prefix + '/reset/password/' + id });
+};
+
+
+
 // export const getAllList = () => {
 //   return defHttp.get({ url: DeptApi.prefix + '/all/list' });
 // };
