@@ -7,6 +7,7 @@
     checkable
     show-icon
     title="按钮权限"
+    :selectable = false
     toolbar
     @check="check"
     ref="treeRef"

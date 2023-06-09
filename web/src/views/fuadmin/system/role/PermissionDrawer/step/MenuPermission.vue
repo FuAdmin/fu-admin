@@ -3,14 +3,13 @@
     :treeData="menuTreeData"
     :fieldNames="{ title: 'title', key: 'id' }"
     :checkedKeys="checkedKeys"
-    :selectedKeys="selectedKeys"
     v-model:value="checkTreeData"
+    :selectable = false
     checkable
     show-icon
     title="菜单权限"
     @check="check"
     checkStrictly
-    toolbar
     ref="treeRef"
   />
 </template>
