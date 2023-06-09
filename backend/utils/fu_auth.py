@@ -96,13 +96,13 @@ def data_permission(request, filters: FuFilters):
         dept_and_below_ids = get_dept(user_info['dept'])
         filters.belong_dept__in = dept_and_below_ids
 
-    # 所有数据权限
-    if data_range == 3:
-        pass
-
     # 自定义数据权限
-    if data_range == 4:
+    if data_range == 3:
         filters.belong_dept__in = list(dept_ids)
+
+    # 所有数据权限
+    if data_range == 4:
+        pass
 
     return filters
 

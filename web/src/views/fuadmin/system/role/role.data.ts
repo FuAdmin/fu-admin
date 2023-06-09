@@ -89,7 +89,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
   },
 ];
-const isDataRange = (data_range: number) => data_range === 4;
+const isDataRange = (data_range: number) => data_range === 3;
 
 export const formSchema: FormSchema[] = [
   {
@@ -181,8 +181,8 @@ export const formPermissionSchema: FormSchema[] = [
           { label: t('common.role.onlyOwnDataText'), value: 0 },
           { label: t('common.role.onlyDeptDataText'), value: 1 },
           { label: t('common.role.deptAndBelowDataText'), value: 2 },
-          { label: t('common.role.allDataText'), value: 3 },
-          { label: t('common.role.customizeOwnDataText'), value: 4 },
+          { label: t('common.role.customizeOwnDataText'), value: 3 },
+          { label: t('common.role.allDataText'), value: 4 },
         ],
         onChange: () => {
           formModel.dept = [];
