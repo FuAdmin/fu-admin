@@ -184,6 +184,7 @@ export default {
     codeText: '岗位编码',
   },
   role: {
+    permissionMng: '权限管理',
     nameText: '角色名称',
     codeText: '角色编码',
     menuPermissionText: '菜单权限',

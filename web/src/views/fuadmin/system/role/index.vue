@@ -48,8 +48,8 @@
                 type: 'button',
                 color: 'warning',
                 auth: ['role:update'],
-                icon: 'ant-design:key-outlined',
                 onClick: handlePermission.bind(null, record),
+                label: t('common.role.permissionMng')
               },
             ]"
           />

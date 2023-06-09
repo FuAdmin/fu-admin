@@ -182,6 +182,7 @@ export default {
     codeText: 'Post Code',
   },
   role: {
+    permissionMng: 'Permission Manage',
     nameText: 'Role Name',
     codeText: 'Role Code',
     menuPermissionText: 'Menu Permission',
