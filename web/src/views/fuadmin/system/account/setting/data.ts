@@ -104,7 +104,7 @@ export const secureSetschemas: FormSchema[] = [
   // },
   {
     field: 'password',
-    label: t('common.account.secureSettingText'),
+    label: t('common.account.passwordText'),
     component: 'InputPassword',
     show: true,
     rules: [
@@ -117,7 +117,7 @@ export const secureSetschemas: FormSchema[] = [
   },
   {
     field: 'verify_password',
-    label: t('common.account.secureSettingText'),
+    label: t('common.account.confirmPasswordText'),
     component: 'InputPassword',
     show: true,
     colProps: { span: 18 },

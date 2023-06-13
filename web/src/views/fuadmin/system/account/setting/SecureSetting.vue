@@ -5,7 +5,7 @@
         <BasicForm @register="register" />
       </a-col>
     </a-row>
-    <Button type="primary" @click="handleSubmit"> {{ t('common.saveText') }} </Button>
+    <Button type="primary" @click="handleSubmit" :loading = loadStatus> {{ t('common.saveText') }} </Button>
   </CollapseContainer>
 </template>
 <script lang="ts">
@@ -38,7 +38,10 @@
       const route = useRoute();
       const userId = ref(route.params?.id);
 
-      const [register, { validate }] = useForm({
+      let loadStatus = ref(false)
+
+
+      const [register, { validate, resetFields }] = useForm({
         labelWidth: 120,
         schemas: secureSetschemas,
         showActionButtonGroup: false,
@@ -54,16 +57,24 @@
         return avatar || headerImg;
       });
       async function handleSubmit() {
-        const values = await validate();
-        values.id = userId.value;
-        console.log(values);
-        await repassword(values);
-        createMessage.success('更新成功！');
+        try {
+          loadStatus.value = true
+          const values = await validate();
+          values.id = userId.value;
+          await repassword(values);
+          await resetFields();
+          loadStatus.value = false
+          createMessage.success('更新成功！');
+        } catch {
+          loadStatus.value = false
+        }
+
       }
       return {
         avatar,
         register,
         handleSubmit,
+        loadStatus,
         t,
       };
     },
