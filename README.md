@@ -2,9 +2,9 @@
 
 [![img](https://img.shields.io/badge/license-Apache%202.0-dark)](https://gitee.com/fuadmin/fu-admin/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.7.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2016.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin)
 
-官方文档：[http://175.24.184.165/](http://175.24.184.165/)
-中文预览：[http://175.24.184.165:8080](http://175.24.184.165:8080)
-English Preview：[http://175.24.184.165:9090](http://175.24.184.165:9090)
+官方文档：http://124.222.210.96](http://124.222.210.96)
+中文预览：[http://124.222.210.96:8080](http://124.222.210.96:8080)
+English Preview：[http://124.222.210.96:9090](http://124.222.210.96:9090)
 
 ## 为什么使用 Django-Ninja 和 Vue3
 
@@ -155,3 +155,10 @@ daphne -b 0.0.0.0 -p 8000 fuadmin.asgi:application
 ## Docker构建
 
 请参考文档[Docker构建](docker/README.md)
+
+## 项目捐赠
+
+如果你觉得这个项目帮助到了你，你可以请作者喝杯咖啡表示鼓励 ☕️
+
+<img src="/screenshots/pay.png" style="zoom:50%;" />
+
