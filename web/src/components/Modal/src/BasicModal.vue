@@ -1,20 +1,28 @@
 <template>
   <Modal v-bind="getBindValue" @cancel="handleCancel">
-    <template #closeIcon v-if="!$slots.closeIcon">
-      <ModalClose
-        :canFullscreen="getProps.canFullscreen"
-        :fullScreen="fullScreenRef"
-        @cancel="handleCancel"
-        @fullscreen="handleFullScreen"
-      />
-    </template>
+      <template #closeIcon v-if="!$slots.closeIcon">
+        <ModalClose
+          :canFullscreen="getProps.canFullscreen"
+          :fullScreen="fullScreenRef"
+          @cancel="handleCancel"
+          @fullscreen="handleFullScreen"
+        />
+      </template>
+
 
     <template #title v-if="!$slots.title">
       <ModalHeader
         :helpMessage="getProps.helpMessage"
         :title="getMergeProps.title"
         @dblclick="handleTitleDbClick"
-      />
+      >
+        <template #insertHeaderMiddle>
+          <slot name="insertHeaderMiddle"></slot>
+        </template>
+        <template #insertHeaderRight>
+          <slot name="insertHeaderRight"></slot>
+        </template>
+      </ModalHeader>
     </template>
 
     <template #footer v-if="!$slots.footer">

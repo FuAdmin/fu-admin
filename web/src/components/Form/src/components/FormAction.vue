@@ -61,7 +61,7 @@
       [Col.name]: Col,
     },
     props: {
-      showActionButtonGroup: propTypes.bool.def(true),
+      showActionButtonGroup: propTypes.bool.def(false),
       showResetButton: propTypes.bool.def(true),
       showSubmitButton: propTypes.bool.def(true),
       showAdvancedButton: propTypes.bool.def(true),
