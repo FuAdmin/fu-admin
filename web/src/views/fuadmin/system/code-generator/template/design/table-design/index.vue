@@ -1,6 +1,13 @@
 <template>
   <Layout :style="{ height: '83vh' }">
-    <LayoutContent> </LayoutContent>
+    <LayoutContent>
+      <Card title="查询条件" :bordered="false">
+        <BasicTable @register="registerSearchTable" />
+      </Card>
+      <Card title="列表字段" :bordered="false">
+        <BasicTable @register="registerColumnTable" />
+      </Card>
+    </LayoutContent>
     <LayoutSider
       :class="`right ${prefixCls}-sider`"
       :reverseArrow="true"
@@ -12,25 +19,22 @@
     >
       <div style="padding: 0 10px">
         <Tabs v-model:activeKey="activeKey">
-          <Tab-pane key="1" tab="查询字段">
+          <Tab-pane key="1" tab="查询条件">
             <Row style="height: 30px">
               <Col :span="20">
-                <div>
-                  查询字段
-                </div>
+                <div> 查询条件 </div>
               </Col>
               <Col :span="4">
                 <Checkbox
                   v-model:checked="queryCheckAll"
-                  :indeterminate="indeterminate"
-                  @change="onCheckAllChange"
-                >
-                </Checkbox>
+                  :indeterminate="queryIndeterminate"
+                  @change="onQueryCheckAllChange"
+                />
               </Col>
             </Row>
             <!--            <CheckboxGroup v-model:value="queryList" :options="queryOptions" />-->
             <CheckboxGroup style="width: 100%" v-model:value="queryList">
-              <div v-for="item in queryOptions" style="height: 30px">
+              <div v-for="item in queryOptions" :key="item.value" style="height: 30px">
                 <Row>
                   <Col :span="20">
                     <div>
@@ -38,14 +42,40 @@
                     </div>
                   </Col>
                   <Col :span="4">
-                    <Checkbox :value="item.value"></Checkbox>
+                    <Checkbox :value="item.value" />
                   </Col>
                 </Row>
               </div>
-
             </CheckboxGroup>
           </Tab-pane>
-          <Tab-pane key="2" tab="列表字段" force-render>Content of Tab Pane 2</Tab-pane>
+          <Tab-pane key="2" tab="列表字段" force-render>
+            <Row style="height: 30px">
+              <Col :span="20">
+                <div> 列表字段 </div>
+              </Col>
+              <Col :span="4">
+                <Checkbox
+                  v-model:checked="columnCheckAll"
+                  :indeterminate="columnIndeterminate"
+                  @change="onColumnCheckAllChange"
+                />
+              </Col>
+            </Row>
+            <CheckboxGroup style="width: 100%" v-model:value="columnList">
+              <div v-for="item in queryOptions" :key="item.value" style="height: 30px">
+                <Row>
+                  <Col :span="20">
+                    <div>
+                      {{ item.label }}
+                    </div>
+                  </Col>
+                  <Col :span="4">
+                    <Checkbox :value="item.value" />
+                  </Col>
+                </Row>
+              </div>
+            </CheckboxGroup>
+          </Tab-pane>
           <Tab-pane key="3" tab="列表属性">Content of Tab Pane 3</Tab-pane>
         </Tabs>
       </div>
@@ -70,14 +100,19 @@
     FormItem,
     Form,
     Checkbox,
+    Card,
   } from 'ant-design-vue';
 
   import { useDesign } from '/@/hooks/web/useDesign';
   import { isArray } from '/@/utils/is';
+  import BasicTable from '/@/components/Table/src/BasicTable.vue';
+  import { useTable } from '/@/components/Table';
+  import { searchColumns } from '/@/views/fuadmin/system/code-generator/template/design/table-design/data';
 
   export default defineComponent({
-    name: 'tableDesign',
+    name: 'TableDesign',
     components: {
+      BasicTable,
       Form,
       FormItem,
       Input,
@@ -90,6 +125,7 @@
       Tabs,
       TabPane,
       Checkbox,
+      Card,
     },
     props: {
       templateInfo: { type: Object },
@@ -97,45 +133,109 @@
     setup(props, { emit }) {
       const { prefixCls } = useDesign('form-design');
       const queryState = reactive({
-        indeterminate: false,
+        queryIndeterminate: false,
         queryCheckAll: false,
         queryList: [],
+      });
+
+      const columnState = reactive({
+        columnIndeterminate: false,
+        columnCheckAll: false,
+        columnList: [],
       });
 
       let queryOptions = computed(() => {
         const schemas = props.templateInfo.formConfigInfo.schemas;
         if (isArray(schemas)) {
-          console.log(schemas, 1111);
           return schemas.map((item) => {
             return {
-              value: item.field,
+              value: item.label + '-' + item.field,
               label: item.label,
             };
           });
         } else return [];
       });
 
-      const onCheckAllChange = (e: any) => {
+      const onQueryCheckAllChange = (e: any) => {
         Object.assign(queryState, {
           queryList: e.target.checked ? queryOptions.value.map((item) => item.value) : [],
-          indeterminate: false,
+          queryIndeterminate: false,
         });
       };
+
+      const onColumnCheckAllChange = (e: any) => {
+        Object.assign(columnState, {
+          columnList: e.target.checked ? queryOptions.value.map((item) => item.value) : [],
+          columnIndeterminate: false,
+        });
+      };
+
       watch(
         () => queryState.queryList,
         (val) => {
-          console.log(val.length, queryOptions.value);
-          queryState.indeterminate = !!val.length && val.length < queryOptions.value.length;
+          console.log(val.length, val, queryOptions.value);
+          queryState.queryIndeterminate = !!val.length && val.length < queryOptions.value.length;
           queryState.queryCheckAll = val.length === queryOptions.value.length;
+
+          let queryFieldDatas = [];
+          val.forEach((item) => {
+            const queryFieldData = {
+              column_name: item.split('-')[0],
+              field_name: item.split('-')[1],
+              type: '',
+              is_check: true,
+            };
+            queryFieldDatas.push(queryFieldData);
+          });
+          // console.log(queryFieldDatas, 5555, val)
+          setSearchTableData(queryFieldDatas);
         },
       );
+
+      watch(
+        () => columnState.columnList,
+        (val) => {
+          console.log(val.length, val, queryOptions.value);
+          columnState.columnIndeterminate = !!val.length && val.length < queryOptions.value.length;
+          columnState.columnCheckAll = val.length === queryOptions.value.length;
+
+          let columnFieldDatas = [];
+          val.forEach((item) => {
+            const columnFieldData = {
+              column_name: item.split('-')[0],
+              field_name: item.split('-')[1],
+              type: '',
+              is_check: true,
+            };
+            columnFieldDatas.push(columnFieldData);
+          });
+          // console.log(queryFieldDatas, 5555, val)
+          setColumnTableData(columnFieldDatas);
+        },
+      );
+
+      const [registerSearchTable, { setTableData: setSearchTableData }] = useTable({
+        columns: searchColumns,
+        pagination: false,
+        maxHeight: 300,
+      });
+
+      const [registerColumnTable, { setTableData: setColumnTableData }] = useTable({
+        columns: searchColumns,
+        pagination: false,
+        maxHeight: 300,
+      });
 
       return {
         activeKey: ref('1'),
         prefixCls,
         ...toRefs(queryState),
-        onCheckAllChange,
+        onQueryCheckAllChange,
+        onColumnCheckAllChange,
         queryOptions,
+        registerSearchTable,
+        registerColumnTable,
+        ...toRefs(columnState),
         props,
       };
     },
