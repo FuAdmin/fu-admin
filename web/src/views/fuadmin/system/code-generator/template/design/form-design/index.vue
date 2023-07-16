@@ -1,24 +1,27 @@
 <template>
-  <VFormDesign @formConfig="getFormConfig"></VFormDesign>
-
+  <VFormDesign @formConfig="getFormConfig" :formInfo="props.formInfo" />
 </template>
 <script lang="ts">
-import { defineComponent, reactive, ref, watch } from "vue";
-import VFormDesign from "/@/views/sys/form-design/components/VFormDesign/index.vue";
+  import { defineComponent, ref } from 'vue';
+  import VFormDesign from '/@/views/sys/form-design/components/VFormDesign/index.vue';
 
-
-export default defineComponent({
-  name: "formDesign",
-  components: {VFormDesign},
-  emits: ['designFormConfig'],
-  setup(_, {emit}) {
-    const getFormConfig = (val)=>{
-      emit('designFormConfig', val)
-    }
-
-    return {
-      getFormConfig,
-    };
-  },
-});
+  export default defineComponent({
+    name: 'FormDesign',
+    components: { VFormDesign },
+    props: {
+      formInfo: Object,
+    },
+    emits: ['designFormConfig'],
+    setup(props, { emit }) {
+      const formRev = ref();
+      const getFormConfig = (val) => {
+        emit('designFormConfig', val);
+      };
+      return {
+        getFormConfig,
+        formRev,
+        props,
+      };
+    },
+  });
 </script>

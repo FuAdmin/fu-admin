@@ -25,10 +25,7 @@
             <Input v-model:value="formData.template_code" />
           </FormItem>
 
-          <FormItem
-            label="模板说明"
-            name="template_name"
-          >
+          <FormItem label="模板说明" name="template_name">
             <a-textarea v-model:value="formData.template_des" />
           </FormItem>
         </Form>
@@ -38,13 +35,12 @@
 </template>
 <script lang="ts">
   import { defineComponent, reactive, ref, watch } from 'vue';
-  import { CollapseContainer } from '/@/components/Container';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { Row, Col, Input, Form, FormItem } from 'ant-design-vue';
 
   export default defineComponent({
     name: 'BasicSetting',
-    components: {Input, CollapseContainer, Row, Col, Form, FormItem },
+    components: { Input, Row, Col, Form, FormItem },
     props: {
       basicInfo: Object,
     },
@@ -58,8 +54,14 @@
         template_des: '',
       });
 
-      let a = ref(0);
+      watch(props.basicInfo, (value) => {
+        console.log(value);
+        formData.template_code = value.template_code;
+        formData.template_name = value.template_name;
+        formData.template_des = value.template_des;
+      });
 
+      let a = ref(0);
 
       watch(formData, (value) => {
         emit('basicInfo', value);

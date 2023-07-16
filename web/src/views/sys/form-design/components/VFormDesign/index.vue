@@ -1,5 +1,5 @@
 <template>
-  <Layout :style="{height: '83vh'}">
+  <Layout :style="{ height: '83vh' }">
     <LayoutSider
       :class="`left ${prefixCls}-sider`"
       collapsedWidth="0"
@@ -26,14 +26,14 @@
           @handle-list-push="handleListPush"
         />
       </CollapseContainer>
-<!--      <CollapseContainer title="布局控件">-->
-<!--        <CollapseItem-->
-<!--          :list="layoutComponents"-->
-<!--          :handleListPush="handleListPushDrag"-->
-<!--          @add-attrs="handleAddAttrs"-->
-<!--          @handle-list-push="handleListPush"-->
-<!--        />-->
-<!--      </CollapseContainer>-->
+      <!--      <CollapseContainer title="布局控件">-->
+      <!--        <CollapseItem-->
+      <!--          :list="layoutComponents"-->
+      <!--          :handleListPush="handleListPushDrag"-->
+      <!--          @add-attrs="handleAddAttrs"-->
+      <!--          @handle-list-push="handleListPush"-->
+      <!--        />-->
+      <!--      </CollapseContainer>-->
     </LayoutSider>
     <LayoutContent>
       <Toolbar
@@ -62,12 +62,11 @@
         <PropsPanel ref="propsPanel" :activeKey="formConfig.activeKey">
           <template v-for="item of formConfig.schemas" #[`${item.component}Props`]="data">
             <slot
-                :name="`${item.component}Props`"
-                v-bind="{ formItem: data, props: data.componentProps }"
+              :name="`${item.component}Props`"
+              v-bind="{ formItem: data, props: data.componentProps }"
             ></slot>
           </template>
         </PropsPanel>
-
       </div>
     </LayoutSider>
   </Layout>
@@ -93,7 +92,7 @@
 
   import 'codemirror/mode/javascript/javascript';
 
-  import { ref, provide, Ref, watch } from "vue";
+  import { ref, provide, Ref, watch } from 'vue';
   import { Layout, LayoutContent, LayoutSider } from 'ant-design-vue';
 
   import { IVFormComponent, IFormConfig, PropsTabKey } from '../../typings/v-form-component';
@@ -106,10 +105,13 @@
   import { useDesign } from '/@/hooks/web/useDesign';
 
   import { CollapseContainer } from '/@/components/Container/index';
-  defineProps({
+  const props = defineProps({
     title: {
       type: String,
       default: 'v-form-antd表单设计器',
+    },
+    formInfo: {
+      type: Object,
     },
   });
   const { prefixCls } = useDesign('form-design');
@@ -119,7 +121,7 @@
   const importJsonModal = ref<null | IToolbarMethods>(null);
   const eFormPreview = ref<null | IToolbarMethods>(null);
   const eFormPreview2 = ref<null | IToolbarMethods>(null);
-  const emit = defineEmits(['formConfig'])
+  const emit = defineEmits(['formConfig']);
   const codeModal = ref<null | IToolbarMethods>(null);
 
   const formModel = ref({});
@@ -331,10 +333,31 @@
     setFormConfig,
   });
 
-  watch(formConfig.value, (val)=>{
-    console.log(val,33333);
-    emit('formConfig', val)
-  }, { deep: true })
+  watch(
+    formConfig.value,
+    (val) => {
+      console.log(val, 33333);
+      emit('formConfig', val);
+    },
+    { deep: true },
+  );
+
+  watch(
+    () => props.formInfo,
+    (val) => {
+      const config = val;
+      if (config != undefined) {
+        //外部导入时，可能会缺少必要的信息。
+        config.schemas = config.schemas || [];
+        config.schemas.forEach((item) => {
+          item.colProps = item.colProps || { span: 24 };
+          item.componentProps = item.componentProps || {};
+          item.itemProps = item.itemProps || {};
+        });
+        formConfig.value = config;
+      }
+    },
+  );
 
   // endregion
 </script>

@@ -1,4 +1,4 @@
-import {FormSchema} from "/@/components/Form";
+import { FormSchema } from '/@/components/Form';
 
 /**
  * -*- coding: utf-8 -*-
@@ -8,29 +8,29 @@ import {FormSchema} from "/@/components/Form";
  * QQ: 939589097
  */
 export const schemas: FormSchema[] = [
-    {
-        field: 'template_name',
-        component: 'Input',
-        label: '模板名称',
-        componentProps: {
-            // placeholder: '自定义placeholder',
-        },
+  {
+    field: 'template_name',
+    component: 'Input',
+    label: '模板名称',
+    componentProps: {
+      // placeholder: '自定义placeholder',
     },
-    {
-        field: 'template_code',
-        component: 'Input',
-        label: '模板编码',
-        componentProps: {
-            // placeholder: '自定义placeholder',
-        },
+  },
+  {
+    field: 'template_code',
+    component: 'Input',
+    label: '模板编码',
+    componentProps: {
+      // placeholder: '自定义placeholder',
     },
+  },
 
-    {
-        field: 'template_des',
-        component: 'Input',
-        label: '模板说明',
-        componentProps: {
-            // placeholder: '自定义placeholder',
-        },
+  {
+    field: 'template_des',
+    component: 'Input',
+    label: '模板说明',
+    componentProps: {
+      // placeholder: '自定义placeholder',
     },
+  },
 ];

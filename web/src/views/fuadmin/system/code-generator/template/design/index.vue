@@ -13,12 +13,7 @@
         <Space>
           <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">上一步</a-button>
           <a-button v-if="current < 3 - 1" type="primary" @click="next">下一步</a-button>
-          <a-button
-            v-if="current == 3 - 1"
-            type="primary"
-            :loading="handleSubmit"
-            @click="handleSubmit"
-          >
+          <a-button v-if="current == 3 - 1" type="primary" :loading="false" @click="handleSubmit">
             提交
           </a-button>
         </Space>
@@ -42,11 +37,11 @@
       />
     </div>
     <div v-show="current === 1">
-      <FormDesign @designFormConfig="getDesignFormConfig"/>
+      <FormDesign @designFormConfig="getDesignFormConfig" :formInfo="templateInfo.formConfigInfo" />
     </div>
 
     <div v-show="current === 2">
-      <TableDesign :templateInfo="templateInfo"/>
+      <TableDesign ref="tableDesignRef" :templateInfo="templateInfo" @tableInfo="getTableInfo" />
     </div>
   </BasicModal>
 </template>
@@ -56,9 +51,9 @@
   import { Steps, Space } from 'ant-design-vue';
   import BasicSetting from '/@/views/fuadmin/system/code-generator/template/design/basic-setting/index.vue';
   import FormDesign from '/@/views/fuadmin/system/code-generator/template/design/form-design/index.vue';
-  import TableDesign from "/@/views/fuadmin/system/code-generator/template/design/table-design/index.vue";
+  import TableDesign from '/@/views/fuadmin/system/code-generator/template/design/table-design/index.vue';
   import { IFormConfig } from '/@/views/sys/form-design/typings/v-form-component';
-  import { IAnyObject } from "/@/views/sys/form-design/typings/base-type";
+  import { createOrUpdate } from '/@/views/fuadmin/system/code-generator/template/api';
 
   export default defineComponent({
     name: 'DesignModal',
@@ -86,10 +81,19 @@
       });
 
       const refBasicSetting = ref();
+      const id = ref();
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
         setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
+        if (isUpdate.value) {
+          templateInfo.formConfigInfo = JSON.parse(data.record.form_info);
+          templateInfo.basicInfo.template_name = data.record.name;
+          templateInfo.basicInfo.template_code = data.record.code;
+          templateInfo.basicInfo.remark = data.record.remark;
+          templateInfo.tableInfo = JSON.parse(data.record.table_info);
+          id.value = data.record.id;
+        }
       });
 
       const current = ref<number>(0);
@@ -110,11 +114,32 @@
         templateInfo.formConfigInfo = val;
       };
 
+      const getTableInfo = (val) => {
+        templateInfo.tableInfo = val;
+      };
+
+      const tableDesignRef = ref();
+
       async function handleSubmit() {
         try {
           setModalProps({ confirmLoading: true });
+          tableDesignRef.value.tableInfo();
+          const payload = {
+            name: templateInfo.basicInfo.template_name,
+            code: templateInfo.basicInfo.template_code,
+            remark: templateInfo.basicInfo.template_des,
+            form_info: JSON.stringify(templateInfo.formConfigInfo),
+            table_info: JSON.stringify(templateInfo.tableInfo),
+            id: id.value,
+          };
+
+          createOrUpdate(payload, isUpdate);
+
           // TODO custom api
           closeModal();
+          // templateInfo.basicInfo = {};
+          // templateInfo.formConfigInfo = {};
+          // templateInfo.tableInfo = {};
           emit('success');
         } finally {
           setModalProps({ confirmLoading: false });
@@ -131,7 +156,9 @@
         next,
         prev,
         templateInfo,
+        getTableInfo,
         getBasicInfo,
+        tableDesignRef,
       };
     },
   });

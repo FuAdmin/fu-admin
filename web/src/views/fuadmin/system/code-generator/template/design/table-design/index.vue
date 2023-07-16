@@ -86,7 +86,7 @@
 <script lang="ts">
   import 'codemirror/mode/javascript/javascript';
 
-  import { ref, provide, Ref, defineComponent, computed, reactive, toRefs, watch } from 'vue';
+  import { ref, defineComponent, computed, reactive, toRefs, watch } from 'vue';
   import {
     Col,
     Layout,
@@ -96,9 +96,6 @@
     Tabs,
     TabPane,
     CheckboxGroup,
-    Input,
-    FormItem,
-    Form,
     Checkbox,
     Card,
   } from 'ant-design-vue';
@@ -107,15 +104,15 @@
   import { isArray } from '/@/utils/is';
   import BasicTable from '/@/components/Table/src/BasicTable.vue';
   import { useTable } from '/@/components/Table';
-  import { searchColumns } from '/@/views/fuadmin/system/code-generator/template/design/table-design/data';
+  import {
+    columnFieldsColumns,
+    searchColumns,
+  } from '/@/views/fuadmin/system/code-generator/template/design/table-design/data';
 
   export default defineComponent({
     name: 'TableDesign',
     components: {
       BasicTable,
-      Form,
-      FormItem,
-      Input,
       CheckboxGroup,
       Layout,
       LayoutContent,
@@ -130,6 +127,7 @@
     props: {
       templateInfo: { type: Object },
     },
+    emits: ['tableInfo'],
     setup(props, { emit }) {
       const { prefixCls } = useDesign('form-design');
       const queryState = reactive({
@@ -200,12 +198,14 @@
           columnState.columnCheckAll = val.length === queryOptions.value.length;
 
           let columnFieldDatas = [];
-          val.forEach((item) => {
+          val.forEach((item, index) => {
             const columnFieldData = {
               column_name: item.split('-')[0],
               field_name: item.split('-')[1],
-              type: '',
-              is_check: true,
+              sort: index + 1,
+              freeze: 'none',
+              align: 'left',
+              width: 80,
             };
             columnFieldDatas.push(columnFieldData);
           });
@@ -214,17 +214,74 @@
         },
       );
 
-      const [registerSearchTable, { setTableData: setSearchTableData }] = useTable({
+      const [
+        registerSearchTable,
+        { setTableData: setSearchTableData, getDataSource: getSearchData },
+      ] = useTable({
         columns: searchColumns,
         pagination: false,
         maxHeight: 300,
       });
 
-      const [registerColumnTable, { setTableData: setColumnTableData }] = useTable({
-        columns: searchColumns,
+      const [
+        registerColumnTable,
+        { setTableData: setColumnTableData, getDataSource: getColumnData },
+      ] = useTable({
+        columns: columnFieldsColumns,
         pagination: false,
         maxHeight: 300,
       });
+
+      watch(
+        () => props.templateInfo,
+        (val) => {
+          if (val != undefined) {
+            const tableInfoObj = val.tableInfo;
+            const searchInfo = tableInfoObj.searchInfo;
+            const columnInfo = tableInfoObj.columnInfo;
+            setSearchTableData(searchInfo);
+            setColumnTableData(columnInfo);
+            queryState.queryList = searchInfo.map((item) => {
+              return item.column_name + '-' + item.field_name;
+            });
+            columnState.columnList = columnInfo.map((item) => {
+              return item.column_name + '-' + item.field_name;
+            });
+          }
+        },
+        { deep: true },
+      );
+
+      function tableInfo() {
+        const searchData = getSearchData();
+
+        // const searchSchemaList = [];
+        // searchData.forEach((item) => {
+        //   const searchSchema = {
+        //     field: item.field_name,
+        //     label: item.column_name,
+        //     component: 'Input',
+        //     colProps: { span: 6 },
+        //   };
+        //   searchSchemaList.push(searchSchema);
+        // });
+
+        const columnData = getColumnData();
+        // const columnSchemaList = [];
+        // columnData.forEach((item) => {
+        //   const columnSchema = {
+        //     title: item.column_name,
+        //     dataIndex: item.field_name,
+        //     width: item.width,
+        //   };
+        //   columnSchemaList.push(columnSchema);
+        // });
+
+        emit('tableInfo', {
+          searchInfo: searchData,
+          columnInfo: columnData,
+        });
+      }
 
       return {
         activeKey: ref('1'),
@@ -233,6 +290,7 @@
         onQueryCheckAllChange,
         onColumnCheckAllChange,
         queryOptions,
+        tableInfo,
         registerSearchTable,
         registerColumnTable,
         ...toRefs(columnState),

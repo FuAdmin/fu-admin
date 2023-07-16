@@ -5,7 +5,6 @@
         <Space style="height: 40px">
           <a-button
             type="primary"
-            v-auth="['demo:add']"
             preIcon="ant-design:plus-outlined"
             @click="handleCreate"
           >
@@ -13,7 +12,6 @@
           </a-button>
           <a-button
             type="error"
-            v-auth="['demo:delete']"
             preIcon="ant-design:delete-outlined"
             @click="handleBulkDelete"
           >
@@ -26,11 +24,11 @@
             class="my-5"
             type="warning"
             :text="t('common.importText')"
-            v-auth="['demo:update']"
+            v-auth="['nihaoupdate']"
           />
           <a-button
             type="success"
-            v-auth="['demo:update']"
+            v-auth="['nihaoupdate']"
             preIcon="carbon:cloud-download"
             @click="handleExportData"
           >
@@ -46,7 +44,7 @@
                 type: 'button',
                 icon: 'clarity:note-edit-line',
                 color: 'primary',
-                auth: ['demo:update'],
+                auth: ['nihaoupdate'],
                 onClick: handleEdit.bind(null, record),
               },
               {
@@ -54,21 +52,10 @@
                 type: 'button',
                 color: 'error',
                 placement: 'left',
-                auth: ['demo:delete'],
+                auth: ['nihaodelete'],
                 popConfirm: {
                   title: t('common.delHintText'),
                   confirm: handleDelete.bind(null, record.id),
-                },
-              },
-              {
-                type: 'button',
-                icon: 'ant-design:vertical-align-bottom-outlined',
-                color: 'success',
-                auth: ['demo:update'],
-                tooltip: '导出代码',
-                popConfirm: {
-                  title: t('common.delHintText'),
-                  confirm: exportCode.bind(null, record.id),
                 },
               },
             ]"
@@ -76,7 +63,7 @@
         </template>
       </template>
     </BasicTable>
-    <DesignModal @register="registerModal" @success="handleSuccess" />
+    <Drawer @register="registerDrawer" @success="handleSuccess" />
   </div>
 </template>
 <script lang="ts">
@@ -84,31 +71,23 @@
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { usePermission } from '/@/hooks/web/usePermission';
-  import { useModal } from '/@/components/Modal';
-
+  import { useDrawer } from '/@/components/Drawer';
+  import Drawer from './drawer.vue';
   import { Space } from 'ant-design-vue';
   import { BasicUpload } from '/@/components/Upload';
-  import { deleteItem, getList, exportData, importData, codeGenerator } from './api';
+  import { deleteItem, getList, exportData, importData } from './api';
   import { columns, searchFormSchema } from './data';
   import { message } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByData } from '/@/utils/file/download';
   import { useI18n } from '/@/hooks/web/useI18n';
-  import DesignModal from '/@/views/fuadmin/system/code-generator/template/design/index.vue';
-
   export default defineComponent({
-    name: 'GeneratorTemplate',
-    components: {
-      DesignModal,
-      BasicTable,
-      TableAction,
-      BasicUpload,
-      Space,
-    },
+    name: 'nihao',
+    components: { BasicTable, Drawer, TableAction, BasicUpload, Space },
     setup() {
       const { t } = useI18n();
-      const [registerModal, { openModal }] = useModal();
 
+      const [registerDrawer, { openDrawer }] = useDrawer();
       const { createConfirm } = useMessage();
       const { hasPermission } = usePermission();
       const [registerTable, { reload, getSelectRows }] = useTable({
@@ -135,13 +114,13 @@
       });
 
       function handleCreate() {
-        openModal(true, {
+        openDrawer(true, {
           isUpdate: false,
         });
       }
 
       function handleEdit(record: Recordable) {
-        openModal(true, {
+        openDrawer(true, {
           record,
           isUpdate: true,
         });
@@ -175,13 +154,13 @@
       async function handleChange(list: string[]) {
         console.log(list[0]);
         await importData({ path: list[0] });
-        message.success(`导入成功`);
+        message.success('导入成功');
         await reload();
       }
 
       async function handleExportData() {
         const response = await exportData();
-        await downloadByData(response.data, '项目数据.xlsx');
+        await downloadByData(response.data, '你好.xlsx');
       }
 
       function handleSuccess() {
@@ -189,39 +168,9 @@
         reload();
       }
 
-      const exportData = (data: string, fileName: string) => {
-        let content = 'data:text/csv;charset=utf-8,';
-        content += data;
-        console.log(content, 111);
-
-        const encodedUri = encodeURI(content);
-        const actions = document.createElement('a');
-        actions.setAttribute('href', encodedUri);
-        actions.setAttribute('download', fileName);
-        actions.click();
-      };
-
-      async function exportCode(id: number) {
-        await codeGenerator(id);
-        // const indexInfo = {
-        //   name: record.name,
-        //   code: record.code,
-        // };
-        // const indexTxt = generatorIndex(indexInfo);
-        // const dataInfo = {
-        //   formInfo: JSON.parse(record.form_info),
-        //   tableInfo: JSON.parse(record.table_info),
-        // };
-        // const dataTxt = generatorData(dataInfo);
-        // exportData(indexTxt, 'index.vue');
-        // exportData(dataTxt, 'data.ts');
-
-        message.success(t('common.successText'));
-        await reload();
-      }
-
       return {
         registerTable,
+        registerDrawer,
         handleCreate,
         handleEdit,
         handleDelete,
@@ -231,8 +180,6 @@
         getSelectRows,
         handleExportData,
         handleChange,
-        registerModal,
-        exportCode,
         t,
       };
     },

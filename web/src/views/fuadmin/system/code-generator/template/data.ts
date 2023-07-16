@@ -15,24 +15,13 @@ export const columns: BasicColumn[] = [
     title: t('common.demo.nameText'),
     dataIndex: 'name',
     width: 200,
-    auth: ['/demo:name'],
+    // auth: ['/demo:name'],
   },
   {
     title: t('common.demo.codeText'),
     dataIndex: 'code',
     width: 180,
-    auth: ['/demo:code'],
-  },
-  {
-    title: t('common.sortText'),
-    dataIndex: 'sort',
-    width: 100,
-    auth: ['/demo:sort'],
-  },
-  {
-    title: t('common.statusText'),
-    dataIndex: 'status',
-    width: 100,
+    // auth: ['/demo:code'],
   },
   {
     title: t('common.remarkText'),
@@ -41,7 +30,7 @@ export const columns: BasicColumn[] = [
     customRender: ({ record }) => {
       return getAreaTextByCode(record.remark);
     },
-    auth: ['/demo:remark'],
+    // auth: ['/demo:remark'],
   },
   {
     title: t('common.createDateText'),

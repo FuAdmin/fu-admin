@@ -19,7 +19,7 @@
   import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
-    name: 'ButtonDrawer',
+    name: 'dsadDrawer',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
