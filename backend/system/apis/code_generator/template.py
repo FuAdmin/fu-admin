@@ -143,15 +143,6 @@ def update_generator_template(request, generator_template_id: int):
         }
         menu_qr = create(request, menu_dic, Menu)
         # 添加菜单按钮
-        button_dic = {
-            "name": "新增",
-            "code": f"{instance.code}:add",
-            "method": 1,
-            "api": f"/api/generator_project/{instance.code}",
-            "sort": 1,
-            "menu_id": 24
-        }
-
         button_list = [
             {
                 "name": "新增",

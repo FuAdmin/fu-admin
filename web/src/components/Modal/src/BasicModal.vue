@@ -1,14 +1,13 @@
 <template>
   <Modal v-bind="getBindValue" @cancel="handleCancel">
-      <template #closeIcon v-if="!$slots.closeIcon">
-        <ModalClose
-          :canFullscreen="getProps.canFullscreen"
-          :fullScreen="fullScreenRef"
-          @cancel="handleCancel"
-          @fullscreen="handleFullScreen"
-        />
-      </template>
-
+    <template #closeIcon v-if="!$slots.closeIcon">
+      <ModalClose
+        :canFullscreen="getProps.canFullscreen"
+        :fullScreen="fullScreenRef"
+        @cancel="handleCancel"
+        @fullscreen="handleFullScreen"
+      />
+    </template>
 
     <template #title v-if="!$slots.title">
       <ModalHeader

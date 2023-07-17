@@ -41,7 +41,12 @@
     </div>
 
     <div v-show="current === 2">
-      <TableDesign ref="tableDesignRef" :templateInfo="templateInfo" @tableInfo="getTableInfo" />
+      <TableDesign
+        ref="tableDesignRef"
+        :templateInfo="templateInfo"
+        @tableInfo="getTableInfo"
+        :tableData="templateInfo.tableInfo"
+      />
     </div>
   </BasicModal>
 </template>
@@ -52,7 +57,6 @@
   import BasicSetting from '/@/views/fuadmin/system/code-generator/template/design/basic-setting/index.vue';
   import FormDesign from '/@/views/fuadmin/system/code-generator/template/design/form-design/index.vue';
   import TableDesign from '/@/views/fuadmin/system/code-generator/template/design/table-design/index.vue';
-  import { IFormConfig } from '/@/views/sys/form-design/typings/v-form-component';
   import { createOrUpdate } from '/@/views/fuadmin/system/code-generator/template/api';
 
   export default defineComponent({
@@ -70,13 +74,13 @@
     setup(_, { emit }) {
       const isUpdate = ref(true);
 
-      const templateInfo = reactive<{
+      let templateInfo = reactive<{
         basicInfo: Object;
-        formConfigInfo: IFormConfig;
+        formConfigInfo: Object;
         tableInfo: Object;
       }>({
         basicInfo: {},
-        formConfigInfo: {} as IFormConfig,
+        formConfigInfo: {},
         tableInfo: {},
       });
 
@@ -85,7 +89,14 @@
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
         setModalProps({ confirmLoading: false });
-        isUpdate.value = !!data?.isUpdate;
+        isUpdate.value = data.isUpdate;
+        current.value = 0;
+        templateInfo.formConfigInfo = {};
+        templateInfo.basicInfo.template_name = undefined;
+        templateInfo.basicInfo.template_code = undefined;
+        templateInfo.basicInfo.remark = undefined;
+        tableDesignRef.value.resetList();
+        templateInfo.tableInfo = {};
         if (isUpdate.value) {
           templateInfo.formConfigInfo = JSON.parse(data.record.form_info);
           templateInfo.basicInfo.template_name = data.record.name;
@@ -133,13 +144,10 @@
             id: id.value,
           };
 
-          createOrUpdate(payload, isUpdate);
+          createOrUpdate(payload, unref(isUpdate));
 
-          // TODO custom api
           closeModal();
-          // templateInfo.basicInfo = {};
-          // templateInfo.formConfigInfo = {};
-          // templateInfo.tableInfo = {};
+
           emit('success');
         } finally {
           setModalProps({ confirmLoading: false });

@@ -126,6 +126,7 @@
     },
     props: {
       templateInfo: { type: Object },
+      tableData: Object,
     },
     emits: ['tableInfo'],
     setup(props, { emit }) {
@@ -214,6 +215,13 @@
         },
       );
 
+      function resetList() {
+        queryState.queryCheckAll = false;
+        queryState.queryIndeterminate = false;
+        columnState.columnIndeterminate = false;
+        columnState.columnCheckAll = false;
+      }
+
       const [
         registerSearchTable,
         { setTableData: setSearchTableData, getDataSource: getSearchData },
@@ -233,20 +241,22 @@
       });
 
       watch(
-        () => props.templateInfo,
+        () => props.tableData,
         (val) => {
           if (val != undefined) {
-            const tableInfoObj = val.tableInfo;
+            const tableInfoObj = val;
             const searchInfo = tableInfoObj.searchInfo;
             const columnInfo = tableInfoObj.columnInfo;
             setSearchTableData(searchInfo);
             setColumnTableData(columnInfo);
-            queryState.queryList = searchInfo.map((item) => {
-              return item.column_name + '-' + item.field_name;
-            });
-            columnState.columnList = columnInfo.map((item) => {
-              return item.column_name + '-' + item.field_name;
-            });
+            if (isArray(searchInfo) && isArray(columnInfo)) {
+              queryState.queryList = searchInfo.map((item) => {
+                return item.column_name + '-' + item.field_name;
+              });
+              columnState.columnList = columnInfo.map((item) => {
+                return item.column_name + '-' + item.field_name;
+              });
+            }
           }
         },
         { deep: true },
@@ -294,6 +304,7 @@
         registerSearchTable,
         registerColumnTable,
         ...toRefs(columnState),
+        resetList,
         props,
       };
     },
