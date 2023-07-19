@@ -10,6 +10,8 @@ from django.shortcuts import get_object_or_404
 from ninja import Field, ModelSchema, Query, Router, Schema, UploadedFile
 from ninja.pagination import paginate
 
+from system.apis.code_generator.code_template.backend.api import generator_backend_api
+from system.apis.code_generator.code_template.backend.model import generator_backend_model
 from system.apis.code_generator.code_template.web.api_template import generator_api
 from system.apis.code_generator.code_template.web.data_template import generator_data
 from system.apis.code_generator.code_template.web.drawer_template import generator_drawer
@@ -99,86 +101,93 @@ def import_generator_template(request, data: ImportSchema):
 @router.put("/generator_template/code/generate/{generator_template_id}", response=GeneratorTemplateSchemaOut)
 def update_generator_template(request, generator_template_id: int):
     instance = get_object_or_404(GeneratorTemplate, id=generator_template_id)
-    web_index_txt = generator_index(instance)
-    web_data_txt = generator_data(instance)
-    web_drawer_txt = generator_drawer(instance)
-    web_api_txt = generator_api(instance)
-    web_target_path = os.path.abspath(
-        os.path.join(os.getcwd(), "..", 'web', 'src', 'views', 'generator-project', instance.code))
-    # 判断当前路径是否存在，没有则创建文件夹
-    if not os.path.exists(web_target_path):
-        os.makedirs(web_target_path)
+    # web_index_txt = generator_index(instance)
+    # web_data_txt = generator_data(instance)
+    # web_drawer_txt = generator_drawer(instance)
+    # web_api_txt = generator_api(instance)
+    # web_target_path = os.path.abspath(
+    #     os.path.join(os.getcwd(), "..", 'web', 'src', 'views', 'generator-project', instance.code))
+    # # 判断当前路径是否存在，没有则创建文件夹
+    # if not os.path.exists(web_target_path):
+    #     os.makedirs(web_target_path)
+    #
+    # web_index_path = os.path.join(web_target_path, 'index.vue')
+    # with open(web_index_path, 'w', encoding='utf-8') as file:
+    #     file.write(web_index_txt)
+    #
+    # web_data_path = os.path.join(web_target_path, 'data.ts')
+    # with open(web_data_path, 'w', encoding='utf-8') as file:
+    #     file.write(web_data_txt)
+    #
+    # web_api_path = os.path.join(web_target_path, 'api.ts')
+    # with open(web_api_path, 'w', encoding='utf-8') as file:
+    #     file.write(web_api_txt)
+    #
+    # web_drawer_path = os.path.join(web_target_path, 'drawer.vue')
+    # with open(web_drawer_path, 'w', encoding='utf-8') as file:
+    #     file.write(web_drawer_txt)
+    # # 添加菜单和菜单按钮
+    # if not instance.has_menu:
+    #     # 添加菜单
+    #     menu_dic = {
+    #         "type": 1,
+    #         "title": instance.name,
+    #         "parent_id": 33,
+    #         "sort": 1,
+    #         "icon": "ant-design:book-outlined",
+    #         "path": instance.code,
+    #         "status": True,
+    #         "hide_menu": False,
+    #         "component": f"/generator-project/{instance.code}/index.vue",
+    #         "name": instance.code,
+    #         "is_ext": False,
+    #         "keepalive": False
+    #     }
+    #     menu_qr = create(request, menu_dic, Menu)
+    #     # 添加菜单按钮
+    #     button_list = [
+    #         {
+    #             "name": "新增",
+    #             "code": f"{instance.code}:add",
+    #             "method": 1,
+    #             "api": f"/api/generator_project/{instance.code}",
+    #             "sort": 1,
+    #             "menu_id": menu_qr.id
+    #         },
+    #         {
+    #             "name": "删除",
+    #             "code": f"{instance.code}:delete",
+    #             "method": 2,
+    #             "api": f"/api/generator_project/{instance.code}/{instance.code}_id",
+    #             "sort": 2,
+    #             "menu_id": menu_qr.id
+    #         },
+    #         {
+    #             "name": "修改",
+    #             "code": f"{instance.code}:update",
+    #             "method": 3,
+    #             "api": f"/api/generator_project/{instance.code}/{instance.code}_id",
+    #             "sort": 3,
+    #             "menu_id": menu_qr.id
+    #         },
+    #         {
+    #             "name": "查询",
+    #             "code": f"{instance.code}:search",
+    #             "method": 0,
+    #             "api": f"/api/generator_project/{instance.code}",
+    #             "sort": 4,
+    #             "menu_id": menu_qr.id
+    #         }
+    #     ]
+    #     batch_create(request, button_list, MenuButton)
+    #     instance.has_menu = True
+    #     instance.save()
 
-    web_index_path = os.path.join(web_target_path, 'index.vue')
-    with open(web_index_path, 'w', encoding='utf-8') as file:
-        file.write(web_index_txt)
+    # 生成后端代码
 
-    web_data_path = os.path.join(web_target_path, 'data.ts')
-    with open(web_data_path, 'w', encoding='utf-8') as file:
-        file.write(web_data_txt)
+    backend_model_txt = generator_backend_model(instance)
+    backend_api_txt = generator_backend_api(instance)
+    print()
 
-    web_api_path = os.path.join(web_target_path, 'api.ts')
-    with open(web_api_path, 'w', encoding='utf-8') as file:
-        file.write(web_api_txt)
-
-    web_drawer_path = os.path.join(web_target_path, 'drawer.vue')
-    with open(web_drawer_path, 'w', encoding='utf-8') as file:
-        file.write(web_drawer_txt)
-    # 添加菜单和菜单按钮
-    if not instance.has_menu:
-        # 添加菜单
-        menu_dic = {
-            "type": 1,
-            "title": instance.name,
-            "parent_id": 33,
-            "sort": 1,
-            "icon": "ant-design:book-outlined",
-            "path": instance.code,
-            "status": True,
-            "hide_menu": False,
-            "component": f"/generator-project/{instance.code}/index.vue",
-            "name": instance.code,
-            "is_ext": False,
-            "keepalive": False
-        }
-        menu_qr = create(request, menu_dic, Menu)
-        # 添加菜单按钮
-        button_list = [
-            {
-                "name": "新增",
-                "code": f"{instance.code}:add",
-                "method": 1,
-                "api": f"/api/generator_project/{instance.code}",
-                "sort": 1,
-                "menu_id": menu_qr.id
-            },
-            {
-                "name": "删除",
-                "code": f"{instance.code}:delete",
-                "method": 2,
-                "api": f"/api/generator_project/{instance.code}/{instance.code}_id",
-                "sort": 2,
-                "menu_id": menu_qr.id
-            },
-            {
-                "name": "修改",
-                "code": f"{instance.code}:update",
-                "method": 3,
-                "api": f"/api/generator_project/{instance.code}/{instance.code}_id",
-                "sort": 3,
-                "menu_id": menu_qr.id
-            },
-            {
-                "name": "查询",
-                "code": f"{instance.code}:search",
-                "method": 0,
-                "api": f"/api/generator_project/{instance.code}",
-                "sort": 4,
-                "menu_id": menu_qr.id
-            }
-        ]
-        batch_create(request, button_list, MenuButton)
-        instance.has_menu = True
-        instance.save()
 
     return 'generator_template'
