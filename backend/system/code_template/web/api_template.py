@@ -2,7 +2,7 @@ def generator_api(api_info):
     return f'''import {{ defHttp }} from '/@/utils/http/axios';
 
 enum DeptApi {{
-  prefix = '/api/{'generator_project'}/{api_info.code}',
+  prefix = '/api/{'generator'}/{api_info.code}',
 }}
 /**
  * 获取list

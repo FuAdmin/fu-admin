@@ -1,6 +1,6 @@
 import json
 
-from system.apis.code_generator.code_template.backend.mapping import component_to_search_type
+from system.code_template.backend.mapping import component_to_search_type
 
 
 def generator_backend_api(api_info):
@@ -10,13 +10,13 @@ def generator_backend_api(api_info):
     field_code = ''
 
     for item in form_info_dict.get('schemas'):
-        field_code = item['field'] + ', ' + field_code
+        field_code = f''''{item['field']}', {field_code}'''
         column = f'''    
     {item['field']}: {component_to_search_type[item['component']]} = Field(None, alias='{item['field']}')'''
         filter_txt = column + filter_txt
 
     api_txt = f'''from typing import List
-from .models import {api_info.code.capitalize()}
+from .model import {api_info.code.capitalize()}
 from ninja import Field, ModelSchema, Query, Router
 from ninja.pagination import paginate
 from utils.fu_crud import (
@@ -57,7 +57,6 @@ class {api_info.code.capitalize()}SchemaOut(ModelSchema):
 # 创建{api_info.code.capitalize()}
 @router.post('/{api_info.code}', response={api_info.code.capitalize()}SchemaOut)
 def create_{api_info.code}(request, data: {api_info.code.capitalize()}SchemaIn):
-    data.remark = ','.join(data.remark)
     {api_info.code} = create(request, data, {api_info.code.capitalize()})
     return {api_info.code}
 
@@ -72,7 +71,6 @@ def delete_{api_info.code}(request, id: int):
 # 更新{api_info.code.capitalize()}
 @router.put('/{api_info.code}/{{id}}', response={api_info.code.capitalize()}SchemaOut)
 def update_{api_info.code}(request, id: int, data: {api_info.code.capitalize()}SchemaIn):
-    data.remark = ','.join(data.remark)
     {api_info.code} = update(request, id, data, {api_info.code.capitalize()})
     return {api_info.code}
 
@@ -95,7 +93,7 @@ def export_{api_info.code}(request):
 # 导出
 @router.post('/{api_info.code}/all/import')
 def import_{api_info.code}(request, data: ImportSchema):
-    import_fields = ({field_code}）
+    import_fields = ({field_code})
     return import_data(request, {api_info.code.capitalize()}, {api_info.code.capitalize()}SchemaIn, data, import_fields)
     '''
     return api_txt

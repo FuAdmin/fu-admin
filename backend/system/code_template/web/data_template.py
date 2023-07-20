@@ -38,7 +38,7 @@ import {{ FormSchema }} from '/@/components/Table';
         search_schemas = search_schemas + search_schema
     search_txt = f'''export const searchFormSchema: FormSchema[] = [
         {search_schemas}
-]
+];
 '''
     form_schemas = ''
     form_info = json.loads(data_info.form_info).get('schemas')
@@ -47,15 +47,21 @@ import {{ FormSchema }} from '/@/components/Table';
   {{
     component: '{item['component']}',
     label: '{item['label']}',
-    colProps:{{
+    colProps: {{
       span: {item['colProps']['span']}
     }},
     field: '{item['field']}',
   }},
 '''
         form_schemas = form_schemas + form_schema
-    form_txt = f'''export const formSchema: FormSchema[] = [ 
-            {form_schemas}
+    form_txt = f'''export const formSchema: FormSchema[] = [
+  {{
+    field: 'id',
+    label: 'id',
+    component: 'Input',
+    show: false,
+  }},
+{form_schemas}
 ]
 '''
 

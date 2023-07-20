@@ -1,6 +1,6 @@
 import json
 
-from system.apis.code_generator.code_template.backend.mapping import component_to_db_type
+from system.code_template.backend.mapping import component_to_db_type
 
 
 def generator_backend_model(model_info):
@@ -19,7 +19,6 @@ from utils.models import CoreModel
 
     bottom_txt = f'''class {model_info.code.capitalize()}(CoreModel):
     {columns_txt}
-
 
     class Meta:
         db_table = 'generator_{model_info.code}'
