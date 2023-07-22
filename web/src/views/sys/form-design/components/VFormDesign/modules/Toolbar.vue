@@ -52,14 +52,14 @@
         toolbarsConfigs: IToolbarsConfig[];
       }>({
         toolbarsConfigs: [
+          // {
+          //   title: '预览-支持布局',
+          //   type: 'preview',
+          //   event: 'handlePreview',
+          //   icon: 'ant-design:chrome-filled',
+          // },
           {
-            title: '预览-支持布局',
-            type: 'preview',
-            event: 'handlePreview',
-            icon: 'ant-design:chrome-filled',
-          },
-          {
-            title: '预览-不支持布局',
+            title: '预览',
             type: 'preview',
             event: 'handlePreview2',
             icon: 'ant-design:chrome-filled',
