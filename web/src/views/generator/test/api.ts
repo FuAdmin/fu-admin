@@ -1,7 +1,7 @@
 import { defHttp } from '/@/utils/http/axios';
 
 enum DeptApi {
-  prefix = '/api/generator_project/dsad',
+  prefix = '/api/generator/test',
 }
 /**
  * 获取list

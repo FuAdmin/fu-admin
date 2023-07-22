@@ -19,7 +19,7 @@
   import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
-    name: 'dsadDrawer',
+    name: 'testDrawer',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
@@ -30,7 +30,6 @@
         labelWidth: 100,
         schemas: formSchema,
         showActionButtonGroup: false,
-        baseColProps: { lg: 12, md: 24 },
       });
 
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {

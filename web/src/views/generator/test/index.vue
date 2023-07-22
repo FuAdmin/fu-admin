@@ -5,6 +5,7 @@
         <Space style="height: 40px">
           <a-button
             type="primary"
+            v-auth="['test:add']"
             preIcon="ant-design:plus-outlined"
             @click="handleCreate"
           >
@@ -12,6 +13,7 @@
           </a-button>
           <a-button
             type="error"
+            v-auth="['test:delete']"
             preIcon="ant-design:delete-outlined"
             @click="handleBulkDelete"
           >
@@ -24,11 +26,11 @@
             class="my-5"
             type="warning"
             :text="t('common.importText')"
-            v-auth="['nihaoupdate']"
+            v-auth="['test:update']"
           />
           <a-button
             type="success"
-            v-auth="['nihaoupdate']"
+            v-auth="['test:update']"
             preIcon="carbon:cloud-download"
             @click="handleExportData"
           >
@@ -44,7 +46,7 @@
                 type: 'button',
                 icon: 'clarity:note-edit-line',
                 color: 'primary',
-                auth: ['nihaoupdate'],
+                auth: ['test:update'],
                 onClick: handleEdit.bind(null, record),
               },
               {
@@ -52,7 +54,7 @@
                 type: 'button',
                 color: 'error',
                 placement: 'left',
-                auth: ['nihaodelete'],
+                auth: ['test:delete'],
                 popConfirm: {
                   title: t('common.delHintText'),
                   confirm: handleDelete.bind(null, record.id),
@@ -82,7 +84,7 @@
   import { downloadByData } from '/@/utils/file/download';
   import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
-    name: 'nihao',
+    name: 'test',
     components: { BasicTable, Drawer, TableAction, BasicUpload, Space },
     setup() {
       const { t } = useI18n();
@@ -160,7 +162,7 @@
 
       async function handleExportData() {
         const response = await exportData();
-        await downloadByData(response.data, '你好.xlsx');
+        await downloadByData(response.data, '模板测试.xlsx');
       }
 
       function handleSuccess() {
