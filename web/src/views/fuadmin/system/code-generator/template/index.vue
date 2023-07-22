@@ -49,26 +49,40 @@
                 auth: ['demo:update'],
                 onClick: handleEdit.bind(null, record),
               },
+              // {
+              //   icon: 'ant-design:delete-outlined',
+              //   type: 'button',
+              //   color: 'error',
+              //   placement: 'left',
+              //   auth: ['demo:delete'],
+              //   popConfirm: {
+              //     title: t('common.delHintText'),
+              //     confirm: handleDelete.bind(null, record.id),
+              //   },
+              // },
               {
-                icon: 'ant-design:delete-outlined',
                 type: 'button',
-                color: 'error',
-                placement: 'left',
-                auth: ['demo:delete'],
-                popConfirm: {
-                  title: t('common.delHintText'),
-                  confirm: handleDelete.bind(null, record.id),
-                },
-              },
-              {
-                type: 'button',
-                icon: 'ant-design:vertical-align-bottom-outlined',
+                icon: 'ant-design:export-outlined',
                 color: 'success',
                 auth: ['demo:update'],
                 tooltip: '导出代码',
                 popConfirm: {
-                  title: t('common.delHintText'),
+                  title:
+                    '自动生成菜单和导出前后端代码\n' +
+                    '前端路径为: /views/generator\n' +
+                    '后端路径为: /generator',
                   confirm: exportCode.bind(null, record.id),
+                },
+              },
+              {
+                type: 'button',
+                icon: 'ant-design:caret-right-outlined',
+                color: 'warning',
+                auth: ['demo:update'],
+                tooltip: '创建数据库',
+                popConfirm: {
+                  title: '自动创建数据库的表结构',
+                  confirm: createDB.bind(null, record.id),
                 },
               },
             ]"
@@ -88,7 +102,7 @@
 
   import { Space } from 'ant-design-vue';
   import { BasicUpload } from '/@/components/Upload';
-  import { deleteItem, getList, exportData, importData, codeGenerator } from './api';
+  import { deleteItem, getList, importData, codeGenerator, dbGenerator } from './api';
   import { columns, searchFormSchema } from './data';
   import { message } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -203,19 +217,12 @@
 
       async function exportCode(id: number) {
         await codeGenerator(id);
-        // const indexInfo = {
-        //   name: record.name,
-        //   code: record.code,
-        // };
-        // const indexTxt = generatorIndex(indexInfo);
-        // const dataInfo = {
-        //   formInfo: JSON.parse(record.form_info),
-        //   tableInfo: JSON.parse(record.table_info),
-        // };
-        // const dataTxt = generatorData(dataInfo);
-        // exportData(indexTxt, 'index.vue');
-        // exportData(dataTxt, 'data.ts');
+        message.success(t('common.successText'));
+        await reload();
+      }
 
+      async function createDB(id: number) {
+        await dbGenerator(id);
         message.success(t('common.successText'));
         await reload();
       }
@@ -233,6 +240,7 @@
         handleChange,
         registerModal,
         exportCode,
+        createDB,
         t,
       };
     },

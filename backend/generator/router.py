@@ -5,10 +5,11 @@
 # author: 臧成龙
 # QQ: 939589097
 from ninja import Router
-from .iii.api import router as iii_router
+from .test.api import router as test_router
 
 generator_router = Router()
-generator_router.add_router('/', iii_router, tags=['哦哦哦'])
+generator_router.add_router('/', test_router, tags=['模板测试'])
+
 
 
 

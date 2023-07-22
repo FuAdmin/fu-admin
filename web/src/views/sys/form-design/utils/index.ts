@@ -23,9 +23,11 @@ import { cloneDeep, isArray, isFunction, isNumber, uniqueId } from 'lodash-es';
  */
 export function generateKey(formItem?: IVFormComponent): string | boolean {
   if (formItem && formItem.component) {
+
+    console.log(2222, formItem)
     const key = uniqueId(`${toLine(formItem.component)}_`);
-    formItem.key = key;
-    formItem.field = key;
+    formItem.key = key.substring(1);
+    formItem.field = key.substring(1);
 
     return true;
   }

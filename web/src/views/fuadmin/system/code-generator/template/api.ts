@@ -30,6 +30,10 @@ export const codeGenerator = (id) => {
   return defHttp.put({ url: DeptApi.prefix + '/code/generate/' + id });
 };
 
+export const dbGenerator = (id) => {
+  return defHttp.put({ url: DeptApi.prefix + '/code/generate_db/' + id });
+};
+
 export const importData = (params) => {
   return defHttp.post({ url: DeptApi.prefix + '/all/import', params });
 };

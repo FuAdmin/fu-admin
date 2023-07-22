@@ -52,87 +52,14 @@ export const customComponents: IVFormComponent[] = [];
 // props.slotName,会在formitem级别生成一个slot,并绑定当前record值
 // 属性props，类型为对象，不能为undefined或是null。
 export const baseComponents: IVFormComponent[] = [
-  {
-    component: 'InputCountDown',
-    label: '倒计时输入',
-    icon: 'line-md:iconify2',
-    colProps: { span: 24 },
-    field: '',
-    componentProps: {},
-  },
-  {
-    component: 'IconPicker',
-    label: '图标选择器',
-    icon: 'line-md:iconify2',
-    colProps: { span: 24 },
-    field: '',
-    componentProps: {},
-  },
-  {
-    component: 'StrengthMeter',
-    label: '密码强度',
-    icon: 'wpf:password1',
-    colProps: { span: 24 },
-    field: '',
-    componentProps: {},
-  },
-  {
-    component: 'AutoComplete',
-    label: '自动完成',
-    icon: 'wpf:password1',
-    colProps: { span: 24 },
-    field: '',
-    componentProps: {
-      placeholder: '请输入正则表达式',
-      options: [
-        {
-          value: '/^(?:(?:\\+|00)86)?1[3-9]\\d{9}$/',
-          label: '手机号码',
-        },
-        {
-          value: '/^((ht|f)tps?:\\/\\/)?[\\w-]+(\\.[\\w-]+)+:\\d{1,5}\\/?$/',
-          label: '网址带端口号',
-        },
-      ],
-    },
-  },
-  {
-    component: 'Divider',
-    label: '分割线',
-    icon: 'radix-icons:divider-horizontal',
-    colProps: { span: 24 },
-    field: '',
-    componentProps: {
-      orientation: 'center',
-      dashed: true,
-    },
-  },
-  {
-    component: 'Checkbox',
-    label: '复选框',
-    icon: 'ant-design:check-circle-outlined',
-    colProps: { span: 24 },
-    field: '',
-  },
-  {
-    component: 'CheckboxGroup',
-    label: '复选框-组',
-    icon: 'ant-design:check-circle-filled',
-    field: '',
-    colProps: { span: 24 },
-    componentProps: {
-      options: [
-        {
-          label: '选项1',
-          value: '1',
-        },
-        {
-          label: '选项2',
-          value: '2',
-        },
-      ],
-    },
-  },
+  // {
+  //   component: 'InputCountDown',
+  //   label: '倒计时输入',
+  //   icon: 'line-md:iconify2',
+  //   colProps: { span: 24 },
+  //   field: '',
+  //   componentProps: {},
+  // },
   {
     component: 'Input',
     label: '输入框',
@@ -160,6 +87,26 @@ export const baseComponents: IVFormComponent[] = [
     componentProps: {},
   },
   {
+    component: 'CheckboxGroup',
+    label: '复选框-组',
+    icon: 'ant-design:check-circle-filled',
+    field: '',
+    colProps: { span: 24 },
+    componentProps: {
+      options: [
+        {
+          label: '选项1',
+          value: '1',
+        },
+        {
+          label: '选项2',
+          value: '2',
+        },
+      ],
+    },
+  },
+
+  {
     component: 'Select',
     label: '下拉选择',
     icon: 'gg:select',
@@ -178,15 +125,69 @@ export const baseComponents: IVFormComponent[] = [
       ],
     },
   },
-
   {
-    component: 'Radio',
-    label: '单选框',
-    icon: 'ant-design:check-circle-outlined',
-    field: '',
+    component: 'IconPicker',
+    label: '图标选择器',
+    icon: 'line-md:iconify2',
     colProps: { span: 24 },
+    field: '',
     componentProps: {},
   },
+  {
+    component: 'StrengthMeter',
+    label: '密码强度',
+    icon: 'wpf:password1',
+    colProps: { span: 24 },
+    field: '',
+    componentProps: {},
+  },
+  // {
+  //   component: 'AutoComplete',
+  //   label: '自动完成',
+  //   icon: 'wpf:password1',
+  //   colProps: { span: 24 },
+  //   field: '',
+  //   componentProps: {
+  //     placeholder: '请输入正则表达式',
+  //     options: [
+  //       {
+  //         value: '/^(?:(?:\\+|00)86)?1[3-9]\\d{9}$/',
+  //         label: '手机号码',
+  //       },
+  //       {
+  //         value: '/^((ht|f)tps?:\\/\\/)?[\\w-]+(\\.[\\w-]+)+:\\d{1,5}\\/?$/',
+  //         label: '网址带端口号',
+  //       },
+  //     ],
+  //   },
+  // },
+  {
+    component: 'Divider',
+    label: '分割线',
+    icon: 'radix-icons:divider-horizontal',
+    colProps: { span: 24 },
+    field: '',
+    componentProps: {
+      orientation: 'center',
+      dashed: true,
+    },
+  },
+  // {
+  //   component: 'Checkbox',
+  //   label: '复选框',
+  //   icon: 'ant-design:check-circle-outlined',
+  //   colProps: { span: 24 },
+  //   field: '',
+  // },
+
+  // {
+  //   component: 'Radio',
+  //   label: '单选框',
+  //   icon: 'ant-design:check-circle-outlined',
+  //   field: '',
+  //   colProps: { span: 24 },
+  //   componentProps: {},
+  // },
   {
     component: 'RadioGroup',
     label: '单选框-组',

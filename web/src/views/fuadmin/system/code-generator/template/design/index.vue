@@ -109,7 +109,11 @@
 
       const current = ref<number>(0);
       const next = async () => {
-        current.value++;
+        const validated = await refBasicSetting.value.validateForm();
+        console.log(222, validated)
+        if (validated) {
+          current.value++;
+        }
       };
       const prev = () => {
         current.value--;
@@ -144,7 +148,7 @@
             id: id.value,
           };
 
-          createOrUpdate(payload, unref(isUpdate));
+          await createOrUpdate(payload, unref(isUpdate));
 
           closeModal();
 

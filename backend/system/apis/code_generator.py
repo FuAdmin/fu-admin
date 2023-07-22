@@ -28,6 +28,8 @@ from utils.fu_crud import (
     retrieve,
     update, batch_create, )
 from utils.fu_ninja import FuFilters, MyPagination
+from utils.fu_response import FuResponse
+from utils.usual import insert_content_after_line
 
 router = Router()
 
@@ -99,15 +101,15 @@ def import_generator_template(request, data: ImportSchema):
     return import_data(request, GeneratorTemplate, GeneratorTemplateSchemaIn, data, import_fields)
 
 
-@router.put("/generator_template/code/generate/{generator_template_id}", response=GeneratorTemplateSchemaOut)
-def update_generator_template(request, generator_template_id: int):
+@router.put("/generator_template/code/generate/{generator_template_id}")
+def generate_code(request, generator_template_id: int):
     instance = get_object_or_404(GeneratorTemplate, id=generator_template_id)
     web_index_txt = generator_index(instance)
     web_data_txt = generator_data(instance)
     web_drawer_txt = generator_drawer(instance)
     web_api_txt = generator_api(instance)
     web_target_path = os.path.abspath(
-        os.path.join(os.getcwd(), "..", 'web', 'src', 'views', 'generator-project', instance.code))
+        os.path.join(os.getcwd(), "..", 'web', 'src', 'views', 'generator', instance.code))
     # 判断当前路径是否存在，没有则创建文件夹
     if not os.path.exists(web_target_path):
         os.makedirs(web_target_path)
@@ -139,7 +141,7 @@ def update_generator_template(request, generator_template_id: int):
             "path": instance.code,
             "status": True,
             "hide_menu": False,
-            "component": f"/generator-project/{instance.code}/index.vue",
+            "component": f"/generator/{instance.code}/index.vue",
             "name": instance.code,
             "is_ext": False,
             "keepalive": False
@@ -182,9 +184,7 @@ def update_generator_template(request, generator_template_id: int):
         ]
         batch_create(request, button_list, MenuButton)
 
-
     # 生成后端代码
-
     backend_model_txt = generator_backend_model(instance)
     backend_api_txt = generator_backend_api(instance)
     backend_router_txt = generator_router(instance)
@@ -216,37 +216,13 @@ def update_generator_template(request, generator_template_id: int):
         insert_content_after_line(generator_router_path, 'generator_router = Router()', insert_router_txt)
     instance.has_menu = True
     instance.save()
-    # subprocess.run(["python", "manage.py", "makemigrations", 'generator'], check=True)
-    # subprocess.run(["python", "manage.py", "migrate", 'generator'], check=True)
 
-    print()
-
-    return 'generator_template'
+    return FuResponse(msg='代码生成成功')
 
 
-def insert_content_after_line(filename, target_line, content_to_insert):
-    try:
-        # 打开文件并读取内容
-        with open(filename, 'r') as file:
-            lines = file.readlines()
-
-        # 找到目标行的索引位置
-        target_line_index = None
-        for i, line in enumerate(lines):
-            if target_line in line:
-                target_line_index = i
-                break
-
-        if target_line_index is not None:
-            # 在目标行后面插入内容
-            lines.insert(target_line_index + 1, content_to_insert + '\n')
-
-            # 将更新后的内容写回文件中
-            with open(filename, 'w') as file:
-                file.writelines(lines)
-            print("内容已成功插入到目标行后。")
-        else:
-            print("未找到目标行。")
-
-    except FileNotFoundError:
-        print(f"文件 '{filename}' 未找到。")
+@router.put("/generator_template/code/generate_db/{generator_template_id}")
+def generate_db(request, generator_template_id: int):
+    instance = get_object_or_404(GeneratorTemplate, id=generator_template_id)
+    subprocess.run(["python", "manage.py", "makemigrations", 'generator'], check=True)
+    subprocess.run(["python", "manage.py", "migrate", 'generator'], check=True)
+    return FuResponse(msg='数据库生成成功')

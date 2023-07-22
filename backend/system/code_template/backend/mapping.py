@@ -4,7 +4,7 @@ component_to_db_type = {
     'StrengthMeter': 'CharField(null=True, blank=True, max_length=255, ',
     'Select': 'CharField(null=True, blank=True, max_length=255, ',
     'CheckboxGroup': 'CharField(null=True, blank=True, max_length=255, ',
-    'InputNumber': 'DecimalField(null=True, blank=True, ',
+    'InputNumber': 'DecimalField(null=True, blank=True, max_digits = 13, decimal_places = 4, ',
     'InputTextArea': 'TextField(null=True, blank=True, ',
     'RadioGroup': 'CharField(null=True, blank=True, max_length=255, ',
     'DatePicker': 'DateField(null=True, blank=True, ',
