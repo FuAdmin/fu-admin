@@ -218,13 +218,11 @@
       async function exportCode(id: number) {
         await codeGenerator(id);
         message.success(t('common.successText'));
-        await reload();
       }
 
       async function createDB(id: number) {
         await dbGenerator(id);
         message.success(t('common.successText'));
-        await reload();
       }
 
       return {
