@@ -3,6 +3,7 @@
 # @Author  : 臧成龙
 # @FileName: generator_template.py
 # @Software: PyCharm
+import json
 import os
 import subprocess
 from typing import List
@@ -18,7 +19,7 @@ from system.code_template.web.api_template import generator_api
 from system.code_template.web.data_template import generator_data
 from system.code_template.web.drawer_template import generator_drawer
 from system.code_template.web.index_template import generator_index
-from system.models import GeneratorTemplate, Menu, MenuButton
+from system.models import GeneratorTemplate, Menu, MenuButton, MenuColumnField
 from utils.fu_crud import (
     ImportSchema,
     create,
@@ -129,7 +130,7 @@ def generate_code(request, generator_template_id: int):
     web_drawer_path = os.path.join(web_target_path, 'drawer.vue')
     with open(web_drawer_path, 'w', encoding='utf-8') as file:
         file.write(web_drawer_txt)
-    # 添加菜单和菜单按钮
+    # 添加列表字段，菜单和菜单按钮
     if not instance.has_menu:
         # 添加菜单
         menu_dic = {
@@ -153,7 +154,7 @@ def generate_code(request, generator_template_id: int):
                 "name": "新增",
                 "code": f"{instance.code}:add",
                 "method": 1,
-                "api": f"/api/generator_project/{instance.code}",
+                "api": f"/api/generator/{instance.code}",
                 "sort": 1,
                 "menu_id": menu_qr.id
             },
@@ -161,7 +162,7 @@ def generate_code(request, generator_template_id: int):
                 "name": "删除",
                 "code": f"{instance.code}:delete",
                 "method": 2,
-                "api": f"/api/generator_project/{instance.code}/{instance.code}_id",
+                "api": f"/api/generator/{instance.code}/{instance.code}_id",
                 "sort": 2,
                 "menu_id": menu_qr.id
             },
@@ -169,7 +170,7 @@ def generate_code(request, generator_template_id: int):
                 "name": "修改",
                 "code": f"{instance.code}:update",
                 "method": 3,
-                "api": f"/api/generator_project/{instance.code}/{instance.code}_id",
+                "api": f"/api/generator/{instance.code}/{instance.code}_id",
                 "sort": 3,
                 "menu_id": menu_qr.id
             },
@@ -177,12 +178,25 @@ def generate_code(request, generator_template_id: int):
                 "name": "查询",
                 "code": f"{instance.code}:search",
                 "method": 0,
-                "api": f"/api/generator_project/{instance.code}",
+                "api": f"/api/generator/{instance.code}",
                 "sort": 4,
                 "menu_id": menu_qr.id
             }
         ]
         batch_create(request, button_list, MenuButton)
+
+    # 添加列表字段
+    table_info = json.loads(instance.table_info)
+    column_info = table_info.get('columnInfo')
+    column_list = []
+    for item in column_info:
+        column_list.append({
+            'code': item['field_name'],
+            'name': item['column_name'],
+            'menu_id': 45,
+        })
+    batch_create(request, column_list, MenuColumnField)
+
 
     # 生成后端代码
     backend_model_txt = generator_backend_model(instance)
