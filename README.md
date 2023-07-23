@@ -6,6 +6,13 @@
 中文预览：[http://124.222.210.96:8080](http://124.222.210.96:8080)
 English Preview：[http://124.222.210.96:9090](http://124.222.210.96:9090)
 
+## 重磅功能，代码生成器上线
+
+💡 **在短短的几分钟之内构建完成的项目**
+
+- 视频地址：[Bilibili](https://www.bilibili.com/video/BV1Wu4y1U76j/?vd_source=3d1f6ee11a3d0c3c90c2fc451d101524)
+- 文档地址：[http://124.222.210.96/document/generator.html](http://124.222.210.96/document/generator.html)
+
 ## 为什么使用 Django-Ninja 和 Vue3
 
 💡 **「Django Ninja 相比于 Django Rest Framework 」**
