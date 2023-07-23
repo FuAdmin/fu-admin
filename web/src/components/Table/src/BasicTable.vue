@@ -5,6 +5,7 @@
       submitOnReset
       v-bind="getFormProps"
       v-if="getBindValues.useSearchForm"
+      showActionButtonGroup
       :tableAction="tableAction"
       @register="registerForm"
       @submit="handleSearchInfoChange"

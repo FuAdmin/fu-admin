@@ -14,7 +14,14 @@
         :helpMessage="getProps.helpMessage"
         :title="getMergeProps.title"
         @dblclick="handleTitleDbClick"
-      />
+      >
+        <template #insertHeaderMiddle>
+          <slot name="insertHeaderMiddle"></slot>
+        </template>
+        <template #insertHeaderRight>
+          <slot name="insertHeaderRight"></slot>
+        </template>
+      </ModalHeader>
     </template>
 
     <template #footer v-if="!$slots.footer">

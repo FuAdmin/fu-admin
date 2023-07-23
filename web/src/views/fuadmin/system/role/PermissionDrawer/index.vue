@@ -17,7 +17,7 @@
     </template>
 
     <div class="step-form-form" style="padding: 0 35px">
-      <a-steps :current="current">
+      <a-steps :current="current" >
         <a-step title="菜单权限" />
         <a-step title="按钮权限" />
         <a-step title="列表权限" />

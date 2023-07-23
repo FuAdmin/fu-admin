@@ -24,8 +24,8 @@ from system.apis.celery_periodic import router as celery_periodic_router
 from system.apis.log.celery_log import router as celery_log_router
 from system.apis.file import router as file_router
 from system.apis.monitor import router as monitor_router
-from system.apis.menu_column import router as menu_column_field
-
+from system.apis.menu_column import router as menu_column_field_router
+from system.apis.code_generator import router as generator_template_router
 
 system_router = Router()
 system_router.add_router('/', dept_router, tags=["Dept"])
@@ -47,4 +47,5 @@ system_router.add_router('/', celery_periodic_router, tags=["CeleryPeriodic"])
 system_router.add_router('/', celery_log_router, tags=["CeleryLog"])
 system_router.add_router('/', file_router, tags=["File"])
 system_router.add_router('/', monitor_router, tags=["Monitor"])
-system_router.add_router('/', menu_column_field, tags=["MenuColumnField"])
+system_router.add_router('/', menu_column_field_router, tags=["MenuColumnField"])
+system_router.add_router('/', generator_template_router, tags=["GeneratorTemplate"])

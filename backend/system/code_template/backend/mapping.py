@@ -1,0 +1,31 @@
+component_to_db_type = {
+    'Input': 'CharField(null=True, blank=True, max_length=255, ',
+    'IconPicker': 'CharField(null=True, blank=True, max_length=255, ',
+    'StrengthMeter': 'CharField(null=True, blank=True, max_length=255, ',
+    'Select': 'CharField(null=True, blank=True, max_length=255, ',
+    'CheckboxGroup': 'CharField(null=True, blank=True, max_length=255, ',
+    'InputNumber': 'DecimalField(null=True, blank=True, max_digits = 13, decimal_places = 4, ',
+    'InputTextArea': 'TextField(null=True, blank=True, ',
+    'RadioGroup': 'CharField(null=True, blank=True, max_length=255, ',
+    'DatePicker': 'DateField(null=True, blank=True, ',
+    'MonthPicker': 'DateField(null=True, blank=True, ',
+    'TimePicker': 'TimeField(null=True, blank=True, ',
+    'Switch': 'BooleanField(null=True, blank=True, ',
+    'Rate': 'CharField(null=True, blank=True, max_length=255, ',
+}
+
+component_to_search_type = {
+    'Input': 'str',
+    'IconPicker': 'str',
+    'StrengthMeter': 'str',
+    'Select': 'str',
+    'CheckboxGroup': 'str',
+    'InputNumber': 'int',
+    'InputTextArea': 'str',
+    'RadioGroup': 'str',
+    'DatePicker': 'str',
+    'MonthPicker': 'str',
+    'TimePicker': 'str',
+    'Switch': 'bool',
+    'Rate': 'str',
+}

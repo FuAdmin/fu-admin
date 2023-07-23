@@ -70,7 +70,9 @@
     "vue-router": "^4.0.14",
     "vue-types": "^4.1.1",
     "xe-utils": "^3.5.4",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "vuedraggable": "^4.1.0"
+
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",
