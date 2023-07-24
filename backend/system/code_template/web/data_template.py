@@ -1,4 +1,22 @@
 import json
+import re
+
+
+# 自定义函数用于处理布尔值转换
+def bool_to_str(val):
+    if isinstance(val, bool):
+        return str(val).lower()  # 将布尔值转换为小写字符串
+    raise TypeError("Object of type %s is not JSON serializable" % type(val))
+
+
+# Custom JSON decoder to convert boolean strings to boolean values
+def custom_json_decoder(data):
+    for key, value in data.items():
+        if value == 'true':
+            data[key] = True
+        elif value == 'false':
+            data[key] = False
+    return data
 
 
 def generator_data(data_info):
@@ -40,29 +58,23 @@ import {{ FormSchema }} from '/@/components/Table';
         {search_schemas}
 ];
 '''
-    form_schemas = ''
     form_info = json.loads(data_info.form_info).get('schemas')
     for item in form_info:
-        form_schema = f'''
-  {{
-    component: '{item['component']}',
-    label: '{item['label']}',
-    colProps: {{
-      span: {item['colProps']['span']}
-    }},
-    field: '{item['field']}',
-  }},
-'''
-        form_schemas = form_schemas + form_schema
-    form_txt = f'''export const formSchema: FormSchema[] = [
-  {{
-    field: 'id',
-    label: 'id',
-    component: 'Input',
-    show: false,
-  }},
-{form_schemas}
-]
-'''
+        item.pop('key')
+        item.pop('icon')
+
+    id_dict = {
+        'field': 'id',
+        'label': 'id',
+        'component': 'Input',
+        'show': False,
+    }
+    form_info.insert(0, id_dict)
+
+    json_str = json.dumps(form_info, ensure_ascii=False, indent=2, default=bool_to_str)
+    js_object = re.sub(r'"\b(\w+)\b":', r'\1:', json_str)
+    form_schemas = js_object.replace('"', "'")
+
+    form_txt = f'''export const formSchema: FormSchema[] = {form_schemas}'''
 
     return head_txt + column_txt + search_txt + form_txt
