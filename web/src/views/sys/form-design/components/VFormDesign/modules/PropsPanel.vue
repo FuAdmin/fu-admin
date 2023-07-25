@@ -10,9 +10,9 @@
       <TabPane :key="2" tab="控件">
         <FormItemProps />
       </TabPane>
-      <TabPane :key="3" tab="栅格">
-        <ComponentColumnProps />
-      </TabPane>
+      <!--      <TabPane :key="3" tab="栅格">-->
+      <!--        <ComponentColumnProps />-->
+      <!--      </TabPane>-->
       <TabPane :key="4" tab="组件">
         <slot v-if="slotProps" :name="slotProps.component + 'Props'"></slot>
         <ComponentProps v-else />
