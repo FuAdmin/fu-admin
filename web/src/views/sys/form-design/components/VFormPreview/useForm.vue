@@ -3,7 +3,7 @@
 -->
 <template>
   <Modal
-    title="预览(不支持布局)"
+    title="预览"
     :visible="state.visible"
     @ok="handleGetData"
     @cancel="handleCancel"
