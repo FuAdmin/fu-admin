@@ -15,6 +15,9 @@ services:
         expose:
             - 8000
         restart: always
+        networks:
+            network:
+                ipv4_address: 177.8.0.12
 
     fuadmin-web:
         container_name: fuadmin-web
@@ -31,6 +34,9 @@ services:
             - ./docker/web/nginx.conf:/etc/nginx/conf.d/fuadmin.conf
         environment:
             TZ: Asia/Shanghai
+        networks:
+            network:
+                ipv4_address: 177.8.0.11
 
     fuadmin-mysql:
         image: mysql:8
@@ -46,6 +52,9 @@ services:
             TZ: Asia/Shanghai
         volumes:
             - mysql:/var/lib/mysql
+        networks:
+            network:
+                ipv4_address: 177.8.0.13
 
     fuadmin-redis:
         image: redis:7-alpine
@@ -59,6 +68,9 @@ services:
             - 6379
         volumes:
             - redis:/data
+        networks:
+            network:
+                ipv4_address: 177.8.0.15
 
     fuadmin-celery:
         build:
@@ -70,7 +82,17 @@ services:
         environment:
             TZ: Asia/Shanghai
         restart: always
+        networks:
+            network:
+                ipv4_address: 177.8.0.14
 
 volumes:
     mysql:
     redis:
+
+networks:
+    network:
+        ipam:
+            driver: default
+            config:
+                - subnet: '177.8.0.0/16'
