@@ -19,23 +19,23 @@
           >
             {{ t('common.delText') }}
           </a-button>
-          <BasicUpload
-            :maxSize="20"
-            :maxNumber="1"
-            @change="handleChange"
-            class="my-5"
-            type="warning"
-            :text="t('common.importText')"
-            v-auth="['demo:update']"
-          />
-          <a-button
-            type="success"
-            v-auth="['demo:update']"
-            preIcon="carbon:cloud-download"
-            @click="handleExportData"
-          >
-            {{ t('common.exportText') }}
-          </a-button>
+          <!--          <BasicUpload-->
+          <!--            :maxSize="20"-->
+          <!--            :maxNumber="1"-->
+          <!--            @change="handleChange"-->
+          <!--            class="my-5"-->
+          <!--            type="warning"-->
+          <!--            :text="t('common.importText')"-->
+          <!--            v-auth="['demo:update']"-->
+          <!--          />-->
+          <!--          <a-button-->
+          <!--            type="success"-->
+          <!--            v-auth="['demo:update']"-->
+          <!--            preIcon="carbon:cloud-download"-->
+          <!--            @click="handleExportData"-->
+          <!--          >-->
+          <!--            {{ t('common.exportText') }}-->
+          <!--          </a-button>-->
         </Space>
       </template>
       <template #bodyCell="{ column, record }">

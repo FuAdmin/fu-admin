@@ -33,6 +33,9 @@ import {{ FormSchema }} from '/@/components/Table';
     title: '{item['column_name']}',
     dataIndex: '{item['field_name']}',
     width: '{item['width']}',
+    fixed: '{item['freeze']}',
+    align: '{item['align']}',
+    resizable: {str(item['resizable']).lower()},
   }},
 '''
         column_schemas = column_schemas + column_schema

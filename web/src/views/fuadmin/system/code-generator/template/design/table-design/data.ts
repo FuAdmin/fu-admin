@@ -130,4 +130,14 @@ export const columnFieldsColumns: BasicColumn[] = [
     },
     width: 180,
   },
+  {
+    title: '是否可拖动列',
+    dataIndex: 'resizable',
+    edit: true,
+    editComponent: 'Checkbox',
+    editValueMap: (value) => {
+      return value ? '是' : '否';
+    },
+    width: 180,
+  },
 ];

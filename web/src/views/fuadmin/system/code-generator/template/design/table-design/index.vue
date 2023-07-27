@@ -187,7 +187,11 @@
             queryFieldDatas.push(queryFieldData);
           });
           // console.log(queryFieldDatas, 5555, val)
+          // if (searchInfo.length > 0) {
+          //   setSearchTableData(searchInfo);
+          // } else {
           setSearchTableData(queryFieldDatas);
+          // }
         },
       );
 
@@ -204,14 +208,19 @@
               column_name: item.split('-')[0],
               field_name: item.split('-')[1],
               sort: index + 1,
-              freeze: 'none',
+              freeze: '',
               align: 'left',
               width: 80,
+              resizable: true,
             };
             columnFieldDatas.push(columnFieldData);
           });
-          // console.log(queryFieldDatas, 5555, val)
+          console.log(5555, val);
+          // if (columnInfo.length > 0) {
+          //   setColumnTableData(columnInfo);
+          // } else {
           setColumnTableData(columnFieldDatas);
+          // }
         },
       );
 
@@ -239,23 +248,24 @@
         pagination: false,
         maxHeight: 300,
       });
-
+      let searchInfo = [];
+      let columnInfo = [];
       watch(
         () => props.tableData,
         (val) => {
           if (val != undefined) {
             const tableInfoObj = val;
-            const searchInfo = tableInfoObj.searchInfo;
-            const columnInfo = tableInfoObj.columnInfo;
-            setSearchTableData(searchInfo);
-            setColumnTableData(columnInfo);
+            searchInfo = tableInfoObj.searchInfo;
+            columnInfo = tableInfoObj.columnInfo;
             if (isArray(searchInfo) && isArray(columnInfo)) {
+              console.log(111, columnInfo);
               queryState.queryList = searchInfo.map((item) => {
                 return item.column_name + '-' + item.field_name;
               });
               columnState.columnList = columnInfo.map((item) => {
                 return item.column_name + '-' + item.field_name;
               });
+              console.log(222, columnInfo);
             }
           }
         },
