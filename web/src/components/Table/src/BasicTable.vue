@@ -21,6 +21,7 @@
       v-bind="getBindValues"
       :rowClassName="getRowClassName"
       v-show="getEmptyDataIsShowTable"
+      @resize-column="resizeColumn"
       @change="handleTableChange"
     >
       <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
@@ -193,7 +194,9 @@
         wrapRef,
         formRef,
       );
-
+      const resizeColumn = (w, col) => {
+        setCacheColumnsByField(col.dataIndex, { width: w });
+      };
       const { scrollTo } = useTableScrollTo(tableElRef, getDataSourceRef);
 
       const { customRow } = useCustomRow(getProps, {
@@ -337,6 +340,7 @@
         wrapRef,
         tableAction,
         redoHeight,
+        resizeColumn,
         getFormProps: getFormProps as any,
         replaceFormSlotKey,
         getFormSlotKeys,
