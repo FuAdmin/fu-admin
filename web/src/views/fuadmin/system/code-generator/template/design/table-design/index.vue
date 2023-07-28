@@ -86,18 +86,18 @@
 <script lang="ts">
   import 'codemirror/mode/javascript/javascript';
 
-  import { ref, defineComponent, computed, reactive, toRefs, watch } from 'vue';
+  import { computed, defineComponent, reactive, ref, toRefs, watch } from 'vue';
   import {
+    Card,
+    Checkbox,
+    CheckboxGroup,
     Col,
     Layout,
     LayoutContent,
     LayoutSider,
     Row,
-    Tabs,
     TabPane,
-    CheckboxGroup,
-    Checkbox,
-    Card,
+    Tabs,
   } from 'ant-design-vue';
 
   import { useDesign } from '/@/hooks/web/useDesign';
@@ -172,7 +172,6 @@
       watch(
         () => queryState.queryList,
         (val) => {
-          console.log(val.length, val, queryOptions.value);
           queryState.queryIndeterminate = !!val.length && val.length < queryOptions.value.length;
           queryState.queryCheckAll = val.length === queryOptions.value.length;
 
@@ -186,19 +185,35 @@
             };
             queryFieldDatas.push(queryFieldData);
           });
-          // console.log(queryFieldDatas, 5555, val)
-          // if (searchInfo.length > 0) {
-          //   setSearchTableData(searchInfo);
-          // } else {
-          setSearchTableData(queryFieldDatas);
-          // }
+          const queryData = getSearchData();
+
+          if (queryData.length != 0) {
+            const info_c = queryData;
+            if (info_c.length == 0) {
+              setSearchTableData(queryFieldDatas);
+            } else if (info_c.length == queryFieldDatas.length) {
+              setSearchTableData(info_c);
+            } else {
+              if (info_c.length < queryFieldDatas.length) {
+                const diff = findDifferentObjects(queryFieldDatas, info_c);
+                const result = info_c.concat(diff);
+                setSearchTableData(result);
+              }
+              if (info_c.length > queryFieldDatas.length) {
+                const diff = findDifferentObjects(info_c, queryFieldDatas);
+                const result = deleteObjectsFromArrayA(info_c, diff);
+                setSearchTableData(result);
+              }
+            }
+          } else {
+            setSearchTableData(queryFieldDatas);
+          }
         },
       );
 
       watch(
         () => columnState.columnList,
         (val) => {
-          console.log(val.length, val, queryOptions.value);
           columnState.columnIndeterminate = !!val.length && val.length < queryOptions.value.length;
           columnState.columnCheckAll = val.length === queryOptions.value.length;
 
@@ -215,14 +230,47 @@
             };
             columnFieldDatas.push(columnFieldData);
           });
-          console.log(5555, val);
-          // if (columnInfo.length > 0) {
-          //   setColumnTableData(columnInfo);
-          // } else {
-          setColumnTableData(columnFieldDatas);
-          // }
+          const columnData = getColumnData();
+
+          if (columnData.length != 0) {
+            const info_c = columnData;
+            if (info_c.length == 0) {
+              setColumnTableData(columnFieldDatas);
+            } else if (info_c.length == columnFieldDatas.length) {
+              setColumnTableData(info_c);
+            } else {
+              if (info_c.length < columnFieldDatas.length) {
+                const diff = findDifferentObjects(columnFieldDatas, info_c);
+                const result = info_c.concat(diff);
+                setColumnTableData(result);
+              }
+              if (info_c.length > columnFieldDatas.length) {
+                const diff = findDifferentObjects(info_c, columnFieldDatas);
+                const result = deleteObjectsFromArrayA(info_c, diff);
+                setColumnTableData(result);
+              }
+            }
+          } else {
+            setColumnTableData(columnFieldDatas);
+          }
         },
       );
+      function deleteObjectsFromArrayA(arrayA, arrayB) {
+        const idsToDelete = arrayB.map((objB) => objB.field_name);
+        return arrayA.filter((objA) => !idsToDelete.includes(objA.field_name));
+      }
+
+      function findDifferentObjects(array1, array2) {
+        return array1.filter((obj1) => {
+          return !array2.some((obj2) => areObjectsEqual(obj1, obj2));
+        });
+      }
+
+      // 自定义比较函数，根据对象的某些属性进行比较
+      function areObjectsEqual(obj1, obj2) {
+        // 这里假设对象有一个名为 "id" 的属性，根据该属性进行比较
+        return obj1.field_name === obj2.field_name;
+      }
 
       function resetList() {
         queryState.queryCheckAll = false;
@@ -257,19 +305,19 @@
             const tableInfoObj = val;
             searchInfo = tableInfoObj.searchInfo;
             columnInfo = tableInfoObj.columnInfo;
+            if (getColumnData().length == 0) setColumnTableData(columnInfo);
+            if (getSearchData().length == 0) setSearchTableData(searchInfo);
+
             if (isArray(searchInfo) && isArray(columnInfo)) {
-              console.log(111, columnInfo);
               queryState.queryList = searchInfo.map((item) => {
                 return item.column_name + '-' + item.field_name;
               });
               columnState.columnList = columnInfo.map((item) => {
                 return item.column_name + '-' + item.field_name;
               });
-              console.log(222, columnInfo);
             }
           }
         },
-        { deep: true },
       );
 
       function tableInfo() {
