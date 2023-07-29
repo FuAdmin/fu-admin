@@ -185,18 +185,17 @@ def generate_code(request, generator_template_id: int):
         ]
         batch_create(request, button_list, MenuButton)
 
-    # 添加列表字段
-    table_info = json.loads(instance.table_info)
-    column_info = table_info.get('columnInfo')
-    column_list = []
-    for item in column_info:
-        column_list.append({
-            'code': item['field_name'],
-            'name': item['column_name'],
-            'menu_id': 45,
-        })
-    batch_create(request, column_list, MenuColumnField)
-
+        # 添加列表字段
+        table_info = json.loads(instance.table_info)
+        column_info = table_info.get('columnInfo')
+        column_list = []
+        for item in column_info:
+            column_list.append({
+                'code': instance.code + ':' + item['field_name'],
+                'name': item['column_name'],
+                'menu_id': menu_qr.id,
+            })
+        batch_create(request, column_list, MenuColumnField)
 
     # 生成后端代码
     backend_model_txt = generator_backend_model(instance)
