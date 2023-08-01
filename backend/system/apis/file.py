@@ -8,7 +8,7 @@ from datetime import datetime
 from typing import List
 from urllib.parse import unquote
 
-from django.http import FileResponse, StreamingHttpResponse
+from django.http import FileResponse, StreamingHttpResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from fuadmin.settings import BASE_DIR, STATIC_URL
 from ninja import Field
@@ -90,3 +90,10 @@ def create_post(request, data: SchemaIn):
     filePath = str(BASE_DIR) + unquote(data.url)
     r = FileResponse(open(filePath, "rb"), as_attachment=True)
     return r
+
+
+@router.get("/image/{image_id}", auth=None)
+def get_file(request, image_id: int):
+    qs = get_object_or_404(File, id=image_id)
+
+    return HttpResponse(open(os.path.join(str(BASE_DIR), str(qs.url)), "rb"), content_type='image/png')
