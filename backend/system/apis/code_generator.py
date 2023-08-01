@@ -8,6 +8,7 @@ import os
 import subprocess
 from typing import List
 
+from django.core import management
 from django.shortcuts import get_object_or_404
 from ninja import Field, ModelSchema, Query, Router
 from ninja.pagination import paginate
@@ -202,6 +203,17 @@ def generate_code(request, generator_template_id: int):
     backend_api_txt = generator_backend_api(instance)
     backend_router_txt = generator_router(instance)
 
+    # 更新generator router
+    generator_router_path = os.path.abspath(os.path.join(os.getcwd(), 'generator', 'router.py'))
+
+    if not instance.has_menu:
+        insert_from_txt = f'''from .{instance.code}.api import router as {instance.code}_router'''
+        insert_content_after_line(generator_router_path, 'from ninja import Router', insert_from_txt)
+        insert_router_txt = f'''generator_router.add_router('/', {instance.code}_router, tags=['{instance.name}'])'''
+        insert_content_after_line(generator_router_path, 'generator_router = Router()', insert_router_txt)
+    instance.has_menu = True
+    instance.save()
+
     backend_target_path = os.path.abspath(os.path.join(os.getcwd(), 'generator', instance.code))
 
     # 判断当前路径是否存在，没有则创建文件夹
@@ -219,23 +231,11 @@ def generate_code(request, generator_template_id: int):
     with open(backend_router_path, 'w', encoding='utf-8') as file:
         file.write(backend_router_txt)
 
-    generator_router_path = os.path.abspath(os.path.join(os.getcwd(), 'generator', 'router.py'))
-
-    if not instance.has_menu:
-        # 更新generator router
-        insert_from_txt = f'''from .{instance.code}.api import router as {instance.code}_router'''
-        insert_content_after_line(generator_router_path, 'from ninja import Router', insert_from_txt)
-        insert_router_txt = f'''generator_router.add_router('/', {instance.code}_router, tags=['{instance.name}'])'''
-        insert_content_after_line(generator_router_path, 'generator_router = Router()', insert_router_txt)
-    instance.has_menu = True
-    instance.save()
-
     return FuResponse(msg='代码生成成功')
 
 
 @router.put("/generator_template/code/generate_db/{generator_template_id}")
 def generate_db(request, generator_template_id: int):
-    instance = get_object_or_404(GeneratorTemplate, id=generator_template_id)
-    subprocess.run(["python", "manage.py", "makemigrations", 'generator'], check=True)
-    subprocess.run(["python", "manage.py", "migrate", 'generator'], check=True)
+    management.call_command('makemigrations','generator')
+    management.call_command('migrate','generator')
     return FuResponse(msg='数据库生成成功')
