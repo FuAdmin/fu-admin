@@ -185,8 +185,7 @@
             };
             queryFieldDatas.push(queryFieldData);
           });
-          const queryData = getSearchData();
-
+          const queryData = isArray(getSearchData())? getSearchData() : []
           if (queryData.length != 0) {
             const info_c = queryData;
             if (info_c.length == 0) {
@@ -230,7 +229,7 @@
             };
             columnFieldDatas.push(columnFieldData);
           });
-          const columnData = getColumnData();
+          const columnData = isArray(getColumnData())? getColumnData() : []
 
           if (columnData.length != 0) {
             const info_c = columnData;
