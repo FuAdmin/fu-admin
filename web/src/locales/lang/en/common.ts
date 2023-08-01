@@ -55,6 +55,7 @@ export default {
     mobileText: 'Mobile',
     genderText: 'Gender',
     userDeptText: 'Dept',
+    homePath: 'Home Path',
     userPostText: 'Post',
     userRoleText: 'Role',
     maleText: 'Male',

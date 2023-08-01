@@ -55,6 +55,7 @@ export default {
     mobileText: '用户电话',
     genderText: '用户性别',
     userDeptText: '用户部门',
+    homePath: '主页路径',
     userPostText: '用户岗位',
     userRoleText: '用户角色',
     maleText: '男',
