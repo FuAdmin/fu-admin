@@ -182,6 +182,11 @@ export const accountFormSchema: FormSchema[] = [
     required: true,
   },
   {
+    field: 'home_path',
+    label: t('common.account.homePath'),
+    component: 'Input',
+  },
+  {
     field: 'gender',
     label: t('common.account.genderText'),
     component: 'RadioButtonGroup',

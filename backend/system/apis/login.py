@@ -23,6 +23,7 @@ router = Router()
 
 
 class SchemaOut(ModelSchema):
+    homePath: str = Field(None, alias="home_path")
 
     class Config:
         model = Users

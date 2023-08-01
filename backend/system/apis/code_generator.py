@@ -161,7 +161,7 @@ def generate_code(request, generator_template_id: int):
             {
                 "name": "删除",
                 "code": f"{instance.code}:delete",
-                "method": 2,
+                "method": 3,
                 "api": f"/api/generator/{instance.code}/{instance.code}_id",
                 "sort": 2,
                 "menu_id": menu_qr.id
@@ -169,7 +169,7 @@ def generate_code(request, generator_template_id: int):
             {
                 "name": "修改",
                 "code": f"{instance.code}:update",
-                "method": 3,
+                "method": 2,
                 "api": f"/api/generator/{instance.code}/{instance.code}_id",
                 "sort": 3,
                 "menu_id": menu_qr.id

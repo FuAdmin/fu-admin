@@ -46,12 +46,14 @@
   import 'tinymce/plugins/searchreplace';
   import 'tinymce/plugins/spellchecker';
   import 'tinymce/plugins/tabfocus';
-  // import 'tinymce/plugins/table';
+  import 'tinymce/plugins/table';
   import 'tinymce/plugins/template';
   import 'tinymce/plugins/textpattern';
   import 'tinymce/plugins/visualblocks';
   import 'tinymce/plugins/visualchars';
   import 'tinymce/plugins/wordcount';
+  import 'tinymce/plugins/image';
+
 
   import {
     defineComponent,
@@ -72,6 +74,7 @@
   import { isNumber } from '/@/utils/is';
   import { useLocale } from '/@/locales/useLocale';
   import { useAppStore } from '/@/store/modules/app';
+  import { useGlobSetting } from '/@/hooks/setting';
 
   const tinymceProps = {
     options: {
@@ -158,7 +161,7 @@
           branding: false,
           default_link_target: '_blank',
           link_title: false,
-          object_resizing: false,
+          object_resizing: true,
           auto_focus: true,
           skin: skinName.value,
           skin_url: publicPath + 'resource/tinymce/skins/ui/' + skinName.value,
@@ -298,13 +301,20 @@
         setValue(editor, content);
       }
 
-      function handleDone(name: string, url: string) {
+      const { apiUrl } = useGlobSetting();
+
+
+      function handleDone(name: string, id: number) {
         const editor = unref(editorRef);
         if (!editor) {
           return;
         }
         const content = editor?.getContent() ?? '';
-        const val = content?.replace(getUploadingImgName(name), `<img src="${url}"/>`) ?? '';
+        const val =
+          content?.replace(
+            getUploadingImgName(name),
+            `<img src="${apiUrl}api/system/image/${id}"/>`,
+          ) ?? '';
         setValue(editor, val);
       }
 

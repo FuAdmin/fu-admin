@@ -38,6 +38,8 @@ class Users(AbstractUser, CoreModel):
                              blank=True, help_text="关联部门")
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
+    home_path = models.CharField(max_length=150, blank=True, null=True)
+
 
     class Meta:
         db_table = "system_users"
