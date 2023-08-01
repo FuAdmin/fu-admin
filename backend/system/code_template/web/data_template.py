@@ -35,6 +35,7 @@ import {{ FormSchema }} from '/@/components/Table';
     width: '{item['width']}',
     fixed: '{item['freeze']}',
     align: '{item['align']}',
+    auth: [{data_info.code + ':' + item['field_name']}]
     resizable: {str(item['resizable']).lower()},
   }},
 '''
