@@ -30,13 +30,13 @@ import { LayoutTransitionMain } from '@/layout/components/LayoutTransitionMain/i
 import { goDialog } from '@/utils'
 
 // 提示
-goDialog({
-  message: '不要在官方后端上发布任何私密数据，任何人都看得到并进行删除！！！！',
-  isMaskClosable: true,
-  closeNegativeText: true,
-  transformOrigin: 'center',
-  onPositiveCallback: () => {}
-})
+// goDialog({
+//   message: '不要在官方后端上发布任何私密数据，任何人都看得到并进行删除！！！！',
+//   isMaskClosable: true,
+//   closeNegativeText: true,
+//   transformOrigin: 'center',
+//   onPositiveCallback: () => {}
+// })
 </script>
 
 <style lang="scss" scoped>

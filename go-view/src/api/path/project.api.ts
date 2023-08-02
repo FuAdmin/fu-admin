@@ -21,7 +21,7 @@ export const createProjectApi = async (data: object) => {
        * 项目id
        */
       id: number
-    }>(`${ModuleTypeEnum.PROJECT}/create`, data)
+    }>(`${ModuleTypeEnum.PROJECT}`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -31,7 +31,7 @@ export const createProjectApi = async (data: object) => {
 // * 获取项目
 export const fetchProjectApi = async (data: object) => {
   try {
-    const res = await http(RequestHttpEnum.GET)<ProjectDetail>(`${ModuleTypeEnum.PROJECT}/getData`, data)
+    const res = await http(RequestHttpEnum.GET)<ProjectDetail>(`${ModuleTypeEnum.PROJECT}`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -55,7 +55,7 @@ export const saveProjectApi = async (data: object) => {
 // * 修改项目基础信息
 export const updateProjectApi = async (data: object) => {
   try {
-    const res = await http(RequestHttpEnum.POST)(`${ModuleTypeEnum.PROJECT}/edit`, data)
+    const res = await http(RequestHttpEnum.POST)(`${ModuleTypeEnum.PROJECT}`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -65,7 +65,7 @@ export const updateProjectApi = async (data: object) => {
 // * 删除项目
 export const deleteProjectApi = async (data: object) => {
   try {
-    const res = await http(RequestHttpEnum.DELETE)(`${ModuleTypeEnum.PROJECT}/delete`, data)
+    const res = await http(RequestHttpEnum.DELETE)(`${ModuleTypeEnum.PROJECT}`, data)
     return res
   } catch {
     httpErrorHandle()

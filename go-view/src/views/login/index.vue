@@ -207,10 +207,40 @@ const handleSubmit = async (e: Event) => {
       const { username, password } = formInline
       loading.value = true
       // 提交请求
-      const res = await loginApi({
-        username,
-        password
-      })
+      // const res = await loginApi({
+      //   username,
+      //   password
+      // })
+
+      const res = {
+        "msg": "操作成功",
+        "code": 200,
+        "data": {
+          "userinfo": {
+            "id": "1",
+            "username": "admin",
+            "password": "21232f297a57a5a743894a0e4a801fc3",
+            "nickname": "管理员",
+            "depId": null,
+            "posId": null,
+            "depName": null,
+            "posName": null
+          },
+          "token": {
+            "tokenName": "satoken",
+            "tokenValue": "47320baf-4cff-4361-8105-9c391c6d86d4",
+            "isLogin": true,
+            "loginId": "1",
+            "loginType": "login",
+            "tokenTimeout": 2592000,
+            "sessionTimeout": 2592000,
+            "tokenSessionTimeout": 2592000,
+            "tokenActivityTimeout": -1,
+            "loginDevice": "default-device",
+            "tag": null
+          }
+        }
+      }
       if(res && res.data) {
         const { tokenValue, tokenName } = res.data.token
         const { nickname, username, id } = res.data.userinfo
