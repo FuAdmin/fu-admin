@@ -301,7 +301,7 @@
         setValue(editor, content);
       }
 
-      const { apiUrl } = useGlobSetting();
+      const { apiUrl, urlPrefix } = useGlobSetting();
 
 
       function handleDone(name: string, id: number) {
@@ -313,7 +313,7 @@
         const val =
           content?.replace(
             getUploadingImgName(name),
-            `<img src="${apiUrl}api/system/image/${id}"/>`,
+            `<img src="${apiUrl}/${urlPrefix}/api/system/image/${id}"/>`,
           ) ?? '';
         setValue(editor, val);
       }
