@@ -79,7 +79,7 @@
     },
     emits: ['success', 'register'],
     setup: function (_, {emit}) {
-      const {t} = useI18n();
+      const { t } = useI18n();
       const RefPerData = ref();
       const RefMenu = ref();
       const RefButton = ref();
@@ -179,8 +179,9 @@
           }
 
           if (columnDataValue.value.length !== 0) {
-            column_ids = columnDataValue.value.map((item) => {
-              if (!item.toString().search('c')) return Number(item.slice(1));
+            column_ids = []
+              columnDataValue.value.forEach((item) => {
+              if (!item.toString().search('c')) column_ids.push(Number(item.slice(1)));
             });
           } else {
             column_ids = columnCheck.value.map((item) => {
@@ -189,8 +190,9 @@
           }
 
           if (buttonDataValue.value.length !== 0) {
-            button_ids = buttonDataValue.value.map((item) => {
-              if (!item.toString().search('b')) return Number(item.slice(1));
+            button_ids = []
+              buttonDataValue.value.forEach((item) => {
+              if (!item.toString().search('b')) button_ids.push(Number(item.slice(1)));
             });
           } else {
             button_ids = buttonCheck.value.map((item) => {
