@@ -14,7 +14,7 @@
   />
 </template>
 <script lang="ts">
-  import { defineComponent, nextTick, onMounted, onUpdated, ref, toRefs, unref, watch } from 'vue';
+  import { defineComponent, nextTick, ref, unref } from 'vue';
   import { BasicTree, TreeActionType, TreeItem } from '/@/components/Tree';
   import { getMenuButtonList } from '../../role.api';
   import XEUtils from 'xe-utils';
@@ -33,12 +33,11 @@
       },
     },
     emits: ['success', 'register', 'buttonData'],
-    setup(props, { emit }) {
+    setup(_, { emit }) {
       const checkTreeData = ref([]);
       //树的选中的节点信息
       const buttonTreeData = ref<TreeItem[]>([]);
       const treeRef = ref<Nullable<TreeActionType>>(null);
-      const propsData = toRefs(props);
 
       // onMounted(async () => {
       //   buttonTreeData.value = await getMenuButtonList();
@@ -77,7 +76,8 @@
       //   { immediate: false },
       // );
 
-      function check(val) {
+      function check(val, e) {
+        console.log(1111, val, e);
         nextTick(() => {
           emit('buttonData', val);
         });
