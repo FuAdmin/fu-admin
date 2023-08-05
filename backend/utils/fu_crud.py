@@ -73,14 +73,13 @@ def update(request, id, data, model):
 
 def retrieve(request, model, filters: FuFilters = FuFilters()):
     filters = data_permission(request, filters)
+    query_set = model.objects.all()
     if filters is not None:
         # 将filters空字符串转换为None
         for attr, value in filters.__dict__.items():
-            if getattr(filters, attr) == '':
+            if getattr(filters, attr) == "":
                 setattr(filters, attr, None)
-        query_set = model.objects.filter(**filters.dict(exclude_none=True))
-    else:
-        query_set = model.objects.all()
+        query_set = filters.filter(query_set)
     return query_set
 
 

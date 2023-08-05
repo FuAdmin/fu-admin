@@ -28,7 +28,9 @@ from utils.fu_crud import (
     export_data,
     import_data,
     retrieve,
-    update, batch_create, )
+    update,
+    batch_create,
+)
 from utils.fu_ninja import FuFilters, MyPagination
 from utils.fu_response import FuResponse
 from utils.usual import insert_content_after_line
@@ -37,15 +39,15 @@ router = Router()
 
 
 class Filters(FuFilters):
-    name: str = Field(None, alias="name")
-    code: str = Field(None, alias="code")
+    name: str = Field(None, q="name__contains", alias="name")
+    code: str = Field(None, q="code__contains", alias="code")
     id: str = Field(None, alias="id")
 
 
 class GeneratorTemplateSchemaIn(ModelSchema):
     class Config:
         model = GeneratorTemplate
-        model_fields = ['name', 'code', 'form_info', 'table_info', 'remark']
+        model_fields = ["name", "code", "form_info", "table_info", "remark"]
 
 
 class GeneratorTemplateSchemaOut(ModelSchema):
@@ -66,8 +68,12 @@ def delete_generator_template(request, generator_template_id: int):
     return {"success": True}
 
 
-@router.put("/generator_template/{generator_template_id}", response=GeneratorTemplateSchemaOut)
-def update_generator_template(request, generator_template_id: int, data: GeneratorTemplateSchemaIn):
+@router.put(
+    "/generator_template/{generator_template_id}", response=GeneratorTemplateSchemaOut
+)
+def update_generator_template(
+    request, generator_template_id: int, data: GeneratorTemplateSchemaIn
+):
     generator_template = update(request, generator_template_id, data, GeneratorTemplate)
     return generator_template
 
@@ -79,7 +85,9 @@ def list_generator_template(request, filters: Filters = Query(...)):
     return qs
 
 
-@router.get("/generator_template/{generator_template_id}", response=GeneratorTemplateSchemaOut)
+@router.get(
+    "/generator_template/{generator_template_id}", response=GeneratorTemplateSchemaOut
+)
 def get_generator_template(request, generator_template_id: int):
     generator_template = get_object_or_404(GeneratorTemplate, id=generator_template_id)
     return generator_template
@@ -93,14 +101,18 @@ def all_list_generator_template(request):
 
 @router.get("/generator_template/all/export")
 def export_generator_template(request):
-    export_fields = ['name', 'code', 'status', 'sort']
-    return export_data(request, GeneratorTemplate, GeneratorTemplateSchemaOut, export_fields)
+    export_fields = ["name", "code", "status", "sort"]
+    return export_data(
+        request, GeneratorTemplate, GeneratorTemplateSchemaOut, export_fields
+    )
 
 
 @router.post("/generator_template/all/import")
 def import_generator_template(request, data: ImportSchema):
-    import_fields = ['name', 'code', 'status', 'sort']
-    return import_data(request, GeneratorTemplate, GeneratorTemplateSchemaIn, data, import_fields)
+    import_fields = ["name", "code", "status", "sort"]
+    return import_data(
+        request, GeneratorTemplate, GeneratorTemplateSchemaIn, data, import_fields
+    )
 
 
 @router.put("/generator_template/code/generate/{generator_template_id}")
@@ -111,25 +123,28 @@ def generate_code(request, generator_template_id: int):
     web_drawer_txt = generator_drawer(instance)
     web_api_txt = generator_api(instance)
     web_target_path = os.path.abspath(
-        os.path.join(os.getcwd(), "..", 'web', 'src', 'views', 'generator', instance.code))
+        os.path.join(
+            os.getcwd(), "..", "web", "src", "views", "generator", instance.code
+        )
+    )
     # 判断当前路径是否存在，没有则创建文件夹
     if not os.path.exists(web_target_path):
         os.makedirs(web_target_path)
 
-    web_index_path = os.path.join(web_target_path, 'index.vue')
-    with open(web_index_path, 'w', encoding='utf-8') as file:
+    web_index_path = os.path.join(web_target_path, "index.vue")
+    with open(web_index_path, "w", encoding="utf-8") as file:
         file.write(web_index_txt)
 
-    web_data_path = os.path.join(web_target_path, 'data.ts')
-    with open(web_data_path, 'w', encoding='utf-8') as file:
+    web_data_path = os.path.join(web_target_path, "data.ts")
+    with open(web_data_path, "w", encoding="utf-8") as file:
         file.write(web_data_txt)
 
-    web_api_path = os.path.join(web_target_path, 'api.ts')
-    with open(web_api_path, 'w', encoding='utf-8') as file:
+    web_api_path = os.path.join(web_target_path, "api.ts")
+    with open(web_api_path, "w", encoding="utf-8") as file:
         file.write(web_api_txt)
 
-    web_drawer_path = os.path.join(web_target_path, 'drawer.vue')
-    with open(web_drawer_path, 'w', encoding='utf-8') as file:
+    web_drawer_path = os.path.join(web_target_path, "drawer.vue")
+    with open(web_drawer_path, "w", encoding="utf-8") as file:
         file.write(web_drawer_txt)
     # 添加列表字段，菜单和菜单按钮
     if not instance.has_menu:
@@ -146,7 +161,7 @@ def generate_code(request, generator_template_id: int):
             "component": f"/generator/{instance.code}/index.vue",
             "name": instance.code,
             "is_ext": False,
-            "keepalive": False
+            "keepalive": False,
         }
         menu_qr = create(request, menu_dic, Menu)
         # 添加菜单按钮
@@ -157,7 +172,7 @@ def generate_code(request, generator_template_id: int):
                 "method": 1,
                 "api": f"/api/generator/{instance.code}",
                 "sort": 1,
-                "menu_id": menu_qr.id
+                "menu_id": menu_qr.id,
             },
             {
                 "name": "删除",
@@ -165,7 +180,7 @@ def generate_code(request, generator_template_id: int):
                 "method": 3,
                 "api": f"/api/generator/{instance.code}/{instance.code}_id",
                 "sort": 2,
-                "menu_id": menu_qr.id
+                "menu_id": menu_qr.id,
             },
             {
                 "name": "修改",
@@ -173,7 +188,7 @@ def generate_code(request, generator_template_id: int):
                 "method": 2,
                 "api": f"/api/generator/{instance.code}/{instance.code}_id",
                 "sort": 3,
-                "menu_id": menu_qr.id
+                "menu_id": menu_qr.id,
             },
             {
                 "name": "查询",
@@ -181,21 +196,23 @@ def generate_code(request, generator_template_id: int):
                 "method": 0,
                 "api": f"/api/generator/{instance.code}",
                 "sort": 4,
-                "menu_id": menu_qr.id
-            }
+                "menu_id": menu_qr.id,
+            },
         ]
         batch_create(request, button_list, MenuButton)
 
         # 添加列表字段
         table_info = json.loads(instance.table_info)
-        column_info = table_info.get('columnInfo')
+        column_info = table_info.get("columnInfo")
         column_list = []
         for item in column_info:
-            column_list.append({
-                'code': instance.code + ':' + item['field_name'],
-                'name': item['column_name'],
-                'menu_id': menu_qr.id,
-            })
+            column_list.append(
+                {
+                    "code": instance.code + ":" + item["field_name"],
+                    "name": item["column_name"],
+                    "menu_id": menu_qr.id,
+                }
+            )
         batch_create(request, column_list, MenuColumnField)
 
     # 生成后端代码
@@ -204,38 +221,48 @@ def generate_code(request, generator_template_id: int):
     backend_router_txt = generator_router(instance)
 
     # 更新generator router
-    generator_router_path = os.path.abspath(os.path.join(os.getcwd(), 'generator', 'router.py'))
+    generator_router_path = os.path.abspath(
+        os.path.join(os.getcwd(), "generator", "router.py")
+    )
 
     if not instance.has_menu:
-        insert_from_txt = f'''from .{instance.code}.api import router as {instance.code}_router'''
-        insert_content_after_line(generator_router_path, 'from ninja import Router', insert_from_txt)
-        insert_router_txt = f'''generator_router.add_router('/', {instance.code}_router, tags=['{instance.name}'])'''
-        insert_content_after_line(generator_router_path, 'generator_router = Router()', insert_router_txt)
+        insert_from_txt = (
+            f"""from .{instance.code}.api import router as {instance.code}_router"""
+        )
+        insert_content_after_line(
+            generator_router_path, "from ninja import Router", insert_from_txt
+        )
+        insert_router_txt = f"""generator_router.add_router('/', {instance.code}_router, tags=['{instance.name}'])"""
+        insert_content_after_line(
+            generator_router_path, "generator_router = Router()", insert_router_txt
+        )
     instance.has_menu = True
     instance.save()
 
-    backend_target_path = os.path.abspath(os.path.join(os.getcwd(), 'generator', instance.code))
+    backend_target_path = os.path.abspath(
+        os.path.join(os.getcwd(), "generator", instance.code)
+    )
 
     # 判断当前路径是否存在，没有则创建文件夹
     if not os.path.exists(backend_target_path):
         os.makedirs(backend_target_path)
-    backend_model_path = os.path.join(backend_target_path, 'model.py')
-    with open(backend_model_path, 'w', encoding='utf-8') as file:
+    backend_model_path = os.path.join(backend_target_path, "model.py")
+    with open(backend_model_path, "w", encoding="utf-8") as file:
         file.write(backend_model_txt)
 
-    backend_api_path = os.path.join(backend_target_path, 'api.py')
-    with open(backend_api_path, 'w', encoding='utf-8') as file:
+    backend_api_path = os.path.join(backend_target_path, "api.py")
+    with open(backend_api_path, "w", encoding="utf-8") as file:
         file.write(backend_api_txt)
 
-    backend_router_path = os.path.join(backend_target_path, 'router.py')
-    with open(backend_router_path, 'w', encoding='utf-8') as file:
+    backend_router_path = os.path.join(backend_target_path, "router.py")
+    with open(backend_router_path, "w", encoding="utf-8") as file:
         file.write(backend_router_txt)
 
-    return FuResponse(msg='代码生成成功')
+    return FuResponse(msg="代码生成成功")
 
 
 @router.put("/generator_template/code/generate_db/{generator_template_id}")
 def generate_db(request, generator_template_id: int):
-    management.call_command('makemigrations','generator')
-    management.call_command('migrate','generator')
-    return FuResponse(msg='数据库生成成功')
+    management.call_command("makemigrations", "generator")
+    management.call_command("migrate", "generator")
+    return FuResponse(msg="数据库生成成功")

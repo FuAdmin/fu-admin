@@ -15,7 +15,9 @@ router = Router()
 
 
 class Filters(FuFilters):
-    periodic_task_name: str = Field(None, alias="periodic_task_name")
+    periodic_task_name: str = Field(
+        None, q="periodic_task_name__contains", alias="periodic_task_name"
+    )
 
 
 class SchemaOut(ModelSchema):

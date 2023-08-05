@@ -21,9 +21,9 @@ router = Router()
 
 
 class Filters(FuFilters):
-    label: str = Field(None, alias="label")
-    value: str = Field(None, alias="value")
-    code: str = Field(None, alias="code")
+    label: str = Field(None, q="label__contains", alias="label")
+    value: str = Field(None, q="value__contains", alias="value")
+    code: str = Field(None, q="code__contains", alias="code")
 
 
 class SchemaIn(ModelSchema):
@@ -31,13 +31,14 @@ class SchemaIn(ModelSchema):
 
     class Config:
         model = CategoryDict
-        model_exclude = ['id', 'parent', 'create_datetime', 'update_datetime']
+        model_exclude = ["id", "parent", "create_datetime", "update_datetime"]
 
 
 class SchemaOut(ModelSchema):
     class Config:
         model = CategoryDict
         model_fields = "__all__"
+
     # model_fields = []
 
 

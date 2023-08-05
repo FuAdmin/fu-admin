@@ -7,7 +7,7 @@ from typing import Any, List
 
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
-from ninja import Field, ModelSchema, NinjaAPI, Query, Router, Schema
+from ninja import FilterSchema, Field, ModelSchema, NinjaAPI, Query, Router, Schema
 from ninja.orm.metaclass import ModelSchemaMetaclass
 from ninja.pagination import PaginationBase
 from ninja.types import DictStrAny
@@ -60,7 +60,7 @@ class MyPagination(PaginationBase):
         }  # noqa: E203
 
 
-class FuFilters(Schema):
+class FuFilters(FilterSchema):
     creator_id: int = Field(None, alias="creator_id")
     belong_dept: int = Field(None, alias="belong_dept")
     belong_dept__in: List[int] = Field(None, alias="belong_dept__in")

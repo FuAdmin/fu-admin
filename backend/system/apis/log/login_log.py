@@ -16,8 +16,8 @@ router = Router()
 
 
 class Filters(FuFilters):
-    name: str = Field(None, alias="name")
-    code: str = Field(None, alias="code")
+    name: str = Field(None, q="name__contains", alias="name")
+    code: str = Field(None, q="code__contains", alias="code")
     id: str = Field(None, alias="login_log_id")
 
 

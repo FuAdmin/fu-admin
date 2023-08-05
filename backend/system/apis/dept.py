@@ -21,7 +21,7 @@ router = Router()
 
 
 class Filters(FuFilters):
-    name: str = Field(None, alias="name")
+    name: str = Field(None, q="name__contains", alias="name")
     status: bool = Field(None, alias="status")
     id: str = Field(None, alias="id")
 
@@ -31,13 +31,14 @@ class SchemaIn(ModelSchema):
 
     class Config:
         model = Dept
-        model_exclude = ['id', 'parent', 'create_datetime', 'update_datetime']
+        model_exclude = ["id", "parent", "create_datetime", "update_datetime"]
 
 
 class SchemaOut(ModelSchema):
     class Config:
         model = Dept
         model_fields = "__all__"
+
     # model_fields = []
 
 
