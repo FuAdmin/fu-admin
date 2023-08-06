@@ -27,8 +27,24 @@
 import { ProjectLayoutSider } from './layout/components/ProjectLayoutSider'
 import { LayoutHeaderPro } from '@/layout/components/LayoutHeaderPro'
 import { LayoutTransitionMain } from '@/layout/components/LayoutTransitionMain/index'
-import { goDialog } from '@/utils'
+import { SystemStoreUserInfoEnum, SystemStoreEnum } from '@/store/modules/systemStore/systemStore.d'
 
+import { fetchRouteQuery } from '@/utils'
+import {useSystemStore} from "@/store/modules/systemStore/systemStore";
+const token: string= fetchRouteQuery().token;
+if (token) {
+  const systemStore = useSystemStore()
+// 存储到 pinia
+  systemStore.setItem(SystemStoreEnum.USER_INFO, {
+    [SystemStoreUserInfoEnum.USER_TOKEN]: token,
+    [SystemStoreUserInfoEnum.TOKEN_NAME]: 'Authorization',
+    [SystemStoreUserInfoEnum.USER_ID]: 'id',
+    [SystemStoreUserInfoEnum.USER_NAME]: 'username',
+    [SystemStoreUserInfoEnum.NICK_NAME]: 'nickname',
+  })
+}
+
+console.log('token', token);
 // 提示
 // goDialog({
 //   message: '不要在官方后端上发布任何私密数据，任何人都看得到并进行删除！！！！',

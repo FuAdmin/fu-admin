@@ -15,7 +15,6 @@ export interface ChartEditStorageType extends ChartEditStorage {
 export const getSessionStorageInfo = async () => {
   const id = fetchRouteParamsLocation()
   const storageList: ChartEditStorageType[] = getSessionStorage(StorageEnum.GO_CHART_STORAGE_LIST)
-
   // 是否本地预览
   if (!storageList || storageList.findIndex(e => e.id === id.toString()) === -1) {
     // 接口调用

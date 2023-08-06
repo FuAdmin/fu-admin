@@ -28,9 +28,9 @@ export function createRouterGuards(router: Router) {
     }
 
     // @ts-ignore
-    if (!routerAllowList.includes(to.name) && !loginCheck()) {
-      next({ name: PageEnum.BASE_LOGIN_NAME })
-    }
+    // if (!routerAllowList.includes(to.name) && !loginCheck()) {
+    //   next({ name: PageEnum.BASE_LOGIN_NAME })
+    // }
     next()
   })
 

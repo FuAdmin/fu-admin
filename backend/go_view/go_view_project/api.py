@@ -12,6 +12,7 @@ from utils.fu_crud import (
     update,
 )
 from utils.fu_ninja import FuFilters, MyPagination
+from ..go_view_data.model import GoViewData
 
 router = Router()
 
@@ -21,6 +22,7 @@ class Filters(FuFilters):
     index_image: str = Field(None, alias='indexImage')
     state: str = Field(None, alias='state')
     project_name: str = Field(None, alias='projectName')
+    id: int = Field(default=None, alias='projectId')
 
 
 # 设置请求接收字段
@@ -28,12 +30,19 @@ class GoViewProjectSchemaIn(Schema):
     index_image: str = Field(None, alias='indexImage')
     state: str = Field(None, alias='state')
     project_name: str = Field(None, alias='projectName')
+    content: str = Field(None, alias='content')
+
+
+class GoViewProjectSchemaUpdate(Schema):
+    content: str = Field(None, alias='content')
+    id: int = Field(default=None, alias='projectId')
 
 
 # 设置响应字段
 class GoViewProjectSchemaOut(ModelSchema):
     indexImage: str = Field(None, alias='index_image')
     projectName: str = Field(None, alias='project_name')
+    # content: str = Field(None, alias='content')
 
     class Config:
         model = GoViewProject
@@ -44,6 +53,12 @@ class GoViewProjectSchemaOut(ModelSchema):
 @router.post('/project', response=GoViewProjectSchemaOut, auth=None)
 def create_project(request, data: GoViewProjectSchemaIn):
     project = create(request, data, GoViewProject)
+    return project
+
+
+@router.post('/project/save/data', response=GoViewProjectSchemaOut)
+def create_project(request, data: GoViewProjectSchemaUpdate):
+    project = update(request, data.id, data, GoViewProject)
     return project
 
 
@@ -66,6 +81,12 @@ def update_project(request, id: int, data: GoViewProjectSchemaIn):
 @paginate(MyPagination)
 def list_project(request, filters: Filters = Query(...)):
     qs = retrieve(request, GoViewProject, filters)
+    return qs
+
+
+@router.get('/project/by/id', response=GoViewProjectSchemaOut)
+def list_project(request, filters: Filters = Query(...)):
+    qs = GoViewProject.objects.get(id=filters.id)
     return qs
 
 

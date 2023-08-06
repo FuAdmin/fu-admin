@@ -19,5 +19,5 @@ export const useSystemInit = async () => {
   }
 
   // 执行
-  getOssUrl()
+  // getOssUrl()
 }

@@ -6,7 +6,7 @@ import { ProjectItem, ProjectDetail } from './project'
 // * 项目列表
 export const projectListApi = async (data: object) => {
   try {
-    const res = await http(RequestHttpEnum.GET)<ProjectItem[]>(`${ModuleTypeEnum.PROJECT}/list`, data)
+    const res = await http(RequestHttpEnum.GET)<ProjectItem[]>(`${ModuleTypeEnum.PROJECT}`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -31,7 +31,7 @@ export const createProjectApi = async (data: object) => {
 // * 获取项目
 export const fetchProjectApi = async (data: object) => {
   try {
-    const res = await http(RequestHttpEnum.GET)<ProjectDetail>(`${ModuleTypeEnum.PROJECT}`, data)
+    const res = await http(RequestHttpEnum.GET)<ProjectDetail>(`${ModuleTypeEnum.PROJECT}/by/id`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -39,12 +39,24 @@ export const fetchProjectApi = async (data: object) => {
 }
 
 // * 保存项目
+// export const saveProjectApi = async (data: object) => {
+//   try {
+//     const res = await http(RequestHttpEnum.POST)(
+//       `${ModuleTypeEnum.PROJECT}/save/data`,
+//       data,
+//       ContentTypeEnum.FORM_URLENCODED
+//     )
+//     return res
+//   } catch {
+//     httpErrorHandle()
+//   }
+// }
+
 export const saveProjectApi = async (data: object) => {
   try {
     const res = await http(RequestHttpEnum.POST)(
-      `${ModuleTypeEnum.PROJECT}/save/data`,
-      data,
-      ContentTypeEnum.FORM_URLENCODED
+        `${ModuleTypeEnum.PROJECT}/save/data`,
+        data,
     )
     return res
   } catch {
@@ -53,9 +65,9 @@ export const saveProjectApi = async (data: object) => {
 }
 
 // * 修改项目基础信息
-export const updateProjectApi = async (data: object) => {
+export const updateProjectApi = async (data: object, id: number) => {
   try {
-    const res = await http(RequestHttpEnum.POST)(`${ModuleTypeEnum.PROJECT}`, data)
+    const res = await http(RequestHttpEnum.PUT)(`${ModuleTypeEnum.PROJECT}/${id}`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -63,9 +75,9 @@ export const updateProjectApi = async (data: object) => {
 }
 
 // * 删除项目
-export const deleteProjectApi = async (data: object) => {
+export const deleteProjectApi = async (id: number) => {
   try {
-    const res = await http(RequestHttpEnum.DELETE)(`${ModuleTypeEnum.PROJECT}`, data)
+    const res = await http(RequestHttpEnum.DELETE)(`${ModuleTypeEnum.PROJECT}/${id}`)
     return res
   } catch {
     httpErrorHandle()

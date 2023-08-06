@@ -350,3 +350,15 @@ export const addWindowUnload = () => {
     window.onbeforeunload = null
   }
 }
+
+export function openWindow(
+    url: string,
+) {
+  const { target = '_blank', noopener = true, noreferrer = true } = {};
+  const feature: string[] = [];
+
+  noopener && feature.push('noopener=yes');
+  noreferrer && feature.push('noreferrer=yes');
+
+  window.open(url, target, feature.join(','));
+}

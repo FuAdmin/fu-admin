@@ -30,10 +30,10 @@ axiosInstance.interceptors.request.use(
     // 获取 token
     const info = getLocalStorage(StorageEnum.GO_SYSTEM_STORE)
     // 重新登录
-    if (!info) {
-      routerTurnByName(PageEnum.BASE_LOGIN_NAME)
-      return config
-    }
+    // if (!info) {
+    //   routerTurnByName(PageEnum.BASE_LOGIN_NAME)
+    //   return config
+    // }
     const userInfo = info[SystemStoreEnum.USER_INFO]
     config.headers[userInfo[SystemStoreUserInfoEnum.TOKEN_NAME] || 'token'] =  userInfo[SystemStoreUserInfoEnum.USER_TOKEN] || ''
     return config
@@ -46,6 +46,15 @@ axiosInstance.interceptors.request.use(
 // 响应拦截器
 axiosInstance.interceptors.response.use(
   (res: AxiosResponse) => {
+      console.log('res', res);
+      // Fuadmin
+      let result = res.data.result
+      res.data.data=result.items || result
+
+      res.data.count = result.total;
+      res.data.msg = result.message;
+      // debugger
+
     // 预览页面错误不进行处理
     if (isPreview()) {
       return Promise.resolve(res.data)
@@ -62,7 +71,8 @@ axiosInstance.interceptors.response.use(
     // 登录过期
     if (code === ResultEnum.TOKEN_OVERDUE) {
       window['$message'].error(window['$t']('http.token_overdue_message'))
-      routerTurnByName(PageEnum.BASE_LOGIN_NAME)
+        const main_web_url = 'https://localhost:8080/#/login'
+        window.open(main_web_url, '_blank');
       return Promise.resolve(res.data)
     }
 
@@ -80,7 +90,7 @@ axiosInstance.interceptors.response.use(
     const status = err.response?.status
     switch (status) {
       case 401:
-        routerTurnByName(PageEnum.BASE_LOGIN_NAME)
+        // routerTurnByName(PageEnum.BASE_LOGIN_NAME)
         Promise.reject(err)
         break
 

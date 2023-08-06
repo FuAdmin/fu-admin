@@ -69,9 +69,7 @@ export const useDataListInit = () => {
       onPositiveCallback: () =>
         new Promise(res => {
           res(
-            deleteProjectApi({
-              ids: cardData.id
-            })
+            deleteProjectApi(Number(cardData.id))
           )
         }),
       promiseResCallback: (res: any) => {

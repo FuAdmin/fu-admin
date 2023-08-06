@@ -254,7 +254,7 @@ export const useSync = () => {
     try {
       const res = await fetchProjectApi({ projectId: fetchRouteParamsLocation() })
       if (res && res.code === ResultEnum.SUCCESS) {
-        if (res.data) {
+        if (res.data.content) {
           updateStoreInfo(res.data)
           // 更新全局数据
           await updateComponent(JSONParse(res.data.content))

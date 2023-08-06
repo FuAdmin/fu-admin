@@ -163,6 +163,16 @@ export const fetchRouteParams = () => {
   }
 }
 
+export const fetchRouteQuery = () => {
+  try {
+    const route = useRoute()
+    return route.query
+  } catch (error) {
+    window['$message'].warning('查询路由信息失败，请联系管理员！')
+  }
+}
+
+
 /**
  * * 通过硬解析获取当前路由下的参数
  * @returns object
