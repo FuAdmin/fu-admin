@@ -6,7 +6,7 @@ import { ProjectItem, ProjectDetail } from './project'
 // * 项目列表
 export const projectListApi = async (data: object) => {
   try {
-    const res = await http(RequestHttpEnum.GET)<ProjectItem[]>(`${ModuleTypeEnum.PROJECT}`, data)
+    const res = await http(RequestHttpEnum.GET)<ProjectItem[]>(`/goview/${ModuleTypeEnum.PROJECT}`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -21,7 +21,7 @@ export const createProjectApi = async (data: object) => {
        * 项目id
        */
       id: number
-    }>(`${ModuleTypeEnum.PROJECT}`, data)
+    }>(`/goview/${ModuleTypeEnum.PROJECT}`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -31,7 +31,7 @@ export const createProjectApi = async (data: object) => {
 // * 获取项目
 export const fetchProjectApi = async (data: object) => {
   try {
-    const res = await http(RequestHttpEnum.GET)<ProjectDetail>(`${ModuleTypeEnum.PROJECT}/by/id`, data)
+    const res = await http(RequestHttpEnum.GET)<ProjectDetail>(`/goview/${ModuleTypeEnum.PROJECT}/by/id`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -55,7 +55,7 @@ export const fetchProjectApi = async (data: object) => {
 export const saveProjectApi = async (data: object) => {
   try {
     const res = await http(RequestHttpEnum.POST)(
-        `${ModuleTypeEnum.PROJECT}/save/data`,
+        `/goview/${ModuleTypeEnum.PROJECT}/save/data`,
         data,
     )
     return res
@@ -67,7 +67,7 @@ export const saveProjectApi = async (data: object) => {
 // * 修改项目基础信息
 export const updateProjectApi = async (data: object, id: number) => {
   try {
-    const res = await http(RequestHttpEnum.PUT)(`${ModuleTypeEnum.PROJECT}/${id}`, data)
+    const res = await http(RequestHttpEnum.PUT)(`/goview/${ModuleTypeEnum.PROJECT}/${id}`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -77,7 +77,7 @@ export const updateProjectApi = async (data: object, id: number) => {
 // * 删除项目
 export const deleteProjectApi = async (id: number) => {
   try {
-    const res = await http(RequestHttpEnum.DELETE)(`${ModuleTypeEnum.PROJECT}/${id}`)
+    const res = await http(RequestHttpEnum.DELETE)(`/goview/${ModuleTypeEnum.PROJECT}/${id}`)
     return res
   } catch {
     httpErrorHandle()
@@ -87,7 +87,7 @@ export const deleteProjectApi = async (id: number) => {
 // * 修改发布状态 [-1未发布,1发布]
 export const changeProjectReleaseApi = async (data: object) => {
   try {
-    const res = await http(RequestHttpEnum.PUT)(`${ModuleTypeEnum.PROJECT}/publish`, data)
+    const res = await http(RequestHttpEnum.PUT)(`/goview/${ModuleTypeEnum.PROJECT}/publish`, data)
     return res
   } catch {
     httpErrorHandle()
@@ -101,9 +101,10 @@ export const uploadFile = async (data: object) => {
       /**
        * 文件地址
        */
-      fileName: string,
-      fileurl: string,
-    }>(`${ModuleTypeEnum.PROJECT}/upload`, data, ContentTypeEnum.FORM_DATA)
+      id: number,
+      name: string,
+      url: string,
+    }>(`/system/upload`, data, ContentTypeEnum.FORM_DATA)
     return res
   } catch {
     httpErrorHandle()

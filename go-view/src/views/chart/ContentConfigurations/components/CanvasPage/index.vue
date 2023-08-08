@@ -30,7 +30,7 @@
         :onBeforeUpload="beforeUploadHandle"
       >
         <n-upload-dragger>
-          <img v-if="canvasConfig.backgroundImage" class="upload-show" :src="canvasConfig.backgroundImage" alt="背景" />
+          <img v-if="canvasConfig.backgroundImage" class="upload-show" :src="`${axiosPre}/system/image/${canvasConfig.backgroundImage}?time=${new Date().getTime()}`" alt="背景" />
           <div class="upload-img" v-show="!canvasConfig.backgroundImage">
             <img src="@/assets/images/canvas/noImage.png" />
             <n-text class="upload-desc" depth="3">
@@ -140,6 +140,7 @@ import { PreviewScaleEnum } from '@/enums/styleEnum'
 import { ResultEnum } from '@/enums/httpEnum'
 import { icon } from '@/plugins'
 import { uploadFile } from '@/api/path'
+import {axiosPre} from "@/settings/httpSetting";
 
 const { ColorPaletteIcon } = icon.ionicons5
 const { ScaleIcon, FitToScreenIcon, FitToHeightIcon, FitToWidthIcon } = icon.carbon
@@ -277,19 +278,19 @@ const customRequest = (options: UploadCustomRequestOptions) => {
         type: file.file.type
       })
       let uploadParams = new FormData()
-      uploadParams.append('object', newNameFile)
+      uploadParams.append('file', newNameFile)
       const uploadRes = await uploadFile(uploadParams)
 
       if (uploadRes && uploadRes.code === ResultEnum.SUCCESS) {
-        if (uploadRes.data.fileurl) {
+        if (uploadRes.data.url) {
           chartEditStore.setEditCanvasConfig(
             EditCanvasConfigEnum.BACKGROUND_IMAGE,
-            `${uploadRes.data.fileurl}?time=${new Date().getTime()}`
+            `${uploadRes.data.id}?time=${new Date().getTime()}`
           )
         } else {
           chartEditStore.setEditCanvasConfig(
             EditCanvasConfigEnum.BACKGROUND_IMAGE,
-            `${systemStore.getFetchInfo.OSSUrl || ''}${uploadRes.data.fileName}?time=${new Date().getTime()}`
+            `${systemStore.getFetchInfo.OSSUrl || ''}${uploadRes.data.name}?time=${new Date().getTime()}`
           )
         }
         chartEditStore.setEditCanvasConfig(EditCanvasConfigEnum.SELECT_COLOR, false)

@@ -26,7 +26,7 @@
         <!-- 中间 -->
         <div class="list-content-img">
           <img
-            :src="cardData?.image"
+            :src="`${axiosPre}/system/image/${cardData?.image}?time=${new Date().getTime()}`"
             :alt="cardData?.title"
           />
         </div>
@@ -78,6 +78,7 @@ import { renderIcon, renderLang } from '@/utils'
 import { icon } from '@/plugins'
 import { MacOsControlBtn } from '@/components/Tips/MacOsControlBtn'
 import { Chartype } from '../../index.d'
+import {axiosPre} from "@/settings/httpSetting";
 
 const { HammerIcon } = icon.ionicons5
 const showRef = ref(false)

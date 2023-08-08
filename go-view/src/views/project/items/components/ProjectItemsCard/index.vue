@@ -17,7 +17,7 @@
             object-fit="contain"
             height="180"
             preview-disabled
-            :src="`${cardData.image}?time=${new Date().getTime()}`"
+            :src="`${axiosPre}/system/image/${cardData.image}?time=${new Date().getTime()}`"
             :alt="cardData.title"
             :fallback-src="requireErrorImg()"
          ></n-image>
@@ -88,6 +88,7 @@ import { icon } from '@/plugins'
 import { MacOsControlBtn } from '@/components/Tips/MacOsControlBtn'
 import { Chartype } from '../../index.d'
 import { log } from 'console'
+import {axiosPre} from "@/settings/httpSetting";
 const {
   EllipsisHorizontalCircleSharpIcon,
   CopyIcon,

@@ -112,6 +112,7 @@ import { EditRule } from './components/EditRule'
 import { EditBottom } from './components/EditBottom'
 import { EditShapeBox } from './components/EditShapeBox'
 import { EditTools } from './components/EditTools'
+import {axiosPre} from "@/settings/httpSetting";
 
 const chartEditStore = useChartEditStore()
 const { handleContextMenu } = useContextMenu()
@@ -180,7 +181,7 @@ const rangeStyle = computed(() => {
 
   const computedBackground = selectColor
     ? { background: backgroundColor }
-    : { background: `url(${backgroundImage}) no-repeat center center / cover !important` }
+    : { background: `url(${axiosPre}/system/image/${backgroundImage}) no-repeat center center / cover !important` }
 
   // @ts-ignore
   return {

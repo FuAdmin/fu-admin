@@ -300,20 +300,14 @@ export const useSync = () => {
 
         // 上传预览图
         let uploadParams = new FormData()
-        uploadParams.append('object', base64toFile(canvasImage.toDataURL(), `${fetchRouteParamsLocation()}_index_preview.png`))
+        uploadParams.append('file', base64toFile(canvasImage.toDataURL(), `${fetchRouteParamsLocation()}_index_preview.png`))
         const uploadRes = await uploadFile(uploadParams)
         // 保存预览图
         if(uploadRes && uploadRes.code === ResultEnum.SUCCESS) {
-          if (uploadRes.data.fileurl) {
-            await updateProjectApi({
-              id: fetchRouteParamsLocation(),
-              indexImage: `${uploadRes.data.fileurl}`
-            })
-          } else {
-            await updateProjectApi({
-              id: fetchRouteParamsLocation(),
-              indexImage: `${systemStore.getFetchInfo.OSSUrl}${uploadRes.data.fileName}`
-            })
+          if (uploadRes.data.url) {
+            await updateProjectApi({indexImage: `${uploadRes.data.id}`}, Number(fetchRouteParamsLocation()))}
+          else {
+            await updateProjectApi({indexImage: `${systemStore.getFetchInfo.OSSUrl}${uploadRes.data.name}`}, Number(fetchRouteParamsLocation()))
           }
         }
       }
