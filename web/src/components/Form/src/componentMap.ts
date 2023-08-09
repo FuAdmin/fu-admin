@@ -34,10 +34,13 @@ import { CountdownInput } from '/@/components/CountDown';
 
 import DictSelect from './components/DictSelect.vue';
 import AreaLinkage from './components/AreaLinkage.vue';
+import UserSelect from "./components/UserSelect.vue";
 
 const componentMap = new Map<ComponentType, Component>();
 
 componentMap.set('DictSelect', DictSelect);
+componentMap.set('UserSelect', UserSelect);
+
 componentMap.set('AreaLinkage', AreaLinkage);
 
 componentMap.set('Input', Input);
