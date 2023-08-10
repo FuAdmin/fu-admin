@@ -69,9 +69,10 @@
     "vue-json-pretty": "^2.0.6",
     "vue-router": "^4.0.14",
     "vue-types": "^4.1.1",
-    "vuedraggable": "^4.1.0",
     "xe-utils": "^3.5.4",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "vuedraggable": "^4.1.0"
+
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",
@@ -98,9 +99,7 @@
     "@vitejs/plugin-vue-jsx": "^1.3.10",
     "@vue/compiler-sfc": "^3.2.33",
     "@vue/test-utils": "^2.0.0-rc.21",
-    "autoprefixer": "^10.4.14",
-    "browserslist": "^4.21.10",
-    "caniuse-lite": "^1.0.30001519",
+    "autoprefixer": "^10.4.4",
     "commitizen": "^4.2.4",
     "conventional-changelog-cli": "^2.2.2",
     "cross-env": "^7.0.3",
