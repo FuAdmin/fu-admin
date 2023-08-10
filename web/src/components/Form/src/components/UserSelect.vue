@@ -92,7 +92,6 @@
         }, [] as OptionsItem[]);
       });
       const filterOption = (input: string, option: any) => {
-        console.log(input, option);
           return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0 || option.desc.toLowerCase().indexOf(input.toLowerCase()) >= 0
       };
       watchEffect(() => {
