@@ -4,7 +4,7 @@ import { PageEnum, ErrorPageNameMap } from '@/enums/pageEnum'
 import { StorageEnum } from '@/enums/storageEnum'
 import { axiosPre } from '@/settings/httpSetting'
 import { SystemStoreEnum, SystemStoreUserInfoEnum } from '@/store/modules/systemStore/systemStore.d'
-import { redirectErrorPage, getLocalStorage, routerTurnByName, isPreview } from '@/utils'
+import {redirectErrorPage, getLocalStorage, routerTurnByName, isPreview, openWindow} from '@/utils'
 import { fetchAllowList } from './axios.config'
 import includes from 'lodash/includes'
 
@@ -30,10 +30,6 @@ axiosInstance.interceptors.request.use(
     // 获取 token
     const info = getLocalStorage(StorageEnum.GO_SYSTEM_STORE)
     // 重新登录
-    // if (!info) {
-    //   routerTurnByName(PageEnum.BASE_LOGIN_NAME)
-    //   return config
-    // }
     const userInfo = info[SystemStoreEnum.USER_INFO]
     config.headers[userInfo[SystemStoreUserInfoEnum.TOKEN_NAME] || 'token'] =  userInfo[SystemStoreUserInfoEnum.USER_TOKEN] || ''
     return config
@@ -71,8 +67,8 @@ axiosInstance.interceptors.response.use(
     // 登录过期
     if (code === ResultEnum.TOKEN_OVERDUE) {
       window['$message'].error(window['$t']('http.token_overdue_message'))
-        const main_web_url = 'https://localhost:8080/#/login'
-        window.open(main_web_url, '_blank');
+        const main_web_url = import.meta.env.VITE_MAIN_WEB_URL
+        window.open(main_web_url, '_self');
       return Promise.resolve(res.data)
     }
 

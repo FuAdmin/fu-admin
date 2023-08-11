@@ -15,7 +15,8 @@ import { PageEnum } from '@/enums/pageEnum'
 import { routerTurnByName } from '@/utils'
 
 function goLogin() {
-  routerTurnByName(PageEnum.BASE_LOGIN_NAME)
+  const main_web_url = import.meta.env.VITE_MAIN_WEB_URL
+  window.open(main_web_url, '_self');
 }
 </script>
 

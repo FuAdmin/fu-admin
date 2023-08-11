@@ -4,6 +4,7 @@
 # @FileName: usual.py
 # @Software: PyCharm
 # -*- coding: utf-8 -*-
+from django.db import connection
 
 from fuadmin.settings import SECRET_KEY
 from system.models import Dept
@@ -65,3 +66,24 @@ def insert_content_after_line(filename, target_line, content_to_insert):
 
     except FileNotFoundError:
         print(f"文件 '{filename}' 未找到。")
+
+
+def query_all_dict(sql, params=None):
+    """
+    查询所有结果返回字典类型数据
+    :param sql:
+    :param params:
+    :return:
+    """
+    with connection.cursor() as cursor:
+        if params:
+            cursor.execute(sql, params=params)
+        else:
+            cursor.execute(sql)
+        col_names = [desc[0] for desc in cursor.description]
+        row = cursor.fetchall()
+        row_list = []
+        for l in row:
+            t_map = dict(zip(col_names, l))
+            row_list.append(t_map)
+        return row_list

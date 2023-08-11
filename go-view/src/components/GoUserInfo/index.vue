@@ -83,12 +83,12 @@ const renderUserInfo = () => {
   )
 }
 const options = ref([
-  {
-    label: '我的信息',
-    key: 'info',
-    type: 'render',
-    render: renderUserInfo
-  },
+  // {
+  //   label: '我的信息',
+  //   key: 'info',
+  //   type: 'render',
+  //   render: renderUserInfo
+  // },
   {
     type: 'divider',
     key: 'd1'
@@ -107,11 +107,11 @@ const options = ref([
     type: 'divider',
     key: 'd3'
   },
-  {
-    label: renderLang('global.logout'),
-    key: 'logout',
-    icon: renderIcon(LogOutOutlineIcon)
-  }
+  // {
+  //   label: renderLang('global.logout'),
+  //   key: 'logout',
+  //   icon: renderIcon(LogOutOutlineIcon)
+  // }
 ])
 
 // 图片渲染错误
