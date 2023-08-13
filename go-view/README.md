@@ -14,13 +14,13 @@
 
 ```shell
 # port
-VITE_DEV_PORT = '8080'
+VITE_DEV_PORT = '3000'
 
 # development path
-VITE_DEV_PATH = 'http://127.0.0.1:8080'
+VITE_DEV_PATH = 'http://127.0.0.1:3000'
 
 # production path
-VITE_PRO_PATH = 'http://127.0.0.1:8080'
+VITE_PRO_PATH = 'http://127.0.0.1:3000'
 ```
 
 公共前缀修改：`src\settings\httpSetting.ts`

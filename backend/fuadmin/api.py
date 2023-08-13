@@ -10,15 +10,12 @@ from utils.fu_ninja import FuNinjaAPI
 from generator.router import generator_router
 from go_view.router import go_view_router
 
-
-
 api = FuNinjaAPI(auth=GlobalAuth())
 
 
 # 统一处理server异常
-# @api.exception_handler(Exception)
+@api.exception_handler(Exception)
 def a(request, exc):
-
     if hasattr(exc, 'errno'):
         return api.create_response(request, data=[], msg=str(exc), code=exc.errno)
     else:
