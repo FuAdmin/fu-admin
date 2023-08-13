@@ -34,9 +34,9 @@ export const resetPassword = (id) => {
 
 
 
-// export const getAllList = () => {
-//   return defHttp.get({ url: DeptApi.prefix + '/all/list' });
-// };
+export const getAllList = () => {
+  return defHttp.get({ url: DeptApi.prefix + '/all/list' });
+};
 
 /**
  * 保存或更新
