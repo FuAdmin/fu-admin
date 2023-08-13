@@ -14,7 +14,7 @@ English Preview：[http://124.222.210.96:9090](http://124.222.210.96:9090)
 
 - 文档地址: [数据大屏 | FuAdmin](http://124.222.210.96/document/sjdp.html)
 
-  ![9](/screenshots/9.webp)
+  ![9](/screenshots/9.png)
 
 ## 重磅功能二，代码生成器上线
 
@@ -165,7 +165,7 @@ daphne -b 0.0.0.0 -p 8000 fuadmin.asgi:application
 ![](screenshots/6.png) 
 ![](screenshots/7.png) 
 ![](screenshots/8.png) 
-![](screenshots/9.webp) 
+![](screenshots/9.png) 
 
 
 ## Docker构建
