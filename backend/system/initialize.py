@@ -761,6 +761,28 @@ class Initialize(CoreInitialize):
                 "keepalive": 0,
                 "hide_menu": 0,
             },
+            {
+                "id": 37,
+                "modifier": "超级管理员",
+                "belong_dept": None,
+                "creator_id": 1,
+                "update_datetime": datetime.datetime.now(),
+                "create_datetime": datetime.datetime.now(),
+                "parent_id": 2,
+                "sort": 1,
+                "icon": "ant-design:expand-outlined",
+                "title": "数据大屏",
+                "permission": None,
+                "is_ext": 1,
+                "type": 1,
+                "path": "`http://localhost:3000/#/project/items?token=${token}`",
+                "redirect": None,
+                "component": "",
+                "name": None,
+                "status": 1,
+                "keepalive": 0,
+                "hide_menu": 0,
+            },
         ]
         self.save(Menu, self.menu_data, "菜单表")
 
