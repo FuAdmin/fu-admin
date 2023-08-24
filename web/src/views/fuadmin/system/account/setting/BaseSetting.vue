@@ -51,7 +51,7 @@
       const { createMessage } = useMessage();
       const userStore = useUserStore();
       const route = useRoute();
-      const userId = ref(route.params?.id);
+      const {id:userId} = userStore.getUserInfo;
       const [register, { setFieldsValue, validate }] = useForm({
         labelWidth: 120,
         schemas: baseSetschemas,
