@@ -6,7 +6,7 @@
 
 ## docker compose
 
-在项目更目录下，执行`docker-compose up -d` 或 `docker compose up -d`
+在项目根目录下，执行`docker-compose up -d` 或 `docker compose up -d`
 
 ## 第一次运行
 
