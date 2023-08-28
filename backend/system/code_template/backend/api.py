@@ -44,7 +44,7 @@ class {RuleConvert.to_upper_camel_case(api_info.code)}SchemaIn(ModelSchema):
 
     class Config:
         model = {RuleConvert.to_upper_camel_case(api_info.code)}
-        model_exclude = ['create_datetime', 'update_datetime', 'belong_dept', 'modifier', 'creator', 'creator', 'id']
+        model_exclude = ['create_datetime', 'update_datetime', 'belong_dept', 'modifier', 'creator', 'id']
 
 
 # 设置响应字段
