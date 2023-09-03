@@ -38,6 +38,25 @@ services:
             network:
                 ipv4_address: 177.8.0.11
 
+    fuadmin-go-view:
+        container_name: fuadmin-go-view
+        build:
+            context: ./
+            dockerfile: ./docker/go-view/Dockerfile
+        depends_on:
+            - fuadmin-django
+        ports:
+            - 3000:3000
+        expose:
+            - 3000
+        volumes:
+            - ./docker/go-view/nginx.conf:/etc/nginx/conf.d/fuadmin.conf
+        environment:
+            TZ: Asia/Shanghai
+        networks:
+            network:
+                ipv4_address: 177.8.0.10
+
     fuadmin-mysql:
         image: mysql:8
         container_name: fuadmin-mysql

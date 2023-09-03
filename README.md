@@ -2,16 +2,26 @@
 
 [![img](https://img.shields.io/badge/license-Apache%202.0-dark)](https://gitee.com/fuadmin/fu-admin/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.7.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2016.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin)
 
-官方文档：[http://124.222.210.96](http://124.222.210.96)
-中文预览：[http://124.222.210.96:8080](http://124.222.210.96:8080)
-English Preview：[http://124.222.210.96:9090](http://124.222.210.96:9090)
+- 官方文档：[http://124.222.210.96](http://124.222.210.96)
+- 中文预览：[http://124.222.210.96:8080](http://124.222.210.96:8080)
+- English Preview：[http://124.222.210.96:9090](http://124.222.210.96:9090)
 
-## 重磅功能，代码生成器上线
+## 重磅功能一，数据大屏上线
+
+💡 **通过集成Go-View实现拖拉拽的方式快速构建数据大屏**
+
+- 视频地址：暂未上线
+
+- 文档地址: [数据大屏 | FuAdmin](http://124.222.210.96/document/sjdp.html)
+
+  ![9](/screenshots/9.png)
+
+## 重磅功能二，代码生成器上线
 
 💡 **在短短的几分钟之内构建完成的项目**
 
 - 视频地址：[Bilibili](https://www.bilibili.com/video/BV1Wu4y1U76j/?vd_source=3d1f6ee11a3d0c3c90c2fc451d101524)
-- 文档地址：[http://124.222.210.96/document/generator.html](http://124.222.210.96/document/generator.html)
+- 文档地址：[代码生成器 | FuAdmin](http://124.222.210.96/document/generator.html)
 
 ## 为什么使用 Django-Ninja 和 Vue3
 
@@ -46,12 +56,12 @@ English Preview：[http://124.222.210.96:9090](http://124.222.210.96:9090)
 - 👭 后端采用 Python 语言 Django 框架以及强大的 [Django Ninja](https://django-ninja.rest-framework.com/)。
 - 👬 支持加载动态权限菜单，多方式轻松权限控制。
 - 💡 Vue2 项目移步[Dvadmin](https://gitee.com/liqianglog/django-vue-admin)
-- 💏 特别鸣谢：[VbenAdmin](https://github.com/vbenjs/vue-vben-admin) 、[Ant Design Vue](https://github.com/vueComponent/ant-design-vue)。
+- 💏 特别鸣谢：[VbenAdmin](https://github.com/vbenjs/vue-vben-admin) 、[Ant Design Vue](https://github.com/vueComponent/ant-design-vue)、[GoView](https://mtruning.club/)
 - 💡 特别感谢[jetbrains](https://www.jetbrains.com/) 为本开源项目提供免费的 IntelliJ IDEA 授权。
 
 ## 在线体验
 
-👩‍👧‍👦 演示地址：[http://175.24.184.165:8080](http://175.24.184.165:8080)
+👩‍👧‍👦 演示地址：http://124.222.210.96:8080
 
 - 账号：superadmin
 
@@ -156,16 +166,9 @@ daphne -b 0.0.0.0 -p 8000 fuadmin.asgi:application
 ![](screenshots/7.png) 
 ![](screenshots/8.png) 
 ![](screenshots/9.png) 
-![](screenshots/10.png)
 
 
 ## Docker构建
 
 请参考文档[Docker构建](docker/README.md)
-
-## 项目捐赠
-
-如果你觉得这个项目帮助到了你，你可以请作者喝杯咖啡表示鼓励 ☕️
-
-<img src="/screenshots/pay.png" style="zoom:50%;" />
 

@@ -14,6 +14,8 @@ export { default as ApiRadioGroup } from './src/components/ApiRadioGroup.vue';
 export { default as ApiCascader } from './src/components/ApiCascader.vue';
 
 export { default as DictSelect } from './src/components/DictSelect.vue';
+export { default as UserSelect } from './src/components/UserSelect.vue';
+
 export { default as AreaLinkage } from './src/components/AreaLinkage.vue';
 
 export { BasicForm };

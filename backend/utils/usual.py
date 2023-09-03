@@ -43,7 +43,7 @@ def get_dept(dept_id: int, dept_all_list=None, dept_list=None):
 def insert_content_after_line(filename, target_line, content_to_insert):
     try:
         # 打开文件并读取内容
-        with open(filename, 'r') as file:
+        with open(filename, 'r', encoding='utf-8') as file:
             lines = file.readlines()
 
         # 找到目标行的索引位置
@@ -58,7 +58,7 @@ def insert_content_after_line(filename, target_line, content_to_insert):
             lines.insert(target_line_index + 1, content_to_insert + '\n')
 
             # 将更新后的内容写回文件中
-            with open(filename, 'w') as file:
+            with open(filename, 'w', encoding='utf-8') as file:
                 file.writelines(lines)
             print("内容已成功插入到目标行后。")
         else:

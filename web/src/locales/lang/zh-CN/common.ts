@@ -74,8 +74,8 @@ export default {
   button: {
     nameText: '按钮名称',
     codeText: '按钮编码',
-    methodText: '按钮名称',
-    apiText: '按钮编码',
+    methodText: '请求方式',
+    apiText: '按钮接口',
   },
   column: {
     nameText: '列名称',
