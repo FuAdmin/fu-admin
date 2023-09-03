@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash-es';
 import { isUrl } from '/@/utils/is';
 import { RouteParams } from 'vue-router';
 import { toRaw } from 'vue';
+import { getToken } from '/@/utils/auth';
 
 export function getAllParentPath<T = Recordable>(treeData: T[], path: string) {
   const menuList = findPath(treeData, (n) => n.path === path) as Menu[];
@@ -55,13 +56,13 @@ export function transformRouteToMenu(routeModList: AppRouteModule[], routerMappi
   const list = treeMap(routeList, {
     conversion: (node: AppRouteRecordRaw) => {
       const { meta: { title, hideMenu = false } = {} } = node;
-
+      const token = getToken();
       return {
         ...(node.meta || {}),
         meta: node.meta,
         name: title,
         hideMenu,
-        path: node.path,
+        path: node.path.includes('${') ? eval(node.path) : node.path,
         ...(node.redirect ? { redirect: node.redirect } : {}),
       };
     },

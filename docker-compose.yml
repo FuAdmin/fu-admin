@@ -6,8 +6,8 @@ services:
             context: .
             dockerfile: ./docker/django/Dockerfile
         container_name: fuadmin-django
-        depends_on:
-            - fuadmin-mysql
+        # depends_on:
+        #     - fuadmin-mysql
         environment:
             TZ: Asia/Shanghai
         ports:
@@ -38,23 +38,42 @@ services:
             network:
                 ipv4_address: 177.8.0.11
 
-    fuadmin-mysql:
-        image: mysql:8
-        container_name: fuadmin-mysql
-        restart: always
+    fuadmin-go-view:
+        container_name: fuadmin-go-view
+        build:
+            context: ./
+            dockerfile: ./docker/go-view/Dockerfile
+        depends_on:
+            - fuadmin-django
         ports:
-            - 33060:3306
+            - 3000:3000
         expose:
-            - 3306
-        environment:
-            MYSQL_ROOT_PASSWORD: "root"
-            MYSQL_DATABASE: "fuadmin"
-            TZ: Asia/Shanghai
+            - 3000
         volumes:
-            - mysql:/var/lib/mysql
+            - ./docker/go-view/nginx.conf:/etc/nginx/conf.d/fuadmin.conf
+        environment:
+            TZ: Asia/Shanghai
         networks:
             network:
-                ipv4_address: 177.8.0.13
+                ipv4_address: 177.8.0.10
+
+    # fuadmin-mysql:
+    #     image: mysql:8
+    #     container_name: fuadmin-mysql
+    #     restart: always
+    #     ports:
+    #         - 33060:3306
+    #     expose:
+    #         - 3306
+    #     environment:
+    #         MYSQL_ROOT_PASSWORD: "root"
+    #         MYSQL_DATABASE: "fuadmin"
+    #         TZ: Asia/Shanghai
+    #     volumes:
+    #         - mysql:/var/lib/mysql
+    #     networks:
+    #         network:
+    #             ipv4_address: 177.8.0.13
 
     fuadmin-redis:
         image: redis:7-alpine
@@ -77,8 +96,8 @@ services:
             context: .
             dockerfile: ./docker/celery/Dockerfile
         container_name: fuadmin-celery
-        depends_on:
-            - fuadmin-mysql
+        # depends_on:
+        #     - fuadmin-mysql
         environment:
             TZ: Asia/Shanghai
         restart: always

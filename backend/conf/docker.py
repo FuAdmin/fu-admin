@@ -6,9 +6,9 @@ import os
 # 数据库类型 MYSQL/SQLSERVER/SQLITE3
 DATABASE_TYPE = "MYSQL"
 # 数据库地址
-DATABASE_HOST = "fuadmin-mysql"
+DATABASE_HOST = "124.222.210.96"
 # 数据库端口
-DATABASE_PORT = 3306
+DATABASE_PORT = 33060
 # 数据库用户名
 DATABASE_USER = "root"
 # 数据库密码

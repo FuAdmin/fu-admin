@@ -8,7 +8,7 @@ from system.router import system_router
 from utils.fu_auth import GlobalAuth
 from utils.fu_ninja import FuNinjaAPI
 from generator.router import generator_router
-
+from go_view.router import go_view_router
 
 api = FuNinjaAPI(auth=GlobalAuth())
 
@@ -16,7 +16,6 @@ api = FuNinjaAPI(auth=GlobalAuth())
 # 统一处理server异常
 @api.exception_handler(Exception)
 def a(request, exc):
-
     if hasattr(exc, 'errno'):
         return api.create_response(request, data=[], msg=str(exc), code=exc.errno)
     else:
@@ -26,3 +25,4 @@ def a(request, exc):
 api.add_router('/system/', system_router)
 api.add_router('/demo/', demo_router)
 api.add_router('/generator/', generator_router)
+api.add_router('/goview/', go_view_router)
