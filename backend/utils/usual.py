@@ -4,7 +4,6 @@
 # @FileName: usual.py
 # @Software: PyCharm
 # -*- coding: utf-8 -*-
-from django.db import connection
 
 from fuadmin.settings import SECRET_KEY
 from system.models import Dept
@@ -43,7 +42,7 @@ def get_dept(dept_id: int, dept_all_list=None, dept_list=None):
 def insert_content_after_line(filename, target_line, content_to_insert):
     try:
         # 打开文件并读取内容
-        with open(filename, 'r', encoding='utf-8') as file:
+        with open(filename, 'r') as file:
             lines = file.readlines()
 
         # 找到目标行的索引位置
@@ -58,7 +57,7 @@ def insert_content_after_line(filename, target_line, content_to_insert):
             lines.insert(target_line_index + 1, content_to_insert + '\n')
 
             # 将更新后的内容写回文件中
-            with open(filename, 'w', encoding='utf-8') as file:
+            with open(filename, 'w') as file:
                 file.writelines(lines)
             print("内容已成功插入到目标行后。")
         else:
@@ -66,24 +65,3 @@ def insert_content_after_line(filename, target_line, content_to_insert):
 
     except FileNotFoundError:
         print(f"文件 '{filename}' 未找到。")
-
-
-def query_all_dict(sql, params=None):
-    """
-    查询所有结果返回字典类型数据
-    :param sql:
-    :param params:
-    :return:
-    """
-    with connection.cursor() as cursor:
-        if params:
-            cursor.execute(sql, params=params)
-        else:
-            cursor.execute(sql)
-        col_names = [desc[0] for desc in cursor.description]
-        row = cursor.fetchall()
-        row_list = []
-        for l in row:
-            t_map = dict(zip(col_names, l))
-            row_list.append(t_map)
-        return row_list
