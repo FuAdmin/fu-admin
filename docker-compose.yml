@@ -6,8 +6,8 @@ services:
             context: .
             dockerfile: ./docker/django/Dockerfile
         container_name: fuadmin-django
-        # depends_on:
-        #     - fuadmin-mysql
+        depends_on:
+            - fuadmin-mysql
         environment:
             TZ: Asia/Shanghai
         ports:
@@ -57,23 +57,23 @@ services:
             network:
                 ipv4_address: 177.8.0.10
 
-    # fuadmin-mysql:
-    #     image: mysql:8
-    #     container_name: fuadmin-mysql
-    #     restart: always
-    #     ports:
-    #         - 33060:3306
-    #     expose:
-    #         - 3306
-    #     environment:
-    #         MYSQL_ROOT_PASSWORD: "root"
-    #         MYSQL_DATABASE: "fuadmin"
-    #         TZ: Asia/Shanghai
-    #     volumes:
-    #         - mysql:/var/lib/mysql
-    #     networks:
-    #         network:
-    #             ipv4_address: 177.8.0.13
+    fuadmin-mysql:
+        image: mysql:8
+        container_name: fuadmin-mysql
+        restart: always
+        ports:
+            - 33060:3306
+        expose:
+            - 3306
+        environment:
+            MYSQL_ROOT_PASSWORD: "root"
+            MYSQL_DATABASE: "fuadmin"
+            TZ: Asia/Shanghai
+        volumes:
+            - mysql:/var/lib/mysql
+        networks:
+            network:
+                ipv4_address: 177.8.0.13
 
     fuadmin-redis:
         image: redis:7-alpine
@@ -96,8 +96,8 @@ services:
             context: .
             dockerfile: ./docker/celery/Dockerfile
         container_name: fuadmin-celery
-        # depends_on:
-        #     - fuadmin-mysql
+        depends_on:
+            - fuadmin-mysql
         environment:
             TZ: Asia/Shanghai
         restart: always
