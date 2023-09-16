@@ -54,8 +54,8 @@ export const basicProps = Object.assign({}, modalProps, {
 
   destroyOnClose: { type: Boolean },
 
-  // footer: (Object as PropType<VueNode>) || Boolean,
-  footer: Boolean,
+  footer: Object as PropType<VueNode>,
+
   getContainer: Function as PropType<() => any>,
 
   mask: { type: Boolean, default: true },

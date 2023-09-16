@@ -22,6 +22,7 @@
     <UploadModal
       v-bind="bindValue"
       :previewFileList="fileList"
+      :templateApi="props.templateApi"
       @register="registerUploadModal"
       @change="handleChange"
       @delete="handleDelete"
@@ -116,6 +117,7 @@
         showPreview,
         bindValue,
         handleDelete,
+        props,
         handlePreviewDelete,
         t,
       };

@@ -27,7 +27,14 @@
 
     <div class="upload-modal-toolbar">
       <Alert :message="getHelpText" type="info" banner class="upload-modal-toolbar__text" />
-
+      <a-button
+        @click="downloadTemplate"
+        color="info"
+        v-if="props.showDownloadTemplate"
+        class="upload-modal-toolbar__temp-btn"
+      >
+        {{ t('component.upload.downloadTemplate') }}
+      </a-button>
       <Upload
         :accept="getStringAccept"
         :multiple="multiple"
@@ -45,7 +52,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, reactive, ref, toRefs, unref, computed, PropType } from 'vue';
-  import { Upload, Alert } from 'ant-design-vue';
+  import { Upload, Alert, Space } from 'ant-design-vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   //   import { BasicTable, useTable } from '/@/components/Table';
   // hooks
@@ -62,11 +69,19 @@
   import { warn } from '/@/utils/log';
   import FileList from './FileList.vue';
   import { useI18n } from '/@/hooks/web/useI18n';
-
+  import { defHttp } from '/@/utils/http/axios';
+  import { downloadByData } from '/@/utils/file/download';
   export default defineComponent({
-    components: { BasicModal, Upload, Alert, FileList },
+    components: { BasicModal, Upload, Alert, FileList, Space },
     props: {
       ...basicProps,
+      templateApi: {
+        type: Object,
+      },
+      showDownloadTemplate: {
+        type: Boolean,
+        default: false,
+      },
       previewFileList: {
         type: Array as PropType<string[]>,
         default: () => [],
@@ -210,7 +225,14 @@
           };
         }
       }
+      async function downloadTemplate() {
+        const response = await defHttp.get(
+          { url: props.templateApi.api, responseType: 'blob' },
+          { isReturnNativeResponse: true },
+        );
 
+        downloadByData(response.data, props.templateApi.fileName);
+      }
       // 点击开始上传
       async function handleStartUpload() {
         const { maxNumber } = props;
@@ -288,10 +310,12 @@
         state,
         isUploadingRef,
         handleStartUpload,
+        downloadTemplate,
         handleOk,
         handleCloseFunc,
         getIsSelectFile,
         getUploadBtnText,
+        props,
         t,
       };
     },
@@ -315,6 +339,11 @@
       &__btn {
         margin-left: 8px;
         text-align: right;
+        flex: 1;
+      }
+      &__temp-btn {
+        margin-left: 45px;
+        //text-align: right;
         flex: 1;
       }
     }

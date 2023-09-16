@@ -54,6 +54,13 @@ export const uploadContainerProps = {
     type: Boolean as PropType<boolean>,
     default: true,
   },
+  templateApi: {
+    type: Object,
+  },
+  showDownloadTemplate: {
+    type: Boolean,
+    default: false,
+  },
   emptyHidePreview: {
     type: Boolean as PropType<boolean>,
     default: false,
