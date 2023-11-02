@@ -20,9 +20,10 @@
       placement="right"
       :overlayClassName="`${prefixCls}-menu-popover`"
       v-else
-      :visible="getIsOpend"
-      @visible-change="handleVisibleChange"
+      :open="getIsOpend"
+      @on-open-change="handleVisibleChange"
       :overlayStyle="getOverlayStyle"
+      :overlayInnerStyle="{ padding: 0 }"
       :align="{ offset: [0, 0] }"
     >
       <div :class="getSubClass" v-bind="getEvents(false)">
@@ -56,6 +57,7 @@
 </template>
 
 <script lang="ts">
+  import { type TimeoutHandle, type Recordable } from '@vben/types';
   import type { CSSProperties, PropType } from 'vue';
   import type { SubMenuProvider } from './types';
   import {
@@ -74,10 +76,10 @@
   import { useMenuItem } from './useMenu';
   import { useSimpleRootMenuContext } from './useSimpleMenuContext';
   import { CollapseTransition } from '/@/components/Transition';
-  import Icon from '/@/components/Icon';
+  import Icon from '@/components/Icon/Icon.vue';
   import { Popover } from 'ant-design-vue';
   import { isBoolean, isObject } from '/@/utils/is';
-  import mitt from '/@/utils/mitt';
+  import { mitt } from '/@/utils/mitt';
 
   const DELAY = 200;
   export default defineComponent({
@@ -134,7 +136,6 @@
         return [
           `${prefixCls}-submenu`,
           {
-            [`${prefixCls}-item-active`]: state.active,
             [`${prefixCls}-opened`]: state.opened,
             [`${prefixCls}-submenu-disabled`]: props.disabled,
             [`${prefixCls}-submenu-has-parent-submenu`]: unref(getParentSubMenu),
@@ -267,14 +268,14 @@
 
         rootMenuEmitter.on(
           'on-update-opened',
-          (data: boolean | (string | number)[] | Recordable) => {
+          (data: boolean | (string | number)[] | Recordable<any>) => {
             if (unref(getCollapse)) return;
             if (isBoolean(data)) {
               state.opened = data;
               return;
             }
             if (isObject(data) && rootProps.accordion) {
-              const { opend, parent, uidList } = data as Recordable;
+              const { opend, parent, uidList } = data as Recordable<any>;
               if (parent === instance?.parent) {
                 state.opened = opend;
               } else if (!uidList.includes(instance?.uid)) {

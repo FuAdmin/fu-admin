@@ -3,7 +3,7 @@
     <div
       ref="wrap"
       :class="[wrapClass, 'scrollbar__wrap', native ? '' : 'scrollbar__wrap--hidden-default']"
-      :style="style"
+      :style="wrapStyle"
       @scroll="handleScroll"
     >
       <component :is="tag" ref="resize" :class="['scrollbar__view', viewClass]" :style="viewStyle">
@@ -19,8 +19,6 @@
 <script lang="ts">
   import { addResizeListener, removeResizeListener } from '/@/utils/event';
   import componentSetting from '/@/settings/componentSetting';
-  const { scrollbar } = componentSetting;
-  import { toObject } from './util';
   import {
     defineComponent,
     ref,
@@ -28,10 +26,14 @@
     onBeforeUnmount,
     nextTick,
     provide,
-    computed,
     unref,
+    watch,
+    type PropType,
   } from 'vue';
+  import type { StyleValue } from '/@/utils/types';
   import Bar from './bar';
+
+  const { scrollbar } = componentSetting;
 
   export default defineComponent({
     name: 'Scrollbar',
@@ -43,7 +45,7 @@
         default: scrollbar?.native ?? false,
       },
       wrapStyle: {
-        type: [String, Array],
+        type: [String, Array, Object] as PropType<StyleValue>,
         default: '',
       },
       wrapClass: {
@@ -63,6 +65,11 @@
         type: String,
         default: 'div',
       },
+      scrollHeight: {
+        // 用于监控内部scrollHeight的变化
+        type: Number,
+        default: 0,
+      },
     },
     setup(props) {
       const sizeWidth = ref('0');
@@ -73,13 +80,6 @@
       const resize = ref();
 
       provide('scroll-bar-wrap', wrap);
-
-      const style = computed(() => {
-        if (Array.isArray(props.wrapStyle)) {
-          return toObject(props.wrapStyle);
-        }
-        return props.wrapStyle;
-      });
 
       const handleScroll = () => {
         if (!props.native) {
@@ -97,6 +97,14 @@
         sizeHeight.value = heightPercentage < 100 ? heightPercentage + '%' : '';
         sizeWidth.value = widthPercentage < 100 ? widthPercentage + '%' : '';
       };
+
+      watch(
+        () => props.scrollHeight,
+        () => {
+          if (props.native) return;
+          update();
+        },
+      );
 
       onMounted(() => {
         if (props.native) return;
@@ -122,7 +130,6 @@
         moveY,
         sizeWidth,
         sizeHeight,
-        style,
         wrap,
         resize,
         update,
@@ -148,20 +155,20 @@
           display: none;
           width: 0;
           height: 0;
-          opacity: 0%;
+          opacity: 0;
         }
       }
     }
 
     &__thumb {
-      position: relative;
       display: block;
+      position: relative;
       width: 0;
       height: 0;
-      cursor: pointer;
-      background-color: rgb(144 147 153 / 30%);
-      border-radius: inherit;
       transition: 0.3s background-color;
+      border-radius: inherit;
+      background-color: rgb(144 147 153 / 30%);
+      cursor: pointer;
 
       &:hover {
         background-color: rgb(144 147 153 / 50%);
@@ -170,12 +177,12 @@
 
     &__bar {
       position: absolute;
+      z-index: 1;
       right: 2px;
       bottom: 2px;
-      z-index: 1;
-      border-radius: 4px;
-      opacity: 0%;
       transition: opacity 80ms ease;
+      border-radius: 4px;
+      opacity: 0;
 
       &.is-vertical {
         top: 2px;
@@ -200,7 +207,7 @@
   .scrollbar:active > .scrollbar__bar,
   .scrollbar:focus > .scrollbar__bar,
   .scrollbar:hover > .scrollbar__bar {
-    opacity: 100%;
     transition: opacity 340ms ease-out;
+    opacity: 1;
   }
 </style>

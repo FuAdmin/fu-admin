@@ -2,7 +2,7 @@
   <div :style="getPlaceholderDomStyle" v-if="getIsShowPlaceholderDom"></div>
   <div :style="getWrapStyle" :class="getClass">
     <LayoutHeader v-if="getShowInsetHeaderRef" />
-    <MultipleTabs v-if="getShowTabs" />
+    <MultipleTabs v-if="getShowTabs" :key="tabStore.getLastDragEndIndex" />
   </div>
 </template>
 <script lang="ts">
@@ -18,6 +18,7 @@
   import { useAppInject } from '/@/hooks/web/useAppInject';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useLayoutHeight } from '../content/useContentViewHeight';
+  import { useMultipleTabStore } from '/@/store/modules/multipleTab';
 
   const HEADER_HEIGHT = 48;
 
@@ -27,6 +28,7 @@
     components: { LayoutHeader, MultipleTabs },
     setup() {
       const { setHeaderHeight } = useLayoutHeight();
+      const tabStore = useMultipleTabStore();
       const { prefixCls } = useDesign('layout-multiple-header');
 
       const { getCalcContentWidth, getSplit } = useMenuSetting();
@@ -101,6 +103,7 @@
         getIsShowPlaceholderDom,
         getShowTabs,
         getShowInsetHeaderRef,
+        tabStore,
       };
     },
   });
@@ -109,8 +112,8 @@
   @prefix-cls: ~'@{namespace}-layout-multiple-header';
 
   .@{prefix-cls} {
-    transition: width 0.2s;
     flex: 0 0 auto;
+    transition: width 0.2s;
 
     &--dark {
       margin-left: -1px;
@@ -118,8 +121,8 @@
 
     &--fixed {
       position: fixed;
-      top: 0;
       z-index: @multiple-tab-fixed-z-index;
+      top: 0;
       width: 100%;
     }
   }

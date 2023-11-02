@@ -23,6 +23,7 @@
             :maxSize="20"
             :maxNumber="1"
             @change="handleChange"
+            class="my-5"
             type="warning"
             :text="t('common.importText')"
             v-auth="['demo:update']"

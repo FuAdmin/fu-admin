@@ -1,24 +1,24 @@
 <template>
   <div>
-    <!--    <Space>-->
-    <a-button :type="type" @click="openUploadModal" preIcon="carbon:cloud-upload">
-      {{ text }}
-    </a-button>
-    <Tooltip placement="bottom" v-if="showPreview">
-      <template #title>
-        {{ text }}
-        <template v-if="fileList.length">
-          {{ fileList.length }}
+    <Space>
+      <a-button type="primary" @click="openUploadModal" preIcon="carbon:cloud-upload">
+        {{ t('component.upload.upload') }}
+      </a-button>
+      <Tooltip placement="bottom" v-if="showPreview">
+        <template #title>
+          {{ t('component.upload.uploaded') }}
+          <template v-if="fileList.length">
+            {{ fileList.length }}
+          </template>
         </template>
-      </template>
-      <!--        <a-button @click="openPreviewModal">-->
-      <!--          <Icon icon="bi:eye" />-->
-      <!--          <template v-if="fileList.length && showPreviewNumber">-->
-      <!--            {{ fileList.length }}-->
-      <!--          </template>-->
-      <!--        </a-button>-->
-    </Tooltip>
-    <!--    </Space>-->
+<!--        <a-button @click="openPreviewModal">-->
+<!--          <Icon icon="bi:eye" />-->
+<!--          <template v-if="fileList.length && showPreviewNumber">-->
+<!--            {{ fileList.length }}-->
+<!--          </template>-->
+<!--        </a-button>-->
+      </Tooltip>
+    </Space>
     <UploadModal
       v-bind="bindValue"
       :previewFileList="fileList"
@@ -38,7 +38,8 @@
 </template>
 <script lang="ts">
   import { defineComponent, ref, watch, unref, computed } from 'vue';
-  import { Icon } from '/@/components/Icon';
+  import { Recordable } from '@vben/types';
+  import Icon from '@/components/Icon/Icon.vue';
   import { Tooltip, Space } from 'ant-design-vue';
   import { useModal } from '/@/components/Modal';
   import { uploadContainerProps } from './props';
@@ -88,7 +89,6 @@
         fileList.value = [...unref(fileList), ...(urls || [])];
         emit('update:value', fileList.value);
         emit('change', fileList.value);
-        fileList.value = [];
       }
 
       // 预览modal保存操作
@@ -98,7 +98,7 @@
         emit('change', fileList.value);
       }
 
-      function handleDelete(record: Recordable) {
+      function handleDelete(record: Recordable<any>) {
         emit('delete', record);
       }
 
@@ -117,8 +117,8 @@
         showPreview,
         bindValue,
         handleDelete,
-        props,
         handlePreviewDelete,
+        props,
         t,
       };
     },

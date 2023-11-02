@@ -3,9 +3,14 @@ export type ComponentType =
   | 'InputNumber'
   | 'Select'
   | 'ApiSelect'
+  | 'DictSelect'
+  | 'UserSelect'
   | 'AutoComplete'
   | 'ApiTreeSelect'
   | 'Checkbox'
   | 'Switch'
   | 'DatePicker'
-  | 'TimePicker';
+  | 'TimePicker'
+  | 'RadioGroup'
+  | 'RadioButtonGroup'
+  | 'ApiRadioGroup';

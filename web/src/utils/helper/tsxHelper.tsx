@@ -1,10 +1,11 @@
 import { Slots } from 'vue';
 import { isFunction } from '/@/utils/is';
+import { RenderOpts } from '/@/components/Form';
 
 /**
  * @description:  Get slot to prevent empty error
  */
-export function getSlot(slots: Slots, slot = 'default', data?: any) {
+export function getSlot(slots: Slots, slot = 'default', data?: any, opts?: RenderOpts) {
   if (!slots || !Reflect.has(slots, slot)) {
     return null;
   }
@@ -14,7 +15,8 @@ export function getSlot(slots: Slots, slot = 'default', data?: any) {
   }
   const slotFn = slots[slot];
   if (!slotFn) return null;
-  return slotFn(data);
+  const params = { ...data, ...opts };
+  return slotFn(params);
 }
 
 /**
@@ -29,7 +31,7 @@ export function extendSlots(slots: Slots, excludeKeys: string[] = []) {
     if (excludeKeys.includes(key)) {
       return null;
     }
-    ret[key] = () => getSlot(slots, key);
+    ret[key] = (data?: any) => getSlot(slots, key, data);
   });
   return ret;
 }

@@ -113,6 +113,7 @@ export default {
     fileStatue: 'File status',
 
     startUpload: 'Start upload',
+    downloadTemplate: 'Download Template',
     uploadSuccess: 'Upload successfully',
     uploadError: 'Upload failed',
     uploading: 'Uploading',

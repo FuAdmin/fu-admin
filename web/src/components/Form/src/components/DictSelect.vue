@@ -27,11 +27,12 @@
   </Select>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, watchEffect, computed, unref, watch } from 'vue';
+  import { defineComponent, PropType, ref, watchEffect, computed, unref, watch } from 'vue';
   import { Select } from 'ant-design-vue';
+  import type { SelectValue } from 'ant-design-vue/es/select';
   import { isFunction } from '/@/utils/is';
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
-  import { useAttrs } from '/@/hooks/core/useAttrs';
+  import { useAttrs } from '@vben/hooks';
   import { get, omit } from 'lodash-es';
   import { LoadingOutlined } from '@ant-design/icons-vue';
   import { useI18n } from '/@/hooks/web/useI18n';

@@ -8,10 +8,6 @@
   }
 }
 
-span.anticon:not(.app-iconify) {
-  vertical-align: 0.125em !important;
-}
-
 .ant-back-top {
   right: 20px;
   bottom: 20px;
@@ -56,4 +52,12 @@ span.anticon:not(.app-iconify) {
 .ant-tree-checkbox-checked .ant-tree-checkbox-inner::after {
   border-top: 0 !important;
   border-left: 0 !important;
+}
+
+.ant-form-item-control-input-content {
+  > div {
+    > div {
+      max-width: 100%;
+    }
+  }
 }

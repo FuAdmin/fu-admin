@@ -9,8 +9,8 @@
     v-model:value="state"
   >
     <template #option="{ value: val, label, desc }">
-      <span> {{ label }} </span>
-      &nbsp;&nbsp;<span> {{ desc }} </span>
+      <span class="option-label"> {{ label }} </span>
+      <span class="option-description"> {{ desc }} </span>
     </template>
 
     <template #[item]="data" v-for="item in Object.keys($slots)">
@@ -28,11 +28,12 @@
   </Select>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, watchEffect, computed, unref, watch } from 'vue';
+  import { defineComponent, PropType, watchEffect, ref, computed, unref, watch } from 'vue';
   import { Select } from 'ant-design-vue';
+  import type { SelectValue } from 'ant-design-vue/es/select';
   import { isFunction } from '/@/utils/is';
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
-  import { useAttrs } from '/@/hooks/core/useAttrs';
+  import { useAttrs } from '@vben/hooks';
   import { get, omit } from 'lodash-es';
   import { LoadingOutlined } from '@ant-design/icons-vue';
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -57,7 +58,7 @@
       // support xxx.xxx.xx
       resultField: propTypes.string.def(''),
       labelField: propTypes.string.def('name'),
-      valueField: propTypes.string.def('id'),
+      valueField: propTypes.string.def('username'),
       descField: propTypes.string.def('username'),
       immediate: propTypes.bool.def(true),
       alwaysLoad: propTypes.bool.def(false),
@@ -151,3 +152,19 @@
     },
   });
 </script>
+<style>
+.option-label {
+  display: inline-block;
+  width: 85%; /* 调整为合适的宽度 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.option-description {
+  display: inline-block;
+  width: 15%; /* 调整为合适的宽度 */
+  //text-align: right;
+  color: #999;
+}
+</style>

@@ -151,7 +151,6 @@ export const accountFormSchema: FormSchema[] = [
       valueField: 'id',
       mode: 'multiple',
     },
-    required: true,
     itemProps: { validateTrigger: 'blur' },
   },
   {
@@ -164,7 +163,6 @@ export const accountFormSchema: FormSchema[] = [
       valueField: 'id',
       mode: 'multiple',
     },
-    required: true,
     itemProps: { validateTrigger: 'blur' },
   },
   {
@@ -179,12 +177,14 @@ export const accountFormSchema: FormSchema[] = [
       },
       getPopupContainer: () => document.body,
     },
-    required: true,
   },
   {
     field: 'home_path',
     label: t('common.account.homePath'),
-    component: 'Input',
+    component: 'DictSelect',
+    componentProps: {
+      dictCode: 'home_path',
+    },
   },
   {
     field: 'gender',

@@ -8,7 +8,7 @@
       :tabBarGutter="3"
       :activeKey="activeKeyRef"
       @change="handleChange"
-      @edit="handleEdit"
+      @edit="(e) => handleEdit(`${e}`)"
     >
       <template v-for="item in getTabsState" :key="item.query ? item.fullPath : item.path">
         <TabPane :closable="!(item && item.meta && item.meta.affix)">
@@ -140,5 +140,5 @@
   });
 </script>
 <style lang="less">
-  @import './index.less';
+  @import url('./index.less');
 </style>

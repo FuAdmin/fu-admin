@@ -3,6 +3,8 @@
 @import 'public.less';
 @import 'ant/index.less';
 @import './theme.less';
+@import './entry.css';
+@import './dark.less';
 
 input:-webkit-autofill {
   box-shadow: 0 0 0 1000px white inset !important;
@@ -19,10 +21,11 @@ html {
 
 html,
 body {
+  position: relative;
   width: 100%;
   height: 100%;
-  overflow: visible !important;
-  overflow-x: hidden !important;
+  overflow: visible;
+  overflow-x: hidden;
 
   &.color-weak {
     filter: invert(80%);
@@ -40,5 +43,12 @@ button,
 div,
 svg,
 span {
-  outline: none !important;
+  outline: none;
+}
+
+// 保持 和 windi 一样的全局样式，减少升级带来的影响
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }

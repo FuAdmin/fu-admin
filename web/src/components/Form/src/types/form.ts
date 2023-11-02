@@ -1,20 +1,19 @@
 import type { NamePath, RuleObject } from 'ant-design-vue/lib/form/interface';
-import type { VNode } from 'vue';
+import type { VNode, CSSProperties } from 'vue';
 import type { ButtonProps as AntdButtonProps } from '/@/components/Button';
 import type { FormItem } from './formItem';
 import type { ColEx, ComponentType } from './index';
 import type { TableActionType } from '/@/components/Table/src/types/table';
-import type { CSSProperties } from 'vue';
 import type { RowProps } from 'ant-design-vue/lib/grid/Row';
 
-export type FieldMapToTime = [string, [string, string], string?][];
+export type FieldMapToTime = [string, [string, string], (string | [string, string])?][];
 
 export type Rule = RuleObject & {
   trigger?: 'blur' | 'change' | ['change', 'blur'];
 };
 
 export interface RenderCallbackParams {
-  schema: FormSchema;
+  schema: FormSchemaInner;
   values: Recordable;
   model: Recordable;
   field: string;
@@ -26,21 +25,21 @@ export interface ButtonProps extends AntdButtonProps {
 
 export interface FormActionType {
   submit: () => Promise<void>;
-  setFieldsValue: <T>(values: T) => Promise<void>;
+  setFieldsValue: (values: Recordable) => Promise<void>;
   resetFields: () => Promise<void>;
   getFieldsValue: () => Recordable;
   clearValidate: (name?: string | string[]) => Promise<void>;
-  updateSchema: (data: Partial<FormSchema> | Partial<FormSchema>[]) => Promise<void>;
-  resetSchema: (data: Partial<FormSchema> | Partial<FormSchema>[]) => Promise<void>;
+  updateSchema: (data: Partial<FormSchemaInner> | Partial<FormSchemaInner>[]) => Promise<void>;
+  resetSchema: (data: Partial<FormSchemaInner> | Partial<FormSchemaInner>[]) => Promise<void>;
   setProps: (formProps: Partial<FormProps>) => Promise<void>;
-  removeSchemaByFiled: (field: string | string[]) => Promise<void>;
+  removeSchemaByField: (field: string | string[]) => Promise<void>;
   appendSchemaByField: (
-    schema: FormSchema,
+    schema: FormSchemaInner | FormSchemaInner[],
     prefixField: string | undefined,
     first?: boolean | undefined,
   ) => Promise<void>;
   validateFields: (nameList?: NamePath[]) => Promise<any>;
-  validate: (nameList?: NamePath[]) => Promise<any>;
+  validate: <T = Recordable>(nameList?: NamePath[] | false) => Promise<T>;
   scrollToField: (name: NamePath, options?: ScrollOptions) => Promise<void>;
 }
 
@@ -124,15 +123,22 @@ export interface FormProps {
   transformDateFunc?: (date: any) => string;
   colon?: boolean;
 }
-export interface FormSchema {
+export type RenderOpts = {
+  disabled: boolean;
+  [key: string]: any;
+};
+
+interface BaseFormSchema {
   // Field name
   field: string;
+  // Extra Fields name[]
+  fields?: string[];
   // Event name triggered by internal value change, default change
   changeEvent?: string;
   // Variable name bound to v-model Default value
   valueField?: string;
   // Label name
-  label: string | VNode;
+  label?: string | VNode;
   // Auxiliary text
   subLabel?: string;
   // Help text on the right side of the text
@@ -146,8 +152,6 @@ export interface FormSchema {
   labelWidth?: string | number;
   // Disable the adjustment of labelWidth with global settings of formModel, and manually set labelCol and wrapperCol by yourself
   disabledLabelWidth?: boolean;
-  // render component
-  component: ComponentType;
   // Component parameters
   componentProps?:
     | ((opt: {
@@ -175,6 +179,13 @@ export interface FormSchema {
 
   // 默认值
   defaultValue?: any;
+
+  // 额外默认值数组对象
+  defaultValueObj?: { [key: string]: any };
+
+  // 是否自动处理与时间相关组件的默认值
+  isHandleDateDefaultValue?: boolean;
+
   isAdvanced?: boolean;
 
   // Matching details components
@@ -185,19 +196,22 @@ export interface FormSchema {
   show?: boolean | ((renderCallbackParams: RenderCallbackParams) => boolean);
 
   // Render the content in the form-item tag
-  render?: (renderCallbackParams: RenderCallbackParams) => VNode | VNode[] | string;
+  render?: (
+    renderCallbackParams: RenderCallbackParams,
+    opts: RenderOpts,
+  ) => VNode | VNode[] | string;
 
   // Rendering col content requires outer wrapper form-item
-  renderColContent?: (renderCallbackParams: RenderCallbackParams) => VNode | VNode[] | string;
+  renderColContent?: (
+    renderCallbackParams: RenderCallbackParams,
+    opts: RenderOpts,
+  ) => VNode | VNode[] | string;
 
   renderComponentContent?:
-    | ((renderCallbackParams: RenderCallbackParams) => any)
+    | ((renderCallbackParams: RenderCallbackParams, opts: RenderOpts) => any)
     | VNode
     | VNode[]
     | string;
-
-  // Custom slot, in from-item
-  slot?: string;
 
   // Custom slot, similar to renderColContent
   colSlot?: string;
@@ -205,6 +219,29 @@ export interface FormSchema {
   dynamicDisabled?: boolean | ((renderCallbackParams: RenderCallbackParams) => boolean);
 
   dynamicRules?: (renderCallbackParams: RenderCallbackParams) => Rule[];
+}
+export interface ComponentFormSchema extends BaseFormSchema {
+  // render component
+  component: ComponentType;
+}
+
+export interface SlotFormSchema extends BaseFormSchema {
+  // Custom slot, in from-item
+  slot: string;
+}
+
+export type FormSchema = ComponentFormSchema | SlotFormSchema;
+
+export type FormSchemaInner = Partial<ComponentFormSchema> &
+  Partial<SlotFormSchema> &
+  BaseFormSchema;
+
+export function isSlotFormSchema(schema: FormSchemaInner): schema is SlotFormSchema {
+  return 'slot' in schema;
+}
+
+export function isComponentFormSchema(schema: FormSchemaInner): schema is ComponentFormSchema {
+  return !isSlotFormSchema(schema);
 }
 export interface HelpComponentProps {
   maxWidth: string;

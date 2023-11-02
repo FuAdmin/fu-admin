@@ -1,11 +1,9 @@
 import type { BasicTableProps, TableRowSelection, BasicColumn } from '../types/table';
-import { Ref, ComputedRef, ref } from 'vue';
-import { computed, unref, nextTick, watch } from 'vue';
+import { Ref, ComputedRef, ref, computed, unref, nextTick, watch } from 'vue';
 import { getViewportOffset } from '/@/utils/domUtils';
 import { isBoolean } from '/@/utils/is';
-import { useWindowSizeFn } from '/@/hooks/event/useWindowSizeFn';
+import { useWindowSizeFn, onMountedOrActivated } from '@vben/hooks';
 import { useModalContext } from '/@/components/Modal';
-import { onMountedOrActivated } from '/@/hooks/core/onMountedOrActivated';
 import { useDebounceFn } from '@vueuse/core';
 
 export function useTableScroll(
@@ -55,22 +53,7 @@ export function useTableScroll(
   let footerEl: HTMLElement | null;
   let bodyEl: HTMLElement | null;
 
-  async function calcTableHeight() {
-    const { resizeHeightOffset, pagination, maxHeight, isCanResizeParent, useSearchForm } =
-      unref(propsRef);
-    const tableData = unref(getDataSourceRef);
-
-    const table = unref(tableElRef);
-    if (!table) return;
-
-    const tableEl: Element = table.$el;
-    if (!tableEl) return;
-
-    if (!bodyEl) {
-      bodyEl = tableEl.querySelector('.ant-table-body');
-      if (!bodyEl) return;
-    }
-
+  function handleScrollBar(bodyEl: HTMLElement, tableEl: Element) {
     const hasScrollBarY = bodyEl.scrollHeight > bodyEl.clientHeight;
     const hasScrollBarX = bodyEl.scrollWidth > bodyEl.clientWidth;
 
@@ -87,20 +70,10 @@ export function useTableScroll(
     } else {
       !tableEl.classList.contains('hide-scrollbar-x') && tableEl.classList.add('hide-scrollbar-x');
     }
+  }
 
-    bodyEl!.style.height = 'unset';
-
-    if (!unref(getCanResize) || tableData.length === 0) return;
-
-    await nextTick();
-    // Add a delay to get the correct bottomIncludeBody paginationHeight footerHeight headerHeight
-
-    const headEl = tableEl.querySelector('.ant-table-thead ');
-
-    if (!headEl) return;
-
-    // Table height from bottom height-custom offset
-    let paddingHeight = 32;
+  function caclPaginationHeight(tableEl: Element): number {
+    const { pagination } = unref(propsRef);
     // Pager height
     let paginationHeight = 2;
     if (!isBoolean(pagination)) {
@@ -115,7 +88,11 @@ export function useTableScroll(
     } else {
       paginationHeight = -8;
     }
+    return paginationHeight;
+  }
 
+  function caclFooterHeight(tableEl: Element): number {
+    const { pagination } = unref(propsRef);
     let footerHeight = 0;
     if (!isBoolean(pagination)) {
       if (!footerEl) {
@@ -125,12 +102,21 @@ export function useTableScroll(
         footerHeight += offsetHeight || 0;
       }
     }
+    return footerHeight;
+  }
 
+  function calcHeaderHeight(headEl: Element): number {
     let headerHeight = 0;
     if (headEl) {
       headerHeight = (headEl as HTMLElement).offsetHeight;
     }
+    return headerHeight;
+  }
 
+  function calcBottomAndPaddingHeight(tableEl: Element, headEl: Element) {
+    const { pagination, isCanResizeParent, useSearchForm } = unref(propsRef);
+    // Table height from bottom height-custom offset
+    let paddingHeight = 30;
     let bottomIncludeBody = 0;
     if (unref(wrapRef) && isCanResizeParent) {
       const tablePadding = 12;
@@ -160,6 +146,45 @@ export function useTableScroll(
       bottomIncludeBody = getViewportOffset(headEl).bottomIncludeBody;
     }
 
+    return {
+      paddingHeight,
+      bottomIncludeBody,
+    };
+  }
+
+  async function calcTableHeight() {
+    const { resizeHeightOffset, maxHeight } = unref(propsRef);
+    const tableData = unref(getDataSourceRef);
+
+    const table = unref(tableElRef);
+    if (!table) return;
+
+    const tableEl: Element = table.$el;
+    if (!tableEl) return;
+
+    if (!bodyEl) {
+      bodyEl = tableEl.querySelector('.ant-table-body');
+      if (!bodyEl) return;
+    }
+
+    handleScrollBar(bodyEl, tableEl);
+
+    bodyEl!.style.height = 'unset';
+
+    if (!unref(getCanResize) || !unref(tableData) || tableData.length === 0) return;
+
+    await nextTick();
+    // Add a delay to get the correct bottomIncludeBody paginationHeight footerHeight headerHeight
+
+    const headEl = tableEl.querySelector('.ant-table-thead ');
+
+    if (!headEl) return;
+
+    const paginationHeight = caclPaginationHeight(tableEl);
+    const footerHeight = caclFooterHeight(tableEl);
+    const headerHeight = calcHeaderHeight(headEl);
+    const { paddingHeight, bottomIncludeBody } = calcBottomAndPaddingHeight(tableEl, headEl);
+
     let height =
       bottomIncludeBody -
       (resizeHeightOffset || 0) -
@@ -172,7 +197,7 @@ export function useTableScroll(
 
     bodyEl!.style.height = `${height}px`;
   }
-  useWindowSizeFn(calcTableHeight, 280);
+  useWindowSizeFn(calcTableHeight, { wait: 280 });
   onMountedOrActivated(() => {
     calcTableHeight();
     nextTick(() => {
@@ -191,7 +216,7 @@ export function useTableScroll(
 
     const columns = unref(columnsRef).filter((item) => !item.defaultHidden);
     columns.forEach((item) => {
-      width += Number.parseInt(item.width as string) || 0;
+      width += Number.parseFloat(item.width as string) || 0;
     });
     const unsetWidthColumns = columns.filter((item) => !Reflect.has(item, 'width'));
 

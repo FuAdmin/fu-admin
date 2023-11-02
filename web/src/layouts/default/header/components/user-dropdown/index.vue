@@ -3,8 +3,8 @@
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
       <img :class="`${prefixCls}__header`" :src="getUserInfo.avatar" />
       <span :class="`${prefixCls}__info hidden md:block`">
-        <span :class="`${prefixCls}__name  `" class="truncate">
-          {{ getUserInfo.name }}
+        <span :class="`${prefixCls}__name`" class="truncate">
+          {{ getUserInfo.realName }}
         </span>
       </span>
     </span>
@@ -19,9 +19,10 @@
         />
         <MenuDivider v-if="getShowDoc" />
         <MenuItem
-          key="setting"
-          :text="t('layout.header.tooltipSetting')"
-          icon="ant-design:user-outlined"
+          v-if="getShowApi"
+          key="api"
+          :text="t('layout.header.dropdownChangeApi')"
+          icon="ant-design:swap-outlined"
         />
         <MenuItem
           v-if="getUseLockPage"
@@ -38,10 +39,12 @@
     </template>
   </Dropdown>
   <LockAction @register="register" />
+  <ChangeApi @register="registerApi" />
 </template>
 <script lang="ts">
   // components
   import { Dropdown, Menu } from 'ant-design-vue';
+  import type { MenuInfo } from 'ant-design-vue/lib/menu/src/interface';
 
   import { defineComponent, computed } from 'vue';
 
@@ -58,9 +61,8 @@
   import { openWindow } from '/@/utils';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
-  import { useGo } from '/@/hooks/web/usePage';
 
-  type MenuEvent = 'logout' | 'doc' | 'lock' | 'setting';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'api';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -70,6 +72,7 @@
       MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
       MenuDivider: Menu.Divider,
       LockAction: createAsyncComponent(() => import('../lock/LockModal.vue')),
+      ChangeApi: createAsyncComponent(() => import('../ChangeApi/index.vue')),
     },
     props: {
       theme: propTypes.oneOf(['dark', 'light']),
@@ -77,18 +80,23 @@
     setup() {
       const { prefixCls } = useDesign('header-user-dropdown');
       const { t } = useI18n();
-      const { getShowDoc, getUseLockPage } = useHeaderSetting();
+      const { getShowDoc, getUseLockPage, getShowApi } = useHeaderSetting();
       const userStore = useUserStore();
-      const go = useGo();
+
       const getUserInfo = computed(() => {
-        const { name = '', id, avatar, desc } = userStore.getUserInfo || {};
-        return { name, avatar: avatar || headerImg, desc, id };
+        const { realName = '', avatar, desc } = userStore.getUserInfo || {};
+        return { realName, avatar: avatar || headerImg, desc };
       });
 
       const [register, { openModal }] = useModal();
+      const [registerApi, { openModal: openApiModal }] = useModal();
 
       function handleLock() {
         openModal(true);
+      }
+
+      function handleApi() {
+        openApiModal(true, {});
       }
 
       //  login out
@@ -101,13 +109,8 @@
         openWindow(DOC_URL);
       }
 
-      // open Setting
-      function handleSetting() {
-        go('/system/account/setting/' + getUserInfo.value.id);
-      }
-
-      function handleMenuClick(e: { key: MenuEvent }) {
-        switch (e.key) {
+      function handleMenuClick(e: MenuInfo) {
+        switch (e.key as MenuEvent) {
           case 'logout':
             handleLoginOut();
             break;
@@ -117,8 +120,8 @@
           case 'lock':
             handleLock();
             break;
-          case 'setting':
-            handleSetting();
+          case 'api':
+            handleApi();
             break;
         }
       }
@@ -129,7 +132,9 @@
         getUserInfo,
         handleMenuClick,
         getShowDoc,
+        getShowApi,
         register,
+        registerApi,
         getUseLockPage,
       };
     },
@@ -139,13 +144,13 @@
   @prefix-cls: ~'@{namespace}-header-user-dropdown';
 
   .@{prefix-cls} {
+    align-items: center;
     height: @header-height;
     padding: 0 0 0 10px;
     padding-right: 10px;
     overflow: hidden;
     font-size: 12px;
     cursor: pointer;
-    align-items: center;
 
     img {
       width: 24px;

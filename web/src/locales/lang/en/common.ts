@@ -74,6 +74,9 @@ export default {
   button: {
     nameText: 'Button Name',
     codeText: 'Button Code',
+    methodText: 'Method Type',
+    apiText: 'Button API',
+
   },
   column: {
     nameText: 'Column Name',

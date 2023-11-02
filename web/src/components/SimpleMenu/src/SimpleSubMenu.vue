@@ -5,6 +5,7 @@
     v-bind="$props"
     :class="getLevelClass"
   >
+    <img v-if="getImg" :src="getImg" class="w-16px h-16px align-top" />
     <Icon v-if="getIcon" :icon="getIcon" :size="16" />
     <div v-if="collapsedShowTitle && getIsCollapseParent" class="mt-1 collapse-title">
       {{ getI18nName }}
@@ -23,6 +24,7 @@
     :collapsedShowTitle="collapsedShowTitle"
   >
     <template #title>
+      <img v-if="getImg" :src="getImg" class="w-16px h-16px align-top" />
       <Icon v-if="getIcon" :icon="getIcon" :size="16" />
 
       <div v-if="collapsedShowTitle && getIsCollapseParent" class="mt-2 collapse-title">
@@ -34,7 +36,10 @@
       </span>
       <SimpleMenuTag :item="item" :collapseParent="!!collapse && !!parent" />
     </template>
-    <template v-for="childrenItem in item.children || []" :key="childrenItem.path">
+    <template
+      v-for="childrenItem in item.children || []"
+      :key="childrenItem.paramPath || childrenItem.path"
+    >
       <SimpleSubMenu v-bind="$props" :item="childrenItem" :parent="false" />
     </template>
   </SubMenu>
@@ -45,7 +50,7 @@
 
   import { defineComponent, computed } from 'vue';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import Icon from '/@/components/Icon/index';
+  import Icon from '@/components/Icon/Icon.vue';
 
   import MenuItem from './components/MenuItem.vue';
   import SubMenu from './components/SubMenuItem.vue';
@@ -76,7 +81,8 @@
       const { prefixCls } = useDesign('simple-menu');
 
       const getShowMenu = computed(() => !props.item?.meta?.hideMenu);
-      const getIcon = computed(() => props.item?.icon);
+      const getIcon = computed(() => (props.item?.img ? undefined : props.item?.icon));
+      const getImg = computed(() => props.item?.img);
       const getI18nName = computed(() => t(props.item?.name));
       const getShowSubTitle = computed(() => !props.collapse || !props.parent);
       const getIsCollapseParent = computed(() => !!props.collapse && !!props.parent);
@@ -103,6 +109,7 @@
         menuHasChildren,
         getShowMenu,
         getIcon,
+        getImg,
         getI18nName,
         getShowSubTitle,
         getLevelClass,

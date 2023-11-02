@@ -10,6 +10,7 @@
       <slot name="formHeader"></slot>
       <template v-for="schema in getSchema" :key="schema.field">
         <FormItem
+          :isAdvanced="fieldsIsAdvancedMap[schema.field]"
           :tableAction="tableAction"
           :formActionType="formActionType"
           :schema="schema"
@@ -37,19 +38,18 @@
   </Form>
 </template>
 <script lang="ts">
-  import type { FormActionType, FormProps, FormSchema } from './types/form';
+  import type { FormActionType, FormProps, FormSchemaInner as FormSchema } from './types/form';
   import type { AdvanceState } from './types/hooks';
   import type { Ref } from 'vue';
 
   import { defineComponent, reactive, ref, computed, unref, onMounted, watch, nextTick } from 'vue';
-  import { Form, Row } from 'ant-design-vue';
+  import { Form, Row, type FormProps as AntFormProps } from 'ant-design-vue';
   import FormItem from './components/FormItem.vue';
   import FormAction from './components/FormAction.vue';
 
   import { dateItemType } from './helper';
   import { dateUtil } from '/@/utils/dateUtil';
 
-  // import { cloneDeep } from 'lodash-es';
   import { deepMerge } from '/@/utils';
 
   import { useFormValues } from './hooks/useFormValues';
@@ -62,6 +62,7 @@
 
   import { basicProps } from './props';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { cloneDeep } from 'lodash-es';
 
   export default defineComponent({
     name: 'BasicForm',
@@ -69,7 +70,7 @@
     props: basicProps,
     emits: ['advanced-change', 'reset', 'submit', 'register', 'field-value-change'],
     setup(props, { emit, attrs }) {
-      const formModel = reactive<Recordable>({});
+      const formModel = reactive({});
       const modalFn = useModalContext();
 
       const advanceState = reactive<AdvanceState>({
@@ -79,16 +80,16 @@
         actionSpan: 6,
       });
 
-      const defaultValueRef = ref<Recordable>({});
+      const defaultValueRef = ref({});
       const isInitedDefaultRef = ref(false);
-      const propsRef = ref<Partial<FormProps>>({});
-      const schemaRef = ref<Nullable<FormSchema[]>>(null);
-      const formElRef = ref<Nullable<FormActionType>>(null);
+      const propsRef = ref<Partial<FormProps>>();
+      const schemaRef = ref<FormSchema[] | null>(null);
+      const formElRef = ref<FormActionType | null>(null);
 
       const { prefixCls } = useDesign('basic-form');
 
       // Get the basic configuration of the form
-      const getProps = computed((): FormProps => {
+      const getProps = computed(() => {
         return { ...props, ...unref(propsRef) } as FormProps;
       });
 
@@ -102,7 +103,7 @@
       });
 
       // Get uniform row style and Row configuration for the entire form
-      const getRow = computed((): Recordable => {
+      const getRow = computed(() => {
         const { baseRowStyle = {}, rowProps } = unref(getProps);
         return {
           style: baseRowStyle,
@@ -111,34 +112,49 @@
       });
 
       const getBindValue = computed(
-        () => ({ ...attrs, ...props, ...unref(getProps) } as Recordable),
+        () => ({ ...attrs, ...props, ...unref(getProps) }) as AntFormProps,
       );
 
       const getSchema = computed((): FormSchema[] => {
         const schemas: FormSchema[] = unref(schemaRef) || (unref(getProps).schemas as any);
         for (const schema of schemas) {
-          const { defaultValue, component } = schema;
+          const {
+            defaultValue,
+            component,
+            componentProps,
+            isHandleDateDefaultValue = true,
+          } = schema;
           // handle date type
-          if (defaultValue && dateItemType.includes(component)) {
+          if (
+            isHandleDateDefaultValue &&
+            defaultValue &&
+            component &&
+            dateItemType.includes(component)
+          ) {
+            const valueFormat = componentProps ? componentProps['valueFormat'] : null;
             if (!Array.isArray(defaultValue)) {
-              schema.defaultValue = dateUtil(defaultValue);
+              schema.defaultValue = valueFormat
+                ? dateUtil(defaultValue).format(valueFormat)
+                : dateUtil(defaultValue);
             } else {
               const def: any[] = [];
               defaultValue.forEach((item) => {
-                def.push(dateUtil(item));
+                def.push(valueFormat ? dateUtil(item).format(valueFormat) : dateUtil(item));
               });
               schema.defaultValue = def;
             }
           }
         }
         if (unref(getProps).showAdvancedButton) {
-          return schemas.filter((schema) => schema.component !== 'Divider') as FormSchema[];
+          return cloneDeep(
+            schemas.filter((schema) => schema.component !== 'Divider') as FormSchema[],
+          );
         } else {
-          return schemas as FormSchema[];
+          return cloneDeep(schemas as FormSchema[]);
         }
       });
 
-      const { handleToggleAdvanced } = useAdvanced({
+      const { handleToggleAdvanced, fieldsIsAdvancedMap } = useAdvanced({
         advanceState,
         emit,
         getProps,
@@ -171,7 +187,7 @@
         updateSchema,
         resetSchema,
         appendSchemaByField,
-        removeSchemaByFiled,
+        removeSchemaByField,
         resetFields,
         scrollToField,
       } = useFormEvents({
@@ -238,13 +254,13 @@
         propsRef.value = deepMerge(unref(propsRef) || {}, formProps);
       }
 
-      function setFormModel(key: string, value: any) {
+      function setFormModel(key: string, value: any, schema: FormSchema) {
         formModel[key] = value;
-        const { validateTrigger } = unref(getBindValue);
-        if (!validateTrigger || validateTrigger === 'change') {
+        emit('field-value-change', key, value);
+        // TODO 优化验证，这里如果是autoLink=false手动关联的情况下才会再次触发此函数
+        if (schema && schema.itemProps && !schema.itemProps.autoLink) {
           validateFields([key]).catch((_) => {});
         }
-        emit('field-value-change', key, value);
       }
 
       function handleEnterPress(e: KeyboardEvent) {
@@ -265,7 +281,7 @@
         updateSchema,
         resetSchema,
         setProps,
-        removeSchemaByFiled,
+        removeSchemaByField,
         appendSchemaByField,
         clearValidate,
         validateFields,
@@ -294,8 +310,10 @@
         setFormModel,
         getFormClass,
         getFormActionBindProps: computed(
-          (): Recordable => ({ ...getProps.value, ...advanceState }),
+          () =>
+            ({ ...getProps.value, ...advanceState }) as InstanceType<typeof FormAction>['$props'],
         ),
+        fieldsIsAdvancedMap,
         ...formActionType,
       };
     },
@@ -329,10 +347,10 @@
 
         .suffix {
           display: inline-flex;
-          padding-left: 6px;
-          margin-top: 1px;
-          line-height: 1;
           align-items: center;
+          margin-top: 1px;
+          padding-left: 6px;
+          line-height: 1;
         }
       }
     }

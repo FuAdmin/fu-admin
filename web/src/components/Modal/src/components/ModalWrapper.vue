@@ -1,5 +1,5 @@
 <template>
-  <ScrollContainer ref="wrapperRef">
+  <ScrollContainer ref="wrapperRef" :scrollHeight="realHeight">
     <div ref="spinRef" :style="spinStyle" v-loading="loading" :loading-tip="loadingTip">
       <slot></slot>
     </div>
@@ -18,7 +18,8 @@
     nextTick,
     onUnmounted,
   } from 'vue';
-  import { useWindowSizeFn } from '/@/hooks/event/useWindowSizeFn';
+  import { useWindowSizeFn } from '@vben/hooks';
+  import { type AnyFunction } from '@vben/types';
   import { ScrollContainer } from '/@/components/Container';
   import { createModalContext } from '../hooks/useModalContext';
   import { useMutationObserver } from '@vueuse/core';
@@ -31,7 +32,7 @@
     minHeight: { type: Number, default: 200 },
     height: { type: Number },
     footerOffset: { type: Number, default: 0 },
-    visible: { type: Boolean },
+    open: { type: Boolean },
     fullScreen: { type: Boolean },
     loadingTip: { type: String },
   };
@@ -43,16 +44,16 @@
     props,
     emits: ['height-change', 'ext-height'],
     setup(props, { emit }) {
-      const wrapperRef = ref<ComponentRef>(null);
-      const spinRef = ref<ElRef>(null);
+      const wrapperRef = ref(null);
+      const spinRef = ref(null);
       const realHeightRef = ref(0);
       const minRealHeightRef = ref(0);
 
-      let realHeight = 0;
+      const realHeight = ref(0);
 
-      let stopElResizeFn: Fn = () => {};
+      let stopElResizeFn: AnyFunction = () => {};
 
-      useWindowSizeFn(setModalHeight.bind(null, false));
+      useWindowSizeFn(setModalHeight.bind(null));
 
       useMutationObserver(
         spinRef,
@@ -111,12 +112,12 @@
 
       async function setModalHeight() {
         // 解决在弹窗关闭的时候监听还存在,导致再次打开弹窗没有高度
-        // 加上这个,就必须在使用的时候传递父级的visible
-        if (!props.visible) return;
+        // 加上这个,就必须在使用的时候传递父级的open
+        if (!props.open) return;
         const wrapperRefDom = unref(wrapperRef);
         if (!wrapperRefDom) return;
 
-        const bodyDom = wrapperRefDom.$el.parentElement;
+        const bodyDom = (wrapperRefDom as any).$el.parentElement;
         if (!bodyDom) return;
         bodyDom.style.padding = '0';
         await nextTick();
@@ -139,12 +140,12 @@
             maxHeight -= 26;
           }
           await nextTick();
-          const spinEl = unref(spinRef);
+          const spinEl: any = unref(spinRef);
 
           if (!spinEl) return;
           await nextTick();
           // if (!realHeight) {
-          realHeight = spinEl.scrollHeight;
+          realHeight.value = spinEl.scrollHeight;
           // }
 
           if (props.fullScreen) {
@@ -153,9 +154,9 @@
           } else {
             realHeightRef.value = props.height
               ? props.height
-              : realHeight > maxHeight
+              : realHeight.value > maxHeight
               ? maxHeight
-              : realHeight;
+              : realHeight.value;
           }
           emit('height-change', unref(realHeightRef));
         } catch (error) {
@@ -163,7 +164,7 @@
         }
       }
 
-      return { wrapperRef, spinRef, spinStyle, scrollTop, setModalHeight };
+      return { wrapperRef, spinRef, spinStyle, scrollTop, setModalHeight, realHeight };
     },
   });
 </script>

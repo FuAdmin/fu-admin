@@ -5,7 +5,6 @@
       multiple
       @change="handleChange"
       :action="uploadUrl"
-      :headers="header"
       :showUploadList="false"
       accept=".jpg,.jpeg,.gif,.png,.webp"
     >
@@ -16,13 +15,12 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, computed, reactive } from 'vue';
+  import { defineComponent, computed } from 'vue';
 
   import { Upload } from 'ant-design-vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
-  import { getToken } from '/@/utils/auth';
 
   export default defineComponent({
     name: 'TinymceImageUpload',
@@ -51,14 +49,10 @@
         };
       });
 
-      const header = reactive({
-        Authorization: getToken(),
-      });
-
-      function handleChange(info: Recordable) {
+      function handleChange(info: Record<string, any>) {
         const file = info.file;
         const status = file?.status;
-        const id = file?.response?.result.id;
+        const url = file?.response?.url;
         const name = file?.name;
 
         if (status === 'uploading') {
@@ -67,7 +61,7 @@
             uploading = true;
           }
         } else if (status === 'done') {
-          emit('done', name, id);
+          emit('done', name, url);
           uploading = false;
         } else if (status === 'error') {
           emit('error');
@@ -79,7 +73,6 @@
         prefixCls,
         handleChange,
         uploadUrl,
-        header,
         t,
         getButtonProps,
       };
@@ -91,9 +84,9 @@
 
   .@{prefix-cls} {
     position: absolute;
+    z-index: 20;
     top: 4px;
     right: 10px;
-    z-index: 20;
 
     &.fullscreen {
       position: fixed;

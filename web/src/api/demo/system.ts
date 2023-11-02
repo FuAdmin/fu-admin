@@ -13,13 +13,11 @@ import {
 import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
-  MenuList = '/api/system/menu/list/tree',
-
   AccountList = '/system/getAccountList',
   IsAccountExist = '/system/accountExist',
   DeptList = '/system/getDeptList',
   setRoleStatus = '/system/setRoleStatus',
-  // MenuList = '/system/getMenuList',
+  MenuList = '/system/getMenuList',
   RolePageList = '/system/getRoleListByPage',
   GetAllRoleList = '/system/getAllRoleList',
 }

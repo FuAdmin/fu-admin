@@ -19,6 +19,7 @@
   </a-cascader>
 </template>
 <script lang="ts">
+  import { type Recordable } from '@vben/types';
   import { defineComponent, PropType, ref, unref, watch, watchEffect } from 'vue';
   import { Cascader } from 'ant-design-vue';
   import { propTypes } from '/@/utils/propTypes';
@@ -27,6 +28,7 @@
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
   import { LoadingOutlined } from '@ant-design/icons-vue';
   import { useI18n } from '/@/hooks/web/useI18n';
+
   interface Option {
     value: string;
     label: string;
@@ -45,7 +47,7 @@
         type: Array,
       },
       api: {
-        type: Function as PropType<(arg?: Recordable) => Promise<Option[]>>,
+        type: Function as PropType<(arg?: Recordable<any>) => Promise<Option[]>>,
         default: null,
       },
       numberToString: propTypes.bool,
@@ -53,16 +55,16 @@
       labelField: propTypes.string.def('label'),
       valueField: propTypes.string.def('value'),
       childrenField: propTypes.string.def('children'),
-      asyncFetchParamKey: propTypes.string.def('parentCode'),
+      apiParamKey: propTypes.string.def('parentCode'),
       immediate: propTypes.bool.def(true),
       // init fetch params
       initFetchParams: {
-        type: Object as PropType<Recordable>,
+        type: Object as PropType<Recordable<any>>,
         default: () => ({}),
       },
       // 是否有下级，默认是
       isLeaf: {
-        type: Function as PropType<(arg: Recordable) => boolean>,
+        type: Function as PropType<(arg: Recordable<any>) => boolean>,
         default: null,
       },
       displayRenderArray: {
@@ -91,7 +93,7 @@
 
       function generatorOptions(options: any[]): Option[] {
         const { labelField, valueField, numberToString, childrenField, isLeaf } = props;
-        return options.reduce((prev, next: Recordable) => {
+        return options.reduce((prev, next: Recordable<any>) => {
           if (next) {
             const value = next[valueField];
             const item = {
@@ -139,7 +141,7 @@
         if (!api || !isFunction(api)) return;
         try {
           const res = await api({
-            [props.asyncFetchParamKey]: Reflect.get(targetOption, 'value'),
+            [props.apiParamKey]: Reflect.get(targetOption, 'value'),
           });
           if (Array.isArray(res)) {
             const children = generatorOptions(res);
@@ -170,7 +172,7 @@
       );
 
       function handleChange(keys, args) {
-        emitData.value = keys;
+        emitData.value = args;
         emit('defaultChange', keys, args);
       }
 

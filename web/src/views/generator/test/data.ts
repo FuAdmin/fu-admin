@@ -4,42 +4,55 @@ import { FormSchema } from '/@/components/Table';
 export const columns: BasicColumn[] = [
     
   {
-    title: '名称',
-    dataIndex: 'name',
+    title: '输入框',
+    dataIndex: 'input_1',
     width: '80',
+    fixed: '',
+    align: 'left',
+    auth: ['test:input_1'],
+    resizable: true,
   },
 
   {
-    title: '代码',
-    dataIndex: 'code',
+    title: '文本域',
+    dataIndex: 'input_text_area_2',
     width: '80',
+    fixed: '',
+    align: 'left',
+    auth: ['test:input_text_area_2'],
+    resizable: true,
   },
 
   {
-    title: '排序',
-    dataIndex: 'input_number_6',
+    title: '下拉选择',
+    dataIndex: 'select_3',
     width: '80',
-  },
-
-  {
-    title: '图标',
-    dataIndex: 'icon',
-    width: '80',
+    fixed: '',
+    align: 'left',
+    auth: ['test:select_3'],
+    resizable: true,
   },
 
 ]
 export const searchFormSchema: FormSchema[] = [
         
   {
-    label: '名称',
-    field: 'name',
+    label: '输入框',
+    field: 'input_1',
     component: 'Input',
     colProps: { span: 6 },
   },
 
   {
-    label: '代码',
-    field: 'code',
+    label: '文本域',
+    field: 'input_text_area_2',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+
+  {
+    label: '下拉选择',
+    field: 'select_3',
     component: 'Input',
     colProps: { span: 6 },
   },
@@ -50,43 +63,49 @@ export const formSchema: FormSchema[] = [
     field: 'id',
     label: 'id',
     component: 'Input',
-    show: false,
+    show: false
   },
-
   {
     component: 'Input',
-    label: '名称',
+    label: '输入框',
+    field: 'input_1',
     colProps: {
       span: 24
     },
-    field: 'name',
+    componentProps: {
+      type: 'text'
+    },
+    itemProps: {}
   },
-
   {
-    component: 'Input',
-    label: '代码',
+    component: 'InputTextArea',
+    label: '文本域',
+    field: 'input_text_area_2',
     colProps: {
       span: 24
     },
-    field: 'code',
+    componentProps: {},
+    itemProps: {}
   },
-
   {
-    component: 'InputNumber',
-    label: '排序',
+    component: 'Select',
+    label: '下拉选择',
+    field: 'select_3',
     colProps: {
       span: 24
     },
-    field: 'sequence',
-  },
-
-  {
-    component: 'IconPicker',
-    label: '图标',
-    colProps: {
-      span: 24
+    componentProps: {
+      options: [
+        {
+          label: '选项1',
+          value: '1'
+        },
+        {
+          label: '选项2',
+          value: '2'
+        }
+      ]
     },
-    field: 'icon',
-  },
-
+    itemProps: {}
+  }
 ]

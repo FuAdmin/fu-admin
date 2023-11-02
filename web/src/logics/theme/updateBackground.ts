@@ -25,6 +25,7 @@ export function updateHeaderBgColor(color?: string) {
       color = appStore.getHeaderSetting.bgColor;
     }
   }
+
   // bg color
   setCssVar(HEADER_BG_COLOR_VAR, color);
 

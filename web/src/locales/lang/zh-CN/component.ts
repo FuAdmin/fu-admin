@@ -116,6 +116,7 @@ export default {
     fileStatue: '文件状态',
 
     startUpload: '开始上传',
+    downloadTemplate: '下载模板',
     uploadSuccess: '上传成功',
     uploadError: '上传失败',
     uploading: '上传中',

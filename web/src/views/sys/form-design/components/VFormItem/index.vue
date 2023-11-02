@@ -49,7 +49,7 @@
   import { omit } from 'lodash-es';
   import { Tooltip, FormItem, Divider, Col } from 'ant-design-vue';
   import { useFormModelState } from '../../hooks/useFormDesignState';
-  import Icon from "/@/components/Icon/src/Icon.vue";
+  import Icon from "/@/components/Icon/Icon.vue";
 
   export default defineComponent({
     name: 'VFormItem',

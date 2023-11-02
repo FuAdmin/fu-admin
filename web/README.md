@@ -1,135 +1,177 @@
-# FuAdmin Web
+<div align="center"> <a href="https://github.com/anncwb/vue-vben-admin"> <img alt="VbenAdmin Logo" width="200" height="200" src="https://anncwb.github.io/anncwb/images/logo.png"> </a> <br> <br>
 
-[![img](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitee.com/fuadmin/fu-admin-web/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.7.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/3.2/) [![img](https://img.shields.io/badge/node-%3E%3D%2016.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin-web/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin-web)[![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin-Web.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin-Web)
+[![license](https://img.shields.io/github/license/anncwb/vue-vben-admin.svg)](LICENSE)
 
-## 为什么使用 Django-Ninja 和 Vue3
+<h1>Vue Fuadmin</h1>
+</div>
 
-💡 **「Django Ninja 相比于 Django Rest Framework 」**
+**English** | [中文](./README.zh-CN.md)
 
-- 简单：旨在易于使用和直观，直接使用@装饰器（java 好像叫注解）开发 api
+## Introduction
 
-- 快速执行：由于 Pydantic 和异步的支持，性能非常高。
+Vue Fuadmin is a free and open source middle and back-end template. Using the latest `vue3`, `vite4`, `TypeScript` and other mainstream technology development, the out-of-the-box middle and back-end front-end solutions can also be used for learning reference.
 
-- 快速编码：输入提示和自动文档让您只关注业务逻辑。
+## Feature
 
-- 基于标准：基于 API 的开放标准：OpenAPI（以前称为 Swagger）和 JSON Schema。
+- **State of The Art Development**：Use front-end front-end technology development such as Vue3/vite2
+- **TypeScript**: Application-level JavaScript language
+- **Theming**: Configurable themes
+- **International**：Built-in complete internationalization program
+- **Mock Server** Built-in mock data scheme
+- **Authority** Built-in complete dynamic routing permission generation scheme.
+- **Component** Multiple commonly used components are encapsulated twice
 
-- Django 集成：与 Django 自身的功能和 ORM 有很好的集成。
+## Preview
 
-![](src/assets/images/benchmark.png)
+- [vue-vben-admin](https://vben.vvbin.cn/) - Full version Chinese site
+- [vue-vben-admin-gh-pages](https://anncwb.github.io/vue-vben-admin/) - Full version of the github site
+- [vben-admin-thin-next](https://vben.vvbin.cn/thin/next/) - Simplified Chinese site
+- [vben-admin-thin-gh-pages](https://anncwb.github.io/vben-admin-thin-next/) -Simplified github site
 
-💡 **「Vue3 」**
+Test account: vben/123456
 
-- 最火的框架，国内最火的前端框架之一。
-- 性能提升，运行速度是 vue2 的 1.5 倍。
-- 体积更小，按需编译体积 vue2 要更小。
-- 类型推断，更好的支持 ts 这个也是趋势。
-- 高级给予，暴露了更底层的 API 和提供更先进的内置组件。
-- 组合 API，能够更好的组织逻辑，封装逻辑，复用逻辑
+<p align="center">
+    <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview1.png">
+    <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview2.png">
+    <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview3.png">
+</p>
 
-## 平台简介
+### Use Gitpod
 
-💡 [fu-admin-web](https://gitee.com/fuadmin/fu-admin-web) 采用 VUE3，TS 开发。 💡 [fu-admin-backend](https://gitee.com/fuadmin/fu-admin-backend) 采用 Python，Django 和 Django-Ninija 开发。数据库支持 MySql，SqlServer，Sqlite。
+Open the project in Gitpod (free online dev environment for GitHub) and start coding immediately.
 
-- 🧑‍🤝‍🧑 前端采用[VbenAdmin](https://vvbin.cn/doc-next) 、[Vue3](https://cn.vuejs.org/)、[Ant Design Vue](https://www.antdv.com/docs/vue/getting-started-cn)。
-- 👭 后端采用 Python 语言 Django 框架以及强大的 [Django Ninja](https://django-ninja.rest-framework.com/)。
-- 👬 支持加载动态权限菜单，多方式轻松权限控制。
-- 💡 特别鸣谢[Dvadmin](https://gitee.com/liqianglog/django-vue-admin) 参考了一部分 code 和 idea，VUE2 的 Python 项目，非常好，推荐给大家。
-- 💏 特别鸣谢：[VbenAdmin](https://github.com/vbenjs/vue-vben-admin) 、[Ant Design Vue](https://github.com/vueComponent/ant-design-vue)。
-- 💡 特别感谢[jetbrains](https://www.jetbrains.com/) 为本开源项目提供免费的 IntelliJ IDEA 授权。
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/anncwb/vue-vben-admin)
 
-## 在线体验
+## Documentation
 
-👩‍👧‍👦 演示地址：[http://175.24.184.165:8080](http://175.24.184.165:8080)
+[Document](https://doc.vvbin.cn/)
 
-- 账号：superadmin
+## Preparation
 
-- 密码：123456
+- [node](http://nodejs.org/) and [git](https://git-scm.com/) - Project development environment
+- [Vite](https://vitejs.dev/) - Familiar with vite features
+- [Vue3](https://v3.vuejs.org/) - Familiar with Vue basic syntax
+- [TypeScript](https://www.typescriptlang.org/) - Familiar with the basic syntax of `TypeScript`
+- [Es6+](http://es6.ruanyifeng.com/) - Familiar with es6 basic syntax
+- [Vue-Router-Next](https://next.router.vuejs.org/) - Familiar with the basic use of vue-router
+- [Ant-Design-Vue](https://antdv.com/docs/vue/introduce-cn/) - ui basic use
+- [Mock.js](https://github.com/nuysoft/Mock) - mockjs basic syntax
 
-## 交流
+## Install and use
 
-- FuAdmin 交流群：726947525
-
-<img src="src/assets/images/picture/qq.png" alt="qq 群" style="zoom: 25%;" />
-
-## 源码地址
-
-|        | 后端源码                                   | 前端源码                               |
-| ------ | ------------------------------------------ | -------------------------------------- |
-| github | https://github.com/FuAdmin/FuAdmin-Backend | https://github.com/FuAdmin/FuAdmin-Web |
-| 码云   | https://gitee.com/fuadmin/fu-admin-backend | https://gitee.com/fuadmin/fu-admin-web |
-
-## 内置功能
-
-1. 👨‍⚕️ 菜单管理：配置系统菜单，操作权限，按钮权限标识、后端接口权限等。
-2. 🧑‍⚕️ 部门管理：配置系统组织机构（公司、部门、角色）。
-3. 👩‍⚕️ 角色管理：角色菜单权限分配、数据权限分配、设置角色按部门进行数据范围权限划分。
-4. 🧑‍🎓 权限权限：授权角色的权限范围。
-5. 👨‍🎓 用户管理：用户是系统操作者，该功能主要完成系统用户配置。
-6. 🧑‍🔧 数据字典：对系统中经常使用的一些较为固定的数据进行维护。
-7. 🧑‍🔧 分类字典：对系统中经常使用的一些树形数据进行维护。
-8. 📁 附件管理：对平台上所有文件、图片等进行统一管理。
-9. 🗓️ 操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
-10. 定时任务：系统设置定时任务。
-
-## 准备工作
-
-```
-Python >= 3.8.0 (推荐3.8+版本)
-nodejs >= 16.0 (推荐最新)
-Mysql >= 5.7.0 (可选，默认数据库Mysql)
-Redis(可选，最新版)
-```
-
-## 前端 ♝
+- Get the project code
 
 ```bash
-# 克隆项目
-git https://gitee.com/fuadmin/fu-admin-web.git
-
-# 进入项目目录
-cd fu-admin-web
-
-# 安装依赖
-yarn install --registry=https://registry.npm.taobao.org
-
-# 启动服务
-yarn run dev
-# 浏览器访问 http://localhost:8080
-# .env 文件中可配置启动端口等参数
-# 构建生产环境
-# yarn run build
+git clone https://github.com/anncwb/vue-vben-admin.git
 ```
 
-## 后端 💈
+- Installation dependencies
 
 ```bash
-# 克隆项目
-git https://gitee.com/fuadmin/fu-admin-backend.git
-# 进入项目目录
-cd fu-admin-backend
-# 在 `env.py` 中配置数据库信息
-  默认是Mysql，如果使用SqlServer，qing在requirements.txt中打开 mssql-django==1.1.2 pyodbc==4.0.32
-# 安装依赖环境
-	pip3 install -r requirements.txt
-# 执行迁移命令：
-	python3 manage.py makemigrations
-	python3 manage.py migrate
-# 初始化数据
-	python3 manage.py init
-# 初始化省市县数据:
-	python3 manage.py init_area
-# 启动项目
-	python3 manage.py runserver 0.0.0.0:8000
-# 或使用 daphne :
-  daphne -b 0.0.0.0 -p 8000 application.asgi:application
+cd vue-vben-admin
+
+pnpm install
+
 ```
 
-### 访问项目
+- run
 
-- 文档访问地址：[http://localhost:8080/api/docs](http://localhost:8080/api/docs) (默认为此地址，如有修改请按照配置文件)
-- 账号：`superadmin` 密码：`123456`
+```bash
+pnpm serve
+```
 
-## 演示图 ✅
+- build
 
-![](src/assets/images/picture/1.png) ![](src/assets/images/picture/2.png) ![](src/assets/images/picture/3.png) ![](src/assets/images/picture/4.png) ![](src/assets/images/picture/5.png) ![](src/assets/images/picture/6.png) ![](src/assets/images/picture/7.png) ![](src/assets/images/picture/8.png) ![](src/assets/images/picture/9.png) ![](src/assets/images/picture/10.png)
+```bash
+pnpm build
+```
+
+- docker
+
+### The dockerFile is located in the project root directory and supports differential deployment
+
+#### build image
+
+```bash
+docker build -t vue-vben-admin .
+```
+
+#### Environment variables are dynamically used to achieve differentiated container deployment. Different VG_BASE_URL environment variables point to different back-end service addresses. In the following example, http://localhost:3333 is used as the back-end service address and the container is mapped to port 6666
+
+```bash
+docker run --name vue-vben-admin -d -p 6666:80  -e VG_BASE_URL=http://localhost:3333 vue-vben-admin
+```
+
+Then you can navigate http://localhost:6666
+
+## Change Log
+
+[CHANGELOG](./CHANGELOG.zh_CN.md)
+
+## Project
+
+- [vue-vben-admin](https://github.com/anncwb/vue-vben-admin) - full version
+- [vue-vben-admin-thin-next](https://github.com/anncwb/vben-admin-thin-next) - Simplified version
+
+## How to contribute
+
+You are very welcome to join！[Raise an issue](https://github.com/anncwb/vue-vben-admin/issues/new/choose) Or submit a Pull Request。
+
+**Pull Request:**
+
+1. Fork code!
+2. Create your own branch: `git checkout -b feat/xxxx`
+3. Submit your changes: `git commit -am 'feat(function): add xxxxx'`
+4. Push your branch: `git push origin feat/xxxx`
+5. submit`pull request`
+
+## Git Contribution submission specification
+
+- reference [vue](https://github.com/vuejs/vue/blob/dev/.github/COMMIT_CONVENTION.md) specification ([Angular](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular))
+
+  - `feat` Add new features
+  - `fix` Fix the problem/BUG
+  - `style` The code style is related and does not affect the running result
+  - `perf` Optimization/performance improvement
+  - `refactor` Refactor
+  - `revert` Undo edit
+  - `test` Test related
+  - `docs` Documentation/notes
+  - `chore` Dependency update/scaffolding configuration modification etc.
+  - `workflow` Workflow improvements
+  - `ci` Continuous integration
+  - `types` Type definition file changes
+  - `wip` In development
+
+## Related warehouse
+
+If these plugins are helpful to you, you can give a star support
+
+- [vite-plugin-mock](https://github.com/anncwb/vite-plugin-mock) - Used for local and development environment data mock
+- [vite-plugin-html](https://github.com/anncwb/vite-plugin-html) - Used for html template conversion and compression
+- [vite-plugin-compression](https://github.com/anncwb/vite-plugin-compression) - Used to pack input .gz|.brotil files
+- [vite-plugin-svg-icons](https://github.com/anncwb/vite-plugin-svg-icons) - Used to quickly generate svg sprite
+
+## Browser support
+
+The `Chrome 80+` browser is recommended for local development
+
+Support modern browsers, not IE
+
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
+| :-: | :-: | :-: | :-: | :-: |
+| not support | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
+
+## Maintainer
+
+[@Vben](https://github.com/anncwb)
+[@Jinmao](https://github.com/jinmao88)
+
+## Thanks
+
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." height="120">
+
+
+## License
+
+[MIT © Vben-2020](./LICENSE)

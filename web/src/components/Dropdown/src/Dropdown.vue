@@ -14,6 +14,7 @@
             <a-popconfirm
               v-if="popconfirm && item.popConfirm"
               v-bind="getPopConfirmAttrs(item.popConfirm)"
+              :disabled="item.disabled"
             >
               <template #icon v-if="item.popConfirm.icon">
                 <Icon :icon="item.popConfirm.icon" />
@@ -37,9 +38,10 @@
 
 <script lang="ts" setup>
   import { computed, PropType } from 'vue';
-  import type { DropMenu } from './typing';
+  import { type Recordable } from '@vben/types';
+  import { type DropMenu } from './typing';
   import { Dropdown, Menu, Popconfirm } from 'ant-design-vue';
-  import { Icon } from '/@/components/Icon';
+  import Icon from '@/components/Icon/Icon.vue';
   import { omit } from 'lodash-es';
   import { isFunction } from '/@/utils/is';
 
@@ -57,13 +59,13 @@
      * @type string[]
      */
     trigger: {
-      type: [Array] as PropType<('contextmenu' | 'click' | 'hover')[]>,
+      type: Array as PropType<('contextmenu' | 'click' | 'hover')[]>,
       default: () => {
         return ['contextmenu'];
       },
     },
     dropMenuList: {
-      type: Array as PropType<(DropMenu & Recordable)[]>,
+      type: Array as PropType<(DropMenu & Recordable<any>)[]>,
       default: () => [],
     },
     selectedKeys: {

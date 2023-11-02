@@ -1,5 +1,5 @@
 <template>
-  <Drawer :class="prefixCls" @close="onClose" v-bind="getBindValues">
+  <Drawer v-bind="getBindValues" :class="prefixCls" @close="onClose">
     <template #title v-if="!$slots.title">
       <DrawerHeader
         :title="getMergeProps.title"
@@ -52,24 +52,24 @@
   import { ScrollContainer } from '/@/components/Container';
   import { basicProps } from './props';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { useAttrs } from '/@/hooks/core/useAttrs';
+  import { useAttrs } from '@vben/hooks';
 
   export default defineComponent({
     components: { Drawer, ScrollContainer, DrawerFooter, DrawerHeader },
     inheritAttrs: false,
     props: basicProps,
-    emits: ['visible-change', 'ok', 'close', 'register'],
+    emits: ['open-change', 'ok', 'close', 'register'],
     setup(props, { emit }) {
-      const visibleRef = ref(false);
+      const openRef = ref(false);
       const attrs = useAttrs();
-      const propsRef = ref<Partial<Nullable<DrawerProps>>>(null);
+      const propsRef = ref<Partial<DrawerProps | null>>(null);
 
       const { t } = useI18n();
       const { prefixVar, prefixCls } = useDesign('basic-drawer');
 
       const drawerInstance: DrawerInstance = {
-        setDrawerProps: setDrawerProps,
-        emitVisible: undefined,
+        setDrawerProps: setDrawerProps as any,
+        emitOpen: undefined,
       };
 
       const instance = getCurrentInstance();
@@ -77,7 +77,7 @@
       instance && emit('register', drawerInstance, instance.uid);
 
       const getMergeProps = computed((): DrawerProps => {
-        return deepMerge(toRaw(props), unref(propsRef));
+        return deepMerge(toRaw(props), unref(propsRef)) as any;
       });
 
       const getProps = computed((): DrawerProps => {
@@ -85,7 +85,7 @@
           placement: 'right',
           ...unref(attrs),
           ...unref(getMergeProps),
-          visible: unref(visibleRef),
+          open: unref(openRef),
         };
         opt.title = undefined;
         const { isDetail, width, wrapClassName, getContainer } = opt;
@@ -94,11 +94,10 @@
             opt.width = '100%';
           }
           const detailCls = `${prefixCls}__detail`;
-          opt.class = wrapClassName ? `${wrapClassName} ${detailCls}` : detailCls;
+          opt.rootClassName = wrapClassName ? `${wrapClassName} ${detailCls}` : detailCls;
 
           if (!getContainer) {
-            // TODO type error?
-            opt.getContainer = `.${prefixVar}-layout-content` as any;
+            opt.getContainer = `.${prefixVar}-layout-content`;
           }
         }
         return opt as DrawerProps;
@@ -135,41 +134,41 @@
       });
 
       watch(
-        () => props.visible,
+        () => props.open,
         (newVal, oldVal) => {
-          if (newVal !== oldVal) visibleRef.value = newVal;
+          if (newVal !== oldVal) openRef.value = newVal;
         },
         { deep: true },
       );
 
       watch(
-        () => visibleRef.value,
-        (visible) => {
+        () => openRef.value,
+        (open) => {
           nextTick(() => {
-            emit('visible-change', visible);
-            instance && drawerInstance.emitVisible?.(visible, instance.uid);
+            emit('open-change', open);
+            instance && drawerInstance.emitOpen?.(open, instance.uid);
           });
         },
       );
 
       // Cancel event
-      async function onClose(e: Recordable) {
+      async function onClose(e) {
         const { closeFunc } = unref(getProps);
         emit('close', e);
         if (closeFunc && isFunction(closeFunc)) {
           const res = await closeFunc();
-          visibleRef.value = !res;
+          openRef.value = !res;
           return;
         }
-        visibleRef.value = false;
+        openRef.value = false;
       }
 
       function setDrawerProps(props: Partial<DrawerProps>): void {
         // Keep the last setDrawerProps
         propsRef.value = deepMerge(unref(propsRef) || ({} as any), props);
 
-        if (Reflect.has(props, 'visible')) {
-          visibleRef.value = !!props.visible;
+        if (Reflect.has(props, 'open')) {
+          openRef.value = !!props.open;
         }
       }
 
@@ -215,8 +214,8 @@
       background-color: @component-background;
 
       .scrollbar__wrap {
-        padding: 16px !important;
         margin-bottom: 0 !important;
+        padding: 16px !important;
       }
 
       > .scrollbar > .scrollbar__bar.is-horizontal {
@@ -229,11 +228,11 @@
     position: absolute;
 
     .ant-drawer-header {
+      box-sizing: border-box;
       width: 100%;
       height: @detail-header-height;
       padding: 0;
       border-top: 1px solid @border-color-base;
-      box-sizing: border-box;
     }
 
     .ant-drawer-title {

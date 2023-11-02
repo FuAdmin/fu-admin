@@ -1,5 +1,6 @@
 import type { Directive } from 'vue';
 import './index.less';
+
 export interface RippleOptions {
   event: string;
   transition: number;
@@ -27,9 +28,9 @@ const RippleDirective: Directive & RippleProto = {
     const background = bg || RippleDirective.background;
     const zIndex = RippleDirective.zIndex;
 
-    el.addEventListener(options.event, (event: EventType) => {
+    el.addEventListener(options.event, (event: Event) => {
       rippler({
-        event,
+        event: event as EventType,
         el,
         background,
         zIndex,

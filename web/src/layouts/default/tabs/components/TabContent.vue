@@ -2,7 +2,7 @@
   <Dropdown
     :dropMenuList="getDropMenuList"
     :trigger="getTrigger"
-    placement="bottom"
+    placement="bottomLeft"
     overlayClassName="multiple-tabs__dropdown"
     @menu-event="handleMenuEvent"
   >
@@ -20,7 +20,7 @@
 
   import { defineComponent, computed, unref } from 'vue';
   import { Dropdown } from '/@/components/Dropdown/index';
-  import { Icon } from '/@/components/Icon';
+  import Icon from '@/components/Icon/Icon.vue';
 
   import { TabContentProps } from '../types';
 

@@ -37,9 +37,9 @@
       <ACol :span="12">
         <FormItem :style="{ 'text-align': 'right' }">
           <!-- No logic, you need to deal with it yourself -->
-          <!--          <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">-->
-          <!--            {{ t('sys.login.forgetPassword') }}-->
-          <!--          </Button>-->
+          <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
+            {{ t('sys.login.forgetPassword') }}
+          </Button>
         </FormItem>
       </ACol>
     </ARow>
@@ -52,33 +52,33 @@
         {{ t('sys.login.registerButton') }}
       </Button> -->
     </FormItem>
-    <!--    <ARow class="enter-x">-->
-    <!--      <ACol :md="8" :xs="24">-->
-    <!--        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">-->
-    <!--          {{ t('sys.login.mobileSignInFormTitle') }}-->
-    <!--        </Button>-->
-    <!--      </ACol>-->
-    <!--      <ACol :md="8" :xs="24" class="!my-2 !md:my-0 xs:mx-0 md:mx-2">-->
-    <!--        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">-->
-    <!--          {{ t('sys.login.qrSignInFormTitle') }}-->
-    <!--        </Button>-->
-    <!--      </ACol>-->
-    <!--      <ACol :md="7" :xs="24">-->
-    <!--        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">-->
-    <!--          {{ t('sys.login.registerButton') }}-->
-    <!--        </Button>-->
-    <!--      </ACol>-->
-    <!--    </ARow>-->
+    <ARow class="enter-x" :gutter="[16, 16]">
+      <ACol :md="8" :xs="24">
+        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">
+          {{ t('sys.login.mobileSignInFormTitle') }}
+        </Button>
+      </ACol>
+      <ACol :md="8" :xs="24">
+        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">
+          {{ t('sys.login.qrSignInFormTitle') }}
+        </Button>
+      </ACol>
+      <ACol :md="8" :xs="24">
+        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">
+          {{ t('sys.login.registerButton') }}
+        </Button>
+      </ACol>
+    </ARow>
 
-    <!--    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>-->
+    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>
 
-    <!--    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">-->
-    <!--      <GithubFilled />-->
-    <!--      <WechatFilled />-->
-    <!--      <AlipayCircleFilled />-->
-    <!--      <GoogleCircleFilled />-->
-    <!--      <TwitterCircleFilled />-->
-    <!--    </div>-->
+    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">
+      <GithubFilled />
+      <WechatFilled />
+      <AlipayCircleFilled />
+      <GoogleCircleFilled />
+      <TwitterCircleFilled />
+    </div>
   </Form>
 </template>
 <script lang="ts" setup>
@@ -119,7 +119,7 @@
   const rememberMe = ref(false);
 
   const formData = reactive({
-    account: 'superadmin',
+    account: 'vben',
     password: '123456',
   });
 
@@ -142,7 +142,7 @@
       if (userInfo) {
         notification.success({
           message: t('sys.login.loginSuccessTitle'),
-          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.name}`,
+          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName}`,
           duration: 3,
         });
       }

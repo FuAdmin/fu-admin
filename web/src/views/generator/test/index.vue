@@ -162,7 +162,7 @@
 
       async function handleExportData() {
         const response = await exportData();
-        await downloadByData(response.data, '模板测试.xlsx');
+        await downloadByData(response.data, '测试.xlsx');
       }
 
       function handleSuccess() {

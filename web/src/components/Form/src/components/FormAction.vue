@@ -41,7 +41,6 @@
 </template>
 <script lang="ts">
   import type { ColEx } from '../types/index';
-  //import type { ButtonProps } from 'ant-design-vue/es/button/buttonTypes';
   import { defineComponent, computed, PropType } from 'vue';
   import { Form, Col } from 'ant-design-vue';
   import { Button, ButtonProps } from '/@/components/Button';
@@ -61,7 +60,7 @@
       [Col.name]: Col,
     },
     props: {
-      showActionButtonGroup: propTypes.bool.def(false),
+      showActionButtonGroup: propTypes.bool.def(true),
       showResetButton: propTypes.bool.def(true),
       showSubmitButton: propTypes.bool.def(true),
       showAdvancedButton: propTypes.bool.def(true),

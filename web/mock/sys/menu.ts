@@ -45,24 +45,24 @@ const backRoute = {
   path: 'back',
   name: 'PermissionBackDemo',
   meta: {
-    title: 'routes.fuadmin.permission.back',
+    title: 'routes.demo.permission.back',
   },
 
   children: [
     {
       path: 'page',
       name: 'BackAuthPage',
-      component: '/fuadmin/permission/back/index',
+      component: '/demo/permission/back/index',
       meta: {
-        title: 'routes.fuadmin.permission.backPage',
+        title: 'routes.demo.permission.backPage',
       },
     },
     {
       path: 'btn',
       name: 'BackAuthBtn',
-      component: '/fuadmin/permission/back/Btn',
+      component: '/demo/permission/back/Btn',
       meta: {
-        title: 'routes.fuadmin.permission.backBtn',
+        title: 'routes.demo.permission.backBtn',
       },
     },
   ],
@@ -75,7 +75,7 @@ const authRoute = {
   redirect: '/permission/front/page',
   meta: {
     icon: 'carbon:user-role',
-    title: 'routes.fuadmin.permission.permission',
+    title: 'routes.demo.permission.permission',
   },
   children: [backRoute],
 };
@@ -87,7 +87,7 @@ const levelRoute = {
   redirect: '/level/menu1/menu1-1',
   meta: {
     icon: 'carbon:user-role',
-    title: 'routes.fuadmin.level.level',
+    title: 'routes.demo.level.level',
   },
 
   children: [
@@ -108,7 +108,7 @@ const levelRoute = {
             {
               path: 'menu1-1-1',
               name: 'Menu111Demo',
-              component: '/fuadmin/level/Menu111',
+              component: '/demo/level/Menu111',
               meta: {
                 title: 'Menu111',
               },
@@ -118,7 +118,7 @@ const levelRoute = {
         {
           path: 'menu1-2',
           name: 'Menu12Demo',
-          component: '/fuadmin/level/Menu12',
+          component: '/demo/level/Menu12',
           meta: {
             title: 'Menu1-2',
           },
@@ -128,7 +128,7 @@ const levelRoute = {
     {
       path: 'menu2',
       name: 'Menu2Demo',
-      component: '/fuadmin/level/Menu2',
+      component: '/demo/level/Menu2',
       meta: {
         title: 'Menu2',
       },
@@ -143,66 +143,66 @@ const sysRoute = {
   redirect: '/system/account',
   meta: {
     icon: 'ion:settings-outline',
-    title: 'routes.fuadmin.system.moduleName',
+    title: 'routes.demo.system.moduleName',
   },
   children: [
     {
       path: 'account',
       name: 'AccountManagement',
       meta: {
-        title: 'routes.fuadmin.system.account',
+        title: 'routes.demo.system.account',
         ignoreKeepAlive: true,
       },
-      component: '/fuadmin/system/account/index',
+      component: '/demo/system/account/index',
     },
     {
       path: 'account_detail/:id',
       name: 'AccountDetail',
       meta: {
         hideMenu: true,
-        title: 'routes.fuadmin.system.account_detail',
+        title: 'routes.demo.system.account_detail',
         ignoreKeepAlive: true,
         showMenu: false,
         currentActiveMenu: '/system/account',
       },
-      component: '/fuadmin/system/account/AccountDetail',
+      component: '/demo/system/account/AccountDetail',
     },
     {
       path: 'role',
       name: 'RoleManagement',
       meta: {
-        title: 'routes.fuadmin.system.role',
+        title: 'routes.demo.system.role',
         ignoreKeepAlive: true,
       },
-      component: '/fuadmin/system/role/index',
+      component: '/demo/system/role/index',
     },
 
     {
       path: 'menu',
       name: 'MenuManagement',
       meta: {
-        title: 'routes.fuadmin.system.menu',
+        title: 'routes.demo.system.menu',
         ignoreKeepAlive: true,
       },
-      component: '/fuadmin/system/menu/index',
+      component: '/demo/system/menu/index',
     },
     {
       path: 'dept',
       name: 'DeptManagement',
       meta: {
-        title: 'routes.fuadmin.system.dept',
+        title: 'routes.demo.system.dept',
         ignoreKeepAlive: true,
       },
-      component: '/fuadmin/system/dept/index',
+      component: '/demo/system/dept/index',
     },
     {
       path: 'changePassword',
       name: 'ChangePassword',
       meta: {
-        title: 'routes.fuadmin.system.password',
+        title: 'routes.demo.system.password',
         ignoreKeepAlive: true,
       },
-      component: '/fuadmin/system/password/index',
+      component: '/demo/system/password/index',
     },
   ],
 };
@@ -213,23 +213,23 @@ const linkRoute = {
   component: 'LAYOUT',
   meta: {
     icon: 'ion:tv-outline',
-    title: 'routes.fuadmin.iframe.frame',
+    title: 'routes.demo.iframe.frame',
   },
   children: [
     {
       path: 'doc',
       name: 'Doc',
       meta: {
-        title: 'routes.fuadmin.iframe.doc',
-        frameSrc: 'https://vvbin.cn/doc-next/',
+        title: 'routes.demo.iframe.doc',
+        frameSrc: 'https://doc.vvbin.cn/',
       },
     },
     {
-      path: 'https://vvbin.cn/doc-next/',
+      path: 'https://doc.vvbin.cn/',
       name: 'DocExternal',
       component: 'LAYOUT',
       meta: {
-        title: 'routes.fuadmin.iframe.docExternal',
+        title: 'routes.demo.iframe.docExternal',
       },
     },
   ],

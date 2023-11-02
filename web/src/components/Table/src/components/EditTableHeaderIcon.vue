@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span class="edit-header-cell">
     <slot></slot>
     {{ title }}
     <FormOutlined />
@@ -8,6 +8,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import { FormOutlined } from '@ant-design/icons-vue';
+
   export default defineComponent({
     name: 'EditTableHeaderIcon',
     components: { FormOutlined },

@@ -1,10 +1,10 @@
 import { Ref, unref, watchEffect } from 'vue';
-import { useTimeoutFn } from '/@/hooks/core/useTimeout';
+import { useTimeoutFn } from '@vben/hooks';
 
 export interface UseModalDragMoveContext {
   draggable: Ref<boolean>;
   destroyOnClose: Ref<boolean | undefined> | undefined;
-  visible: Ref<boolean>;
+  open: Ref<boolean>;
 }
 
 export function useModalDragMove(context: UseModalDragMoveContext) {
@@ -97,7 +97,7 @@ export function useModalDragMove(context: UseModalDragMoveContext) {
   };
 
   watchEffect(() => {
-    if (!unref(context.visible) || !unref(context.draggable)) {
+    if (!unref(context.open) || !unref(context.draggable)) {
       return;
     }
     useTimeoutFn(() => {

@@ -4,6 +4,7 @@ export default {
     // user dropdown
     dropdownItemDoc: 'Document',
     dropdownItemLoginOut: 'Login Out',
+    dropdownChangeApi: "Change Api",
 
     tooltipErrorLog: 'Error log',
     tooltipSetting: 'Personal Setting',

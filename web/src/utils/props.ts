@@ -1,9 +1,8 @@
 // copy from element-plus
 
 import { warn } from 'vue';
-import { isObject } from '@vue/shared';
-import { fromPairs } from 'lodash-es';
-import type { ExtractPropTypes, PropType } from '@vue/runtime-core';
+import { fromPairs, isObject } from 'lodash-es';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { Mutable } from './types';
 
 const wrapperKey = Symbol();
@@ -130,7 +129,7 @@ export function buildProp<
 
   return {
     type:
-      typeof type === 'object' && Object.getOwnPropertySymbols(type).includes(wrapperKey)
+      typeof type === 'object' && Object.getOwnPropertySymbols(type).includes(wrapperKey) && type
         ? type[wrapperKey]
         : type,
     required: !!required,
@@ -176,9 +175,10 @@ export const buildProps = <
       : never;
   };
 
-export const definePropType = <T>(val: any) => ({ [wrapperKey]: val } as PropWrapper<T>);
+export const definePropType = <T>(val: any) => ({ [wrapperKey]: val }) as PropWrapper<T>;
 
-export const keyOf = <T>(arr: T) => Object.keys(arr) as Array<keyof T>;
+export const keyOf = <T extends object>(arr: T) => Object.keys(arr) as Array<keyof T>;
+
 export const mutable = <T extends readonly any[] | Record<string, unknown>>(val: T) =>
   val as Mutable<typeof val>;
 

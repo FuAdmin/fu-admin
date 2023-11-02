@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { FileBasicColumn } from './typing';
-import { uploadApi } from '/@/api/sys/upload';
+import {uploadApi} from "@/api/sys/upload";
 
 export const basicProps = {
   helpText: {
@@ -28,7 +28,7 @@ export const basicProps = {
   },
   uploadParams: {
     type: Object as PropType<any>,
-    default: {},
+    default: () => ({}),
   },
   api: {
     type: Function as PropType<PromiseFn>,
@@ -65,14 +65,6 @@ export const uploadContainerProps = {
     type: Boolean as PropType<boolean>,
     default: false,
   },
-  type: {
-    default: 'primary',
-    type: String,
-  },
-  text: {
-    default: '上传',
-    type: String,
-  },
 };
 
 export const previewProps = {
@@ -84,7 +76,7 @@ export const previewProps = {
 
 export const fileListProps = {
   columns: {
-    type: [Array] as PropType<FileBasicColumn[]>,
+    type: Array as PropType<FileBasicColumn[]>,
     default: null,
   },
   actionColumn: {

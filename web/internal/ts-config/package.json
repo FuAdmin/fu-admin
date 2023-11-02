@@ -1,0 +1,25 @@
+{
+  "name": "@vben/ts-config",
+  "version": "1.0.0",
+  "private": true,
+  "homepage": "https://github.com/vbenjs/vue-vben-admin",
+  "bugs": {
+    "url": "https://github.com/vbenjs/vue-vben-admin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
+    "directory": "internal/ts-config"
+  },
+  "license": "MIT",
+  "files": [
+    "base.json",
+    "node.json",
+    "vue-app.json",
+    "node-server.json"
+  ],
+  "dependencies": {
+    "@types/node": "^20.4.0",
+    "vite": "^4.4.0"
+  }
+}

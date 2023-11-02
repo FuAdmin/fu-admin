@@ -5,7 +5,7 @@
     defaultFullscreen
     :canFullscreen="false"
     :title="getTitle"
-    :footer="false"
+    :footer="null"
     :canShowFeature="false"
   >
     <template #insertHeaderRight>

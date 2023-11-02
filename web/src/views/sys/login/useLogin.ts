@@ -1,5 +1,9 @@
-import type { ValidationRule } from 'ant-design-vue/lib/form/Form';
-import type { RuleObject } from 'ant-design-vue/lib/form/interface';
+import type { FormInstance } from 'ant-design-vue/lib/form/Form';
+import type {
+  RuleObject,
+  NamePath,
+  Rule as ValidationRule,
+} from 'ant-design-vue/lib/form/interface';
 import { ref, computed, unref, Ref } from 'vue';
 import { useI18n } from '/@/hooks/web/useI18n';
 
@@ -12,6 +16,9 @@ export enum LoginStateEnum {
 }
 
 const currentState = ref(LoginStateEnum.LOGIN);
+
+// 这里也可以优化
+// import { createGlobalState } from '@vueuse/core'
 
 export function useLoginState() {
   function setLoginState(state: LoginStateEnum) {
@@ -27,7 +34,12 @@ export function useLoginState() {
   return { setLoginState, getLoginState, handleBackLogin };
 }
 
-export function useFormValid<T extends Object = any>(formRef: Ref<any>) {
+export function useFormValid<T extends Object = any>(formRef: Ref<FormInstance>) {
+  const validate = computed(() => {
+    const form = unref(formRef);
+    return form?.validate ?? ((_nameList?: NamePath) => Promise.resolve());
+  });
+
   async function validForm() {
     const form = unref(formRef);
     if (!form) return;
@@ -35,7 +47,7 @@ export function useFormValid<T extends Object = any>(formRef: Ref<any>) {
     return data as T;
   }
 
-  return { validForm };
+  return { validate, validForm };
 }
 
 export function useFormRules(formData?: Recordable) {
@@ -107,7 +119,7 @@ export function useFormRules(formData?: Recordable) {
   return { getFormRules };
 }
 
-function createRule(message: string) {
+function createRule(message: string): ValidationRule[] {
   return [
     {
       required: true,

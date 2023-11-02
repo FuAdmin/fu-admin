@@ -9,7 +9,7 @@ import { propTypes } from '/@/utils/propTypes';
 export const basicProps = {
   model: {
     type: Object as PropType<Recordable>,
-    default: {},
+    default: () => ({}),
   },
   // 标签宽度  固定宽度
   labelWidth: {
@@ -23,7 +23,7 @@ export const basicProps = {
   compact: propTypes.bool,
   // 表单配置规则
   schemas: {
-    type: [Array] as PropType<FormSchema[]>,
+    type: Array as PropType<FormSchema[]>,
     default: () => [],
   },
   mergeDynamicData: {
@@ -45,7 +45,7 @@ export const basicProps = {
   // 禁用表单
   disabled: propTypes.bool,
   emptySpan: {
-    type: [Number, Object] as PropType<number>,
+    type: [Number, Object] as PropType<number | Recordable>,
     default: 0,
   },
   // 是否显示收起展开按钮
@@ -64,7 +64,7 @@ export const basicProps = {
   alwaysShowLines: propTypes.number.def(1),
 
   // 是否显示操作按钮
-  showActionButtonGroup: propTypes.bool.def(false),
+  showActionButtonGroup: propTypes.bool.def(true),
   // 操作列Col配置
   actionColOptions: Object as PropType<Partial<ColEx>>,
   // 显示重置按钮
