@@ -1,18 +1,10 @@
-
-export interface GroupItem {
+interface GroupItem {
   title: string;
   icon: string;
+  color: string;
   desc: string;
   date: string;
   group: string;
-  path: string;
-  type: string;
-  size: Size;
-}
-
-interface  Size {
-  width: string | number;
-  height: string | number;
 }
 
 interface NavItem {
@@ -114,81 +106,51 @@ export const dynamicInfoItems: DynamicInfoItem[] = [
 
 export const groupItems: GroupItem[] = [
   {
-    title: 'Apply Access',
-    icon: 'unlock',
+    title: 'Github',
+    icon: 'carbon:logo-github',
+    color: '',
     desc: '不要等待机会，而要创造机会。',
     group: '开源组',
     date: '2021-04-01',
-    path: '',
-    type: 'model',
-    size: {
-      width: 50,
-      height: 50,
-    }
   },
   {
-    title: 'My JCI',
-    icon: 'jci',
-    desc: 'jci home page.',
+    title: 'Vue',
+    icon: 'ion:logo-vue',
+    color: '#3fb27f',
+    desc: '现在的你决定将来的你。',
     group: '算法组',
     date: '2021-04-01',
-    path: 'https://my.jci.com',
-    type: 'url',
-    size: {
-      width: 90,
-      height: 50,
-    }
   },
   {
-    title: 'Workday',
-    icon: 'workday',
-    desc: 'workday home page.',
+    title: 'Html5',
+    icon: 'ion:logo-html5',
+    color: '#e18525',
+    desc: '没有什么才能比努力更重要。',
     group: '上班摸鱼',
     date: '2021-04-01',
-    path: 'https://wd5.myworkday.com/jci/d/pex/home.htmld',
-    type: 'url',
-    size: {
-      width: 90,
-      height: 50,
-    }
   },
   {
-    title: 'Concur',
-    icon: 'concur',
-    desc: 'concur home page.',
+    title: 'Angular',
+    icon: 'ion:logo-angular',
+    color: '#bf0c2c',
+    desc: '热情和欲望可以突破一切难关。',
     group: 'UI',
     date: '2021-04-01',
-    path: 'https://us2.concursolutions.com/home.asp',
-    type: 'url',
-    size: {
-      width: 60,
-      height: 60,
-    }
   },
   {
-    title: 'SharePoint',
-    icon: 'sharepoint',
-    desc: 'sharepoint home page.',
+    title: 'React',
+    icon: 'bx:bxl-react',
+    color: '#00d8ff',
+    desc: '健康的身体是实目标的基石。',
     group: '技术牛',
     date: '2021-04-01',
-    path: 'https://apps.jci.com/_layouts/15/sharepoint.aspx',
-    type: 'url',
-    size: {
-      width: 60,
-      height: 60,
-    }
   },
   {
-    title: 'Servicenow',
-    icon: 'servicenow',
-    desc: 'service-now home page',
+    title: 'Js',
+    icon: 'ion:logo-javascript',
+    color: '#4daf1bc9',
+    desc: '路是走出来的，而不是空想出来的。',
     group: '架构组',
     date: '2021-04-01',
-    path: 'https://jci.service-now.com/jcisp?id=jci_index',
-    type: 'url',
-    size: {
-      width: 90,
-      height: 50,
-    }
   },
 ];

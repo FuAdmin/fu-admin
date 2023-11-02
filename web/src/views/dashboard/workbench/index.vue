@@ -2,18 +2,18 @@
   <PageWrapper>
     <template #headerContent> <WorkbenchHeader /> </template>
     <div class="lg:flex">
-<!--      <div class="lg:w-7/10 w-full !mr-4 enter-y">-->
-<!--        <ProjectCard :loading="loading" class="enter-y" />-->
-<!--        <DynamicInfo :loading="loading" class="!my-4 enter-y" />-->
-<!--      </div>-->
-      <div class="lg:w-10/10 w-full enter-y">
+      <div class="lg:w-7/10 w-full !mr-4 enter-y">
+        <ProjectCard :loading="loading" class="enter-y" />
+        <DynamicInfo :loading="loading" class="!my-4 enter-y" />
+      </div>
+      <div class="lg:w-3/10 w-full enter-y">
         <QuickNav :loading="loading" class="enter-y" />
 
         <Card class="!my-4 enter-y" :loading="loading">
           <img class="xl:h-50 h-30 mx-auto" src="../../../assets/svg/illustration.svg" />
         </Card>
 
-<!--        <SaleRadar :loading="loading" class="enter-y" />-->
+        <SaleRadar :loading="loading" class="enter-y" />
       </div>
     </div>
   </PageWrapper>
