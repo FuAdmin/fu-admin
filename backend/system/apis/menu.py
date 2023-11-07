@@ -5,7 +5,7 @@
 # @Software: PyCharm
 # @qq: 939589097
 
-from typing import List
+from typing import List, Optional
 
 from django.shortcuts import get_object_or_404
 from fuadmin.settings import SECRET_KEY
@@ -22,24 +22,25 @@ router = Router()
 
 
 class Filters(FuFilters):
-    title: str = Field(None, alias="title")
+    title: str = Field(None, q="title__contains", alias="title")
     status: bool = Field(None, alias="status")
     id: str = Field(None, alias="id")
 
 
 class SchemaIn(ModelSchema):
     parent_id: int = None
-    component: str = 'LAYOUT'
+    component: str = "LAYOUT"
 
     class Config:
         model = Menu
-        model_exclude = ['id', 'parent', 'create_datetime', 'update_datetime']
+        model_exclude = ["id", "parent", "create_datetime", "update_datetime"]
 
 
 class SchemaOut(ModelSchema):
     class Config:
         model = Menu
         model_fields = "__all__"
+
     # model_fields = []
 
 
@@ -81,11 +82,10 @@ def route_menu_tree(request):
     token = request.META.get("HTTP_AUTHORIZATION")
     token = token.split(" ")[1]
     token_user = FuJwt(SECRET_KEY).decode(SECRET_KEY, token).payload
-    user = Users.objects.get(id=token_user['id'])
+    user = Users.objects.get(id=token_user["id"])
     queryset = Menu.objects.filter(status=1).values()
-    if not token_user['is_superuser']:
-        menuIds = user.role.values_list('menu__id', flat=True)
+    if not token_user["is_superuser"]:
+        menuIds = user.role.values_list("menu__id", flat=True)
         queryset = Menu.objects.filter(id__in=menuIds, status=1).values()
     menu_tree = list_to_route(list(queryset))
     return FuResponse(data=menu_tree)
-

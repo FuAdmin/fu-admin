@@ -18,8 +18,8 @@ router = Router()
 
 
 class Filters(FuFilters):
-    name: str = Field(None, alias="name")
-    code: str = Field(None, alias="code")
+    name: str = Field(None, q="name__contains", alias="name")
+    code: str = Field(None, q="code__contains", alias="code")
     menu_id: str = Field(None, alias="menu_id")
 
 
@@ -28,13 +28,14 @@ class SchemaIn(ModelSchema):
 
     class Config:
         model = MenuButton
-        model_exclude = ['id', 'menu', 'create_datetime', 'update_datetime']
+        model_exclude = ["id", "menu", "create_datetime", "update_datetime"]
 
 
 class SchemaOut(ModelSchema):
     class Config:
         model = MenuButton
         model_fields = "__all__"
+
     # model_fields = []
 
 

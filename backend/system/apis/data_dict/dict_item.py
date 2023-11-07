@@ -16,10 +16,10 @@ router = Router()
 
 
 class Filters(FuFilters):
-    label: str = Field(None, alias="label")
-    value: str = Field(None, alias="value")
+    label: str = Field(None, q="label__contains", alias="label")
+    value: str = Field(None, q="value__contains", alias="value")
+    code: str = Field(None, q="code__contains", alias="code")
     dict_id: str = Field(None, alias="dict_id")
-    code: str = Field(None, alias="code")
     status: bool = Field(None, alias="status")
 
 
@@ -28,13 +28,13 @@ class SchemaIn(ModelSchema):
 
     class Config:
         model = DictItem
-        model_fields = ['label', 'value', 'sort', 'icon', 'status']
+        model_fields = ["label", "value", "sort", "icon", "status"]
 
 
 class SchemaOut(ModelSchema):
     class Config:
         model = DictItem
-        model_fields = ['id', 'label', 'value', 'sort', 'icon', 'status']
+        model_fields = ["id", "label", "value", "sort", "icon", "status"]
 
 
 @router.post("/dict_item", response=SchemaOut)

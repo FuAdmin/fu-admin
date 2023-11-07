@@ -24,7 +24,7 @@ router = Router()
 
 
 class Filters(FuFilters):
-    name: str = Field(None, alias="name")
+    name: str = Field(None, q="name__contains", alias="name")
 
 
 class SchemaIn(Schema):
@@ -66,20 +66,20 @@ def all_list_role(request):
 @router.post("/upload", response=SchemaOut)
 def upload(request, file: UploadedFile = NinjaFile(...)):
     binary_data = file.read()
-    current_date = datetime.now().strftime('%Y%m%d%H%M%S%f')
-    current_ymd = datetime.now().strftime('%Y%m%d')
-    file_name = current_date + '_' + file.name.replace(' ', '_')
+    current_date = datetime.now().strftime("%Y%m%d%H%M%S%f")
+    current_ymd = datetime.now().strftime("%Y%m%d")
+    file_name = current_date + "_" + file.name.replace(" ", "_")
     file_path = os.path.join(STATIC_URL, current_ymd)
     if not os.path.exists(file_path):
         os.makedirs(file_path)
     file_url = os.path.join(file_path, file_name)
-    with open(file_url, 'wb') as f:
+    with open(file_url, "wb") as f:
         f.write(binary_data)
     data = {
-        'name': file.name,
-        'size': file.size,
-        'save_name': file_name,
-        'url': file_url,
+        "name": file.name,
+        "size": file.size,
+        "save_name": file_name,
+        "url": file_url,
     }
     qs = create(request, data, File)
     return qs
@@ -96,4 +96,6 @@ def create_post(request, data: SchemaIn):
 def get_file(request, image_id: int):
     qs = get_object_or_404(File, id=image_id)
 
-    return HttpResponse(open(os.path.join(str(BASE_DIR), str(qs.url)), "rb"), content_type='image/png')
+    return HttpResponse(
+        open(os.path.join(str(BASE_DIR), str(qs.url)), "rb"), content_type="image/png"
+    )

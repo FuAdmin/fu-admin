@@ -18,22 +18,22 @@ router = Router()
 
 
 class Filters(Schema):
-    name: str = Field(None, alias="name")
-    code: str = Field(None, alias="code")
+    name: str = Field(None, q="name__contains", alias="name")
+    code: str = Field(None, q="code__contains", alias="code")
     id: str = Field(None, alias="id")
 
 
 class SchemaIn(ModelSchema):
-
     class Config:
         model = Button
-        model_exclude = ['id', 'create_datetime', 'update_datetime']
+        model_exclude = ["id", "create_datetime", "update_datetime"]
 
 
 class SchemaOut(ModelSchema):
     class Config:
         model = Button
         model_fields = "__all__"
+
     # model_fields = []
 
 
@@ -76,4 +76,3 @@ def delete_button(request, button_id: int):
     post = get_object_or_404(Button, id=button_id)
     post.delete()
     return {"success": True}
-

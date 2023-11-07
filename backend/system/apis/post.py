@@ -25,17 +25,16 @@ router = Router()
 
 
 class Filters(FuFilters):
-    name: str = Field(None, alias="name")
+    name: str = Field(None, q="name__contains", alias="name")
     code: str = Field(None, alias="code")
     status: int = Field(None, alias="status")
-
     id: str = Field(None, alias="post_id")
 
 
 class PostSchemaIn(ModelSchema):
     class Config:
         model = Post
-        model_fields = ['name', 'code', 'sort', 'status']
+        model_fields = ["name", "code", "sort", "status"]
 
 
 class PostSchemaOut(ModelSchema):
@@ -83,12 +82,11 @@ def all_list_post(request):
 
 @router.get("/post/all/export")
 def export_post(request):
-    export_fields = ['name', 'code', 'status', 'sort']
+    export_fields = ["name", "code", "status", "sort"]
     return export_data(request, Post, PostSchemaOut, export_fields)
 
 
 @router.post("/post/all/import")
 def import_post(request, data: ImportSchema):
-    import_fields = ['name', 'code', 'status', 'sort']
+    import_fields = ["name", "code", "status", "sort"]
     return import_data(request, Post, PostSchemaIn, data, import_fields)
-

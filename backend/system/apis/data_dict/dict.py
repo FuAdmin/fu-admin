@@ -16,7 +16,7 @@ router = Router()
 
 
 class Filters(FuFilters):
-    name: str = Field(None, alias="name")
+    name: str = Field(None, q="name__contains", alias="name")
     status: bool = Field(None, alias="status")
     id: str = Field(None, alias="dict_id")
 
@@ -24,13 +24,13 @@ class Filters(FuFilters):
 class SchemaIn(ModelSchema):
     class Config:
         model = Dict
-        model_fields = ['name', 'code', 'sort', 'status']
+        model_fields = ["name", "code", "sort", "status"]
 
 
 class SchemaOut(ModelSchema):
     class Config:
         model = Dict
-        model_fields = ['id', 'name', 'code', 'sort', 'status']
+        model_fields = ["id", "name", "code", "sort", "status"]
 
 
 @router.post("/dict", response=SchemaOut)

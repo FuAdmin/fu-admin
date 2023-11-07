@@ -21,7 +21,7 @@ router = Router()
 
 
 class Filters(FuFilters):
-    name: str = Field(None, alias="name")
+    name: str = Field(None, q="name__contains", alias="name")
     status: bool = Field(None, alias="status")
     id: str = Field(None, alias="id")
 
@@ -34,23 +34,32 @@ class SchemaIn(ModelSchema):
 
     class Config:
         model = Role
-        model_exclude = ['id', 'dept', 'menu', 'permission', 'column', 'create_datetime', 'update_datetime']
+        model_exclude = [
+            "id",
+            "dept",
+            "menu",
+            "permission",
+            "column",
+            "create_datetime",
+            "update_datetime",
+        ]
 
 
 class SchemaOut(ModelSchema):
     class Config:
         model = Role
         model_fields = "__all__"
+
     # model_fields = []
 
 
 @router.post("/role", response=SchemaOut)
 def create_role(request, data: SchemaIn):
     dict_data = data.dict()
-    del dict_data['menu']
-    del dict_data['permission']
-    del dict_data['dept']
-    del dict_data['column']
+    del dict_data["menu"]
+    del dict_data["permission"]
+    del dict_data["dept"]
+    del dict_data["column"]
 
     role = create(request, dict_data, Role)
     return role
@@ -66,13 +75,13 @@ def delete_role(request, role_id: int):
 def update_role(request, role_id: int, payload: SchemaIn):
     post = get_object_or_404(Role, id=role_id)
     for attr, value in payload.dict().items():
-        if attr == 'menu':
+        if attr == "menu":
             post.menu.set(value)
-        elif attr == 'permission':
+        elif attr == "permission":
             post.permission.set(value)
-        elif attr == 'dept':
+        elif attr == "dept":
             post.dept.set(value)
-        elif attr == 'column':
+        elif attr == "column":
             post.column.set(value)
         else:
             setattr(post, attr, value)
@@ -114,15 +123,15 @@ def list_menu_button_tree(request, filters: ButtonColumnFilters = Query(...)):
         menu_button = list(item.menuPermission.all().values())
 
         for button_item in menu_button:
-            button_item['id'] = f"b{button_item['id']}"
-            button_item['parent_id'] = button_item.pop('menu_id')
-            button_item['title'] = button_item.pop('name')
+            button_item["id"] = f"b{button_item['id']}"
+            button_item["parent_id"] = button_item.pop("menu_id")
+            button_item["title"] = button_item.pop("name")
 
         # dict_item['menu_button'] = list(item.menuPermission.all().values())
-        del dict_item['_state']
+        del dict_item["_state"]
         result.extend(menu_button)
         result.append(dict_item)
-    return get_button_or_column_menu(result, 'b')
+    return get_button_or_column_menu(result, "b")
 
 
 @router.get("/role/list/menu_column")
@@ -133,15 +142,15 @@ def list_menu_button_tree(request, filters: ButtonColumnFilters = Query(...)):
         dict_item = item.__dict__
         column_field = list(item.menuColumnField.all().values())
         for column_field_item in column_field:
-            column_field_item['id'] = f"c{column_field_item['id']}"
-            column_field_item['parent_id'] = column_field_item.pop('menu_id')
-            column_field_item['title'] = column_field_item.pop('name')
+            column_field_item["id"] = f"c{column_field_item['id']}"
+            column_field_item["parent_id"] = column_field_item.pop("menu_id")
+            column_field_item["title"] = column_field_item.pop("name")
 
-        del dict_item['_state']
+        del dict_item["_state"]
         result.append(dict_item)
         result.extend(column_field)
 
-    return get_button_or_column_menu(result, 'c')
+    return get_button_or_column_menu(result, "c")
 
 
 class SchemaMenuOut(ModelSchema):
@@ -175,17 +184,17 @@ def list_menu_tree(request, filters: Filters = Query(...)):
 def get_button_or_column_menu(data, flag):
     return_data = []
     for i in data:
-        m_id = i['id']
+        m_id = i["id"]
         if flag in str(m_id):
             return_data.append(i)
-            get_menu_by_parent(i['parent_id'], data, return_data)
+            get_menu_by_parent(i["parent_id"], data, return_data)
     return return_data
 
 
 def get_menu_by_parent(parent_id, data, return_data):
     for i in data:
-        if parent_id == i['id'] and i not in return_data:
+        if parent_id == i["id"] and i not in return_data:
             return_data.append(i)
-            get_menu_by_parent(i['parent_id'], data, return_data)
+            get_menu_by_parent(i["parent_id"], data, return_data)
     if parent_id is None:
         return
