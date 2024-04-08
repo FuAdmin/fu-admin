@@ -55,7 +55,9 @@
           label="校验规则"
           :class="{ 'form-rule-props': !!formConfig.currentItem.itemProps['rules'] }"
         >
-          <RuleProps />
+          <div style="height: 300px">
+            <RuleProps />
+          </div>
         </FormItem>
       </Form>
     </div>
@@ -143,3 +145,8 @@
     },
   });
 </script>
+<style>
+  .properties-content {
+    height: 800px;
+  }
+</style>
