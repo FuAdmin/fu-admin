@@ -52,33 +52,33 @@
         {{ t('sys.login.registerButton') }}
       </Button> -->
     </FormItem>
-    <ARow class="enter-x" :gutter="[16, 16]">
-      <ACol :md="8" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">
-          {{ t('sys.login.mobileSignInFormTitle') }}
-        </Button>
-      </ACol>
-      <ACol :md="8" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">
-          {{ t('sys.login.qrSignInFormTitle') }}
-        </Button>
-      </ACol>
-      <ACol :md="8" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">
-          {{ t('sys.login.registerButton') }}
-        </Button>
-      </ACol>
-    </ARow>
+    <!--    <ARow class="enter-x" :gutter="[16, 16]">-->
+    <!--      <ACol :md="8" :xs="24">-->
+    <!--        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">-->
+    <!--          {{ t('sys.login.mobileSignInFormTitle') }}-->
+    <!--        </Button>-->
+    <!--      </ACol>-->
+    <!--      <ACol :md="8" :xs="24">-->
+    <!--        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">-->
+    <!--          {{ t('sys.login.qrSignInFormTitle') }}-->
+    <!--        </Button>-->
+    <!--      </ACol>-->
+    <!--      <ACol :md="8" :xs="24">-->
+    <!--        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">-->
+    <!--          {{ t('sys.login.registerButton') }}-->
+    <!--        </Button>-->
+    <!--      </ACol>-->
+    <!--    </ARow>-->
 
-    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>
+    <!--    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>-->
 
-    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">
-      <GithubFilled />
-      <WechatFilled />
-      <AlipayCircleFilled />
-      <GoogleCircleFilled />
-      <TwitterCircleFilled />
-    </div>
+    <!--    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">-->
+    <!--      <GithubFilled />-->
+    <!--      <WechatFilled />-->
+    <!--      <AlipayCircleFilled />-->
+    <!--      <GoogleCircleFilled />-->
+    <!--      <TwitterCircleFilled />-->
+    <!--    </div>-->
   </Form>
 </template>
 <script lang="ts" setup>
