@@ -539,7 +539,7 @@ class Initialize(CoreInitialize):
                 "name": "AccountSetting",
                 "status": 1,
                 "keepalive": 0,
-                "hide_menu": 0,
+                "hide_menu": 1,
             },
             {
                 "id": 20,
