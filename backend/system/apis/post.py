@@ -39,6 +39,8 @@ class PostSchemaIn(ModelSchema):
 
 
 class PostSchemaOut(ModelSchema):
+    creator: str = Field(None, alias="creator.username")
+
     class Config:
         model = Post
         model_fields = "__all__"
@@ -83,7 +85,7 @@ def all_list_post(request):
 
 @router.get("/post/all/export")
 def export_post(request):
-    export_fields = ['name', 'code', 'status', 'sort']
+    export_fields = ['name', 'code', 'status', 'sort', 'creator']
     return export_data(request, Post, PostSchemaOut, export_fields)
 
 
@@ -91,4 +93,3 @@ def export_post(request):
 def import_post(request, data: ImportSchema):
     import_fields = ['name', 'code', 'status', 'sort']
     return import_data(request, Post, PostSchemaIn, data, import_fields)
-

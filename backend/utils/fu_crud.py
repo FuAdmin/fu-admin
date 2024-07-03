@@ -165,7 +165,7 @@ def export_data(request, model, scheme, export_fields):
     # 根据export_fields列表获取字段的显示名称
     for field in export_fields:
         field_obj = getattr(model, field).field
-        title_dict[field_obj.column] = field_obj.help_text
+        title_dict[field] = field_obj.help_text
 
     qs = retrieve(request, model)
     list_data = []
