@@ -18,3 +18,4 @@ django-redis==5.2.0
 openpyxl==3.0.10
 psutil==5.9.1
 daphne==4.0.0
+psycopg2==2.9.9

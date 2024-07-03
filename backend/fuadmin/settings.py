@@ -154,6 +154,20 @@ elif DATABASE_TYPE == "SQLSERVER":
             },
         }
     }
+elif DATABASE_TYPE == "POSTGRESQL":
+    # POSTGRESQL
+    DATABASES = {
+        "default": {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            "HOST": DATABASE_HOST,
+            "PORT": DATABASE_PORT,
+            "USER": DATABASE_USER,
+            "PASSWORD": DATABASE_PASSWORD,
+            "NAME": DATABASE_NAME,
+            # 全局开启事务，绑定的是http请求响应整个过程
+            'ATOMIC_REQUESTS': True,
+        }
+    }
 else:
     # sqlite3 数据库
     DATABASES = {
