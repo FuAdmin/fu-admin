@@ -3,9 +3,9 @@
 [![img](https://img.shields.io/badge/license-Apache%202.0-dark)](https://gitee.com/fuadmin/fu-admin/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.10.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2020.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin)
 
 - 官方文档：[http://124.222.210.96](http://124.222.210.96)
-- 开源版预览：[http://124.222.210.96:8080](http://124.222.210.96:8080)
-- 基础版预览：[http://124.222.210.96:7070](http://124.222.210.96:7070)
-- Pro版预览：[http://124.222.210.96:6060](http://124.222.210.96:6060)
+- 开源版预览：[http://124.222.210.96:8080](http://124.222.210.96:8080)（免费开源）
+- 基础版预览：[http://124.222.210.96:7070](http://124.222.210.96:7070)（需要授权）
+- Pro版预览：[http://124.222.210.96:6060](http://124.222.210.96:6060)（需要授权）
 
 ## 为什么使用 Django-Ninja 和 Vue3
 
