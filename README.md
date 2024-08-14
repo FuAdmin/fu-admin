@@ -1,6 +1,6 @@
 # FuAdmin
 
-[![img](https://img.shields.io/badge/license-Apache%202.0-dark)](https://gitee.com/fuadmin/fu-admin/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.10.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2020.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin)
+[![img](https://img.shields.io/badge/license-Apache%202.0-dark)](https://gitee.com/fuadmin/fu-admin/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.10.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2018.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin)
 
 - 官方文档：[http://124.222.210.96](http://124.222.210.96)
 - 开源版预览：[http://124.222.210.96:8080](http://124.222.210.96:8080)（免费开源）
@@ -81,7 +81,7 @@
 
 ```
 Python >= 3.10.0 (推荐3.10+版本)
-nodejs >= 20.0 (推荐最新)
+nodejs >= 18.0 (推荐最新)
 Mysql >= 8.0 (可选，默认数据库sqlite3，推荐8.0版本)
 Redis (默认需要，推荐最新版，可修改后台项目的cache配置)
 ```
@@ -120,7 +120,7 @@ cd fu-admin/backend
     mssql-django==1.1.2 
     pyodbc==4.0.32
 # 安装依赖环境
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 # 执行迁移命令：
 python manage.py makemigrations system
 python manage.py migrate
