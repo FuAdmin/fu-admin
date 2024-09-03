@@ -1,10 +1,10 @@
 # FuAdmin
 
-[![img](https://img.shields.io/badge/license-Apache%202.0-dark)](https://gitee.com/fuadmin/fu-admin/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.7.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2016.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin)
+[![img](https://img.shields.io/badge/license-Apache%202.0-dark)](https://gitee.com/fuadmin/fu-admin/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.10.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2018.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin)
 
 - 官方文档：[http://124.222.210.96](http://124.222.210.96)
-- 中文预览：[http://124.222.210.96:8080](http://124.222.210.96:8080)
-- English Preview：[http://124.222.210.96:9090](http://124.222.210.96:9090)
+- 开源版预览：[http://124.222.210.96:8080](http://124.222.210.96:8080)（免费开源）
+- Pro版预览：[http://124.222.210.96:6060](http://124.222.210.96:6060)（需要授权）
 
 ## 为什么使用 Django-Ninja 和 Vue3
 
@@ -53,9 +53,9 @@
 
 ## 交流
 
-- FuAdmin 交流群：726947525
-
-<img src="screenshots/qq.png" alt="qq 群" style="zoom: 25%;" />
+- FuAdmin 交流群：
+- 群1: 726947525(已满)
+- 群2: 531614528
 
 ## 源码地址
 
@@ -80,15 +80,15 @@
 ## 准备工作
 
 ```
-Python >= 3.8.0 (推荐3.8+版本)
-nodejs >= 16.0 (推荐最新)
-Mysql >= 5.7.0 (可选，默认数据库sqlite3，推荐8.0版本)
+Python >= 3.10.0 (推荐3.10+版本)
+nodejs >= 18.0 (推荐最新)
+Mysql >= 8.0 (可选，默认数据库sqlite3，推荐8.0版本)
 Redis (默认需要，推荐最新版，可修改后台项目的cache配置)
 ```
 
 ## 前端 ♝
 
-建议使用pnpm，项目提供了`pnpm-lock.yaml`，使用其他包管理器，容易出现版本依赖问题。
+必须使用pnpm，项目提供了`pnpm-lock.yaml`，使用其他包管理器，容易出现版本依赖问题。
 
 ```bash
 # 克隆项目
@@ -98,7 +98,7 @@ git clone https://gitee.com/fuadmin/fu-admin.git
 cd fu-admin/web
 
 # 安装依赖
-pnpm install --registry=https://registry.npm.taobao.org
+pnpm install --registry=https://registry.npmmirror.com
 
 # 启动服务
 pnpm dev
@@ -120,16 +120,14 @@ cd fu-admin/backend
     mssql-django==1.1.2 
     pyodbc==4.0.32
 # 安装依赖环境
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 # 执行迁移命令：
-python3 manage.py makemigrations system
-python3 manage.py migrate
+python manage.py makemigrations system
+python manage.py migrate
 # 初始化数据
-python3 manage.py init
-# 初始化省市县数据:
-python3 manage.py init_area
+python manage.py init
 # 启动项目
-python3 manage.py runserver 0.0.0.0:8000
+python manage.py runserver 0.0.0.0:8000
 # 或使用 daphne :
 daphne -b 0.0.0.0 -p 8000 fuadmin.asgi:application
 ```
