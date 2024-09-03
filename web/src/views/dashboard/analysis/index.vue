@@ -12,15 +12,25 @@
     <Modal
       :closable="false"
       v-model:open="open"
-      title="Fu Admin Pro"
+      title="Fu Admin"
       @ok="handleOk"
       centered
       cancel-text="关闭"
       ok-text="立即体验"
     >
+      <template #footer>
+        <Space>
+          <Button @click="handleCancel"> 暂不体验 </Button>
+        </Space>
+      </template>
       <div style="padding: 10px 20px">
         <b>Fu Admin Pro</b> 已发布， 体验地址：<a :href="url" target="_blank">
           {{ url }}
+        </a>
+      </div>
+      <div style="padding: 10px 20px">
+        <b>Fu Fast Api 版</b> 已发布， 体验地址：<a :href="fastApiUrl" target="_blank">
+          {{ fastApiUrl }}
         </a>
       </div>
     </Modal>
@@ -33,12 +43,14 @@
   import VisitSource from './components/VisitSource.vue';
   import VisitRadar from './components/VisitRadar.vue';
   import SalesProductPie from './components/SalesProductPie.vue';
-  import { Modal } from 'ant-design-vue';
+  import { Modal, Button, Space } from 'ant-design-vue';
 
   const loading = ref(true);
   const open = ref(true);
 
   const url = 'http://124.222.210.96:6060';
+
+  const fastApiUrl = 'http://124.222.210.96:7070';
 
   setTimeout(() => {
     loading.value = false;
@@ -46,6 +58,9 @@
 
   const handleOk = () => {
     window.location.href = url;
+    open.value = false;
+  };
+  const handleCancel = () => {
     open.value = false;
   };
 </script>
