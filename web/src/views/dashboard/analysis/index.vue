@@ -15,6 +15,7 @@
       title="Fu Admin"
       @ok="handleOk"
       centered
+      width="40%"
       cancel-text="关闭"
       ok-text="立即体验"
     >
@@ -24,12 +25,17 @@
         </Space>
       </template>
       <div style="padding: 10px 20px">
-        <b>Fu Admin Pro</b> 已发布， 体验地址：<a :href="url" target="_blank">
+        <b>🔥Fu FastApi 开源版</b> 已发布， 源码地址：<a :href="fastApiOpenUrl" target="_blank">
+          {{ fastApiOpenUrl }}
+        </a>
+      </div>
+      <div style="padding: 10px 20px">
+        <b>🌟Fu Admin Pro</b> 已发布， 体验地址：<a :href="url" target="_blank">
           {{ url }}
         </a>
       </div>
       <div style="padding: 10px 20px">
-        <b>Fu Fast Api 版</b> 已发布， 体验地址：<a :href="fastApiUrl" target="_blank">
+        <b>🌟Fu FastApi Pro</b> 已发布， 体验地址：<a :href="fastApiUrl" target="_blank">
           {{ fastApiUrl }}
         </a>
       </div>
@@ -51,6 +57,8 @@
   const url = 'http://124.222.210.96:6060';
 
   const fastApiUrl = 'http://124.222.210.96:7070';
+
+  const fastApiOpenUrl = 'https://gitee.com/fuadmin/fu-fastapi-vue';
 
   setTimeout(() => {
     loading.value = false;
