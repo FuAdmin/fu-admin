@@ -2,14 +2,17 @@
 
 [![img](https://img.shields.io/badge/license-Apache%202.0-dark)](https://gitee.com/fuadmin/fu-admin/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.10.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2018.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin)
 
-## 🔥 Fast Api版发布啦
-- 源码地址：https://gitee.com/fuadmin/fu-fastapi-vue
-- FastApi 专业版预览：http://124.222.210.96:7070（需要授权）
-- FastApi 开源版预览：http://124.222.210.96:9090（免费开源）
+## 🔥 工作流发布啦
+- 视频介绍：[跳转到B站](https://www.bilibili.com/video/BV15VwpenENV/?spm_id_from=333.1387.homepage.video_card.click&vd_source=3d1f6ee11a3d0c3c90c2fc451d101524)
+- 体验地址：[http://124.222.210.96:6060](http://124.222.210.96:8080)
 ---
 - 官方文档：[http://124.222.210.96](http://124.222.210.96)
-- 开源版预览：[http://124.222.210.96:8080](http://124.222.210.96:8080)（免费开源）
-- Pro版预览：[http://124.222.210.96:6060](http://124.222.210.96:6060)（需要授权）
+- Pro版预览：[http://124.222.210.96:6060](http://124.222.210.96:8080)
+- 开源版预览：[http://124.222.210.96:8080](http://124.222.210.96:6060)
+## Fast Api版
+- 源码地址：https://gitee.com/fuadmin/fu-fastapi-vue
+- FastApi 专业版预览：http://124.222.210.96:7070
+- FastApi 开源版预览：http://124.222.210.96:9090
 
 ## 为什么使用 Django-Ninja 和 Vue3
 
