@@ -25,6 +25,11 @@
         </Space>
       </template>
       <div style="padding: 10px 20px">
+        <b>🔥工作流</b> 已发布， 源码地址：<a :href="url" target="_blank">
+          {{ url }}
+        </a>
+      </div>
+      <div style="padding: 10px 20px">
         <b>🔥Fu FastApi 开源版</b> 已发布， 源码地址：<a :href="fastApiOpenUrl" target="_blank">
           {{ fastApiOpenUrl }}
         </a>
@@ -54,7 +59,7 @@
   const loading = ref(true);
   const open = ref(true);
 
-  const url = 'http://124.222.210.96:6060';
+  const url = 'http://124.222.210.96:8080';
 
   const fastApiUrl = 'http://124.222.210.96:7070';
 
