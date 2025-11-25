@@ -1,3 +1,8 @@
+# FuAdmin 以后将不会再更新，请大家移步ZQ-Platform开发平台  
+
+- GitHub：[https://github.com/jiangzhikj/zq-platform](https://github.com/jiangzhikj/zq-platform/)
+- 演示地址：[https://django-ninja.zq-platform.cn](https://django-ninja.zq-platform.cn/) (支持多种（Gitee，GitHub，Google， Microsoft， QQ）OAuth2.0登录，演示环境请任选一种登录)
+
 # FuAdmin
 
 [![img](https://img.shields.io/badge/license-Apache%202.0-dark)](https://gitee.com/fuadmin/fu-admin/blob/master/LICENSE) [![img](https://img.shields.io/badge/python-%3E=3.10.x-green.svg)](https://python.org/) [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-4.0-blue)](https://docs.djangoproject.com/zh-hans/4.0.4/) [![img](https://img.shields.io/badge/node-%3E%3D%2018.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/fuadmin/fu-admin/badge/star.svg?theme=dark)](https://gitee.com/fuadmin/fu-admin) [![GitHub stars](https://img.shields.io/github/stars/FuAdmin/FuAdmin.svg?theme=dark&label=Github)](https://github.com/FuAdmin/FuAdmin)
