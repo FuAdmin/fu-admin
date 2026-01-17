@@ -1,4 +1,4 @@
-# FuAdmin 以后将不会再更新，请大家移步ZQ-Platform开发平台  ZQ-Platform 支持Django，FastApi两种后端和使用最新的技术，完整的注释是Fuadmin的超级优化版。
+# 推荐大家 ZQ-Platform开发平台  ZQ-Platform 支持Django，FastApi两种后端和使用最新的技术，完整的注释。
 
 - GitHub：[https://github.com/jiangzhikj/zq-platform](https://github.com/jiangzhikj/zq-platform/)
 - 演示地址：[https://django-ninja.zq-platform.cn](https://django-ninja.zq-platform.cn/) (支持多种（Gitee，GitHub，Google， Microsoft， QQ）OAuth2.0登录，演示环境请任选一种登录)
